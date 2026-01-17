@@ -22,7 +22,7 @@ int		main(void);
 void	init_variables(t_line **list);//FIX: malloc error handling
 
 /* fastshell.c */
-void	fastshell_jenna(t_line **list);//FIX: malloc error handling
+void	fastshell(t_line *list);//FIX: malloc error handling
 /* tokenization.c */
 void	create_tokens(t_line **list, char *line);
 

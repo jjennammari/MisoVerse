@@ -5,7 +5,7 @@ int	main(void)
 	t_line	*list;
 
 	init_variables(&list);
-	fastshell_jenna(&list);
+	fastshell(list);
 	free(list);
 }
 

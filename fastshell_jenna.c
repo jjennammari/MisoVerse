@@ -1,6 +1,6 @@
 #include "parsing.h"
 
-void	fastshell_jenna(t_line **list)
+void	fastshell(t_line *list)
 {
 	char	*line;
 
@@ -10,6 +10,6 @@ void	fastshell_jenna(t_line **list)
 		if (!line)
 			return ;
 		add_history(line);
-		create_tokens(list, line);
+		create_tokens(&list, line);
 	}
 }
