@@ -1,6 +1,6 @@
 #include "parsing.h"
 
-void	fastshell(t_line *list)
+void	fastshell(t_fshell *fs)
 {
 	char	*line;
 
@@ -9,7 +9,10 @@ void	fastshell(t_line *list)
 		line = readline(PROMPT);
 		if (!line)
 			return ;
+		//instead return: create exit function to handle error and exit ?
 		add_history(line);
-		create_tokens(&list, line);
+		create_tokens(line);
+		//send line to parsing, variable expansion
+		//send line to execution
 	}
 }

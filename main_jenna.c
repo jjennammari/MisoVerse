@@ -2,21 +2,20 @@
 
 int	main(void)
 {
-	t_line	*list;
+	t_fshell	*fs;
 
-	init_variables(&list);
-	fastshell(list);
-	free(list);
+	init_variables(fs);
+	fastshell(fs);
+	free(fs);
 }
 
-void	init_variables(t_line **list)
+void	init_variables(t_fshell *fs)
 {
-	*list = malloc(sizeof(t_line));
-	if (!list)
-		return ;
-	(*list)->node.token_str = NULL;
-	(*list)->node.next = NULL;
-	(*list)->node.index = 0;
-	(*list)->head = NULL;
-	(*list)->current = NULL;
+	fs->node = NULL;
+	fs->list = NULL;
+	fs->list->node->str = NULL;
+	fs->list->node->next = NULL;
+	fs->list->node->index = 0;
+	fs->list->head = NULL;
+	fs->list->current = NULL;
 }

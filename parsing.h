@@ -18,12 +18,12 @@
 #endif
 
 /*  main_jenna.c  */
-int		main(void);
-void	init_variables(t_line **list);//FIX: malloc error handling
+int		main(void);//NOTE: later add function to free everything
+void	init_variables(t_fshell *fs);//FIX: malloc error handling
 
 /* fastshell.c */
-void	fastshell(t_line *list);//FIX: malloc error handling
+void	fastshell(t_fshell *fs);//FIX: malloc error handling
 /* tokenization.c */
-void	create_tokens(t_line **list, char *line);
+void	create_tokens(char *line);//FIX: malloc error handling
 
 #endif
