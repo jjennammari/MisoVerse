@@ -12,7 +12,7 @@ void	fastshell(t_fshell *fs)
 		//instead return: create exit function to handle error and exit ?
 		add_history(line);
 		create_tokens(line);
-		//send line to parsing, variable expansion
-		//send line to execution
+		//send fs and line to parsing, variable expansion
+		//send fs and line to execution
 	}
 }
