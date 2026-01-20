@@ -1,10 +1,10 @@
 # include "parsing.h"
 
-void	create_tokens(char *line)
+void	create_token_list(char *line)
 {
 	t_line	*list;
 
 	list = malloc(sizeof(t_line));
 	if (!list)
-		return ;
+		update_exit_status(fs, 2, 1);
 }

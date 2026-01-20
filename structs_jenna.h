@@ -25,12 +25,13 @@ typedef struct	s_line
 	t_token			*node;
 	struct s_line	*head;
 	struct s_line	*current;
+	struct s_line	*temp;//NOTE: allocate memory to this pointer somewhere ?
 
 } t_line;
 
 typedef struct	s_fshell
 {
-	int		exit_code;//NOTE: should I still make this static ?
+	int		exit_code;//NOTE: should I still make this static because not dynamically allocating memory to it?
 	t_token	*node;
 	t_line	*list;
 } t_fshell;
