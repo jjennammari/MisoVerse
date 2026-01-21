@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 22:29:41 by lde-san-          #+#    #+#             */
-/*   Updated: 2025/10/18 20:09:34 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/01/21 19:25:35 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <string.h>
 # include <stdint.h>
 # include <stdarg.h>
+# include "./get_next_line_bonus.h"
 
 int		ft_isalpha(int c);
 int		ft_atoi(const char *str);
