@@ -1,6 +1,6 @@
 #include "parsing.h"
 
-void	fastshell_loop(t_fshell *fs)
+void	misoverse_loop(t_miso *mv)
 {
 	char	*line;
 
@@ -9,10 +9,9 @@ void	fastshell_loop(t_fshell *fs)
 		//somewhere here handle received signals? read more about signals!
 		line = readline(PROMPT);
 		if (!line)
-			update_exit_status(fs, 2, 1);
-		//instead return: create exit function to handle error and exit ?
+			return ;
 		add_history(line);
-		create_token_list(line);
+		create_token_list(mv, line);
 		//parse_token_list(fs); + variable expansion
 		//send fs to execution
 	}

@@ -1,18 +1,12 @@
 #include "parsing.h"
 
-void	free_fastshell(t_fshell *fs)
+void	free_misoverse(t_miso *mv)
 {
-	if (fs->list->head != NULL)
-		free_token_list(fs);
+	if (mv->list->head != NULL)
+		free_token_list(mv);
 }
 
-void	free_token_list(t_fshell *fs)
+void	free_token_list(t_miso *mv)
 {
-	while (fs->list->head != NULL)
-	{
-		fs->list->temp = fs->list->head;
-		fs->list->head = 
-		
-	free(fs->list->head);
-	fs->list->head = NULL;
+//	while (mv->list->head != NULL)
 }

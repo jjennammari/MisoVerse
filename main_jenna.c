@@ -2,21 +2,21 @@
 
 int	main(void)
 {
-	t_fshell	*fs;
+	t_miso	*mv;
 
-	init_variables(fs);
-	fastshell_loop(fs);
+	init_variables(mv);
+	misoverse_loop(mv);
 	return (0);
 }
 
-void	init_variables(t_fshell *fs)
+void	init_variables(t_miso *mv)
 {
-	fs->node = NULL;
-	fs->list = NULL;
-	fs->list->node->str = NULL;
-	fs->list->node->next = NULL;
-	fs->list->node->index = 0;
-	fs->list->head = NULL;
-	fs->list->current = NULL;
-	fs->list->temp = NULL;
+	mv->exit_code = 0;
+	mv->node = NULL;
+	mv->list = NULL;
+	mv->node->str = NULL;
+	mv->node->next = NULL;
+	mv->list->head = NULL;
+	mv->list->current = NULL;
+	mv->list->last_node = NULL;
 }

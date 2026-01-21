@@ -19,22 +19,33 @@
 
 /*  main_jenna.c  */
 int		main(void);
-void	init_variables(t_fshell *fs);
+void	init_variables(t_miso *mv);//NOTE: exit_code init to 0 (= success) is correct?
 
 /* fastshell.c */
-void	fastshell_loop(t_fshell *fs);//FIX: malloc error handling
-/* tokenization.c */
-void	create_token_list(char *line);//FIX: malloc error handling
-/* errors.c *///NOTE: add here functions to print error messages / handle errors ?
-void	update_exit_status(t_fshell *fs, int code, int exit_status);
-void	print_error_message(t_fshell *fs);
-/* exit.c */
-void	exit_program(t_fshell *fs);//NOTE: notes inside this function
-/* free.c */
-void	free_fastshell(t_fshell *fs);
-void	free_token_list(t_fshell *fs);
+void	misoverse_loop(t_miso *mv);//FIX: malloc error handlin
 
-/* Don't have internet so adding questions here:
- * */
+/* tokenization.c */
+void	create_token_list(t_miso *mv, char *line);//FIX: malloc error handling
+void    add_operator(t_line *list);
+void    add_bltin(t_line *list);
+void    add_arg(t_line *list);
+void    add_new_node(t_line *list);
+
+/* tokenization_utils.c */
+int     is_whitespace(char c);
+int     is_operator(char c);
+int     is_bltin(char c);
+void    add_redirections(t_line *list);
+
+/* errors.c *///NOTE: add here functions to print error messages / handle errors?
+void	update_exit_status(t_miso *mv, int code, int exit_status);
+void	print_error_message(t_miso *mv);
+
+/* exit.c */
+void	exit_program(t_miso *mv);//NOTE: notes inside this function
+
+/* free.c */
+void	free_misoverse(t_miso *mv);
+void	free_token_list(t_miso *mv);
 
 #endif

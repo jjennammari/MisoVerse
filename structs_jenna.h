@@ -4,8 +4,8 @@
 typedef enum	s_token_type
 {
 	CMD,
-	BLT,
-	FILE
+	BLTIN,
+//	FILE,
 	PIPE,
 	RD_IN,
 	RD_OUT,
@@ -19,23 +19,20 @@ typedef struct	s_token
 	t_token_type	type;
 	char			*str;
 	struct s_token	*next;
-	struct s_token	*prev;
 } t_token;
 
 typedef struct	s_line
 {
-	t_token			*node;
-	struct s_line	*head;
-	struct s_line	*last_node;
-	struct s_line	*temp;//NOTE: allocate memory to this pointer somewhere ?
-
+	t_token	*head;
+	t_token	*current;
+	t_token	*last_node;
 } t_line;
 
-typedef struct	s_fshell
+typedef struct	s_miso
 {
 	int		exit_code;//NOTE: should I still make this static because not dynamically allocating memory to it?
 	t_token	*node;
 	t_line	*list;
-} t_fshell;
+} t_miso;
 
 #endif
