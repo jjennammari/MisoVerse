@@ -1,13 +1,13 @@
 # include "parsing.h"
 
-void	create_token_list(t_miso *mv, char *line)
+int	create_token_list(t_miso *mv, char *line)
 {
 	t_line	*list;
 	int		i;
 
 	list = malloc(sizeof(t_line));
 	if (!list)
-		return ;
+		exit_program(mv);
 	i = 0;
 	while (line[i])
 	{
@@ -20,6 +20,7 @@ void	create_token_list(t_miso *mv, char *line)
 		else
 			add_arg(list);
 	}
+	return (0);
 }
 
 void	add_operator(t_line *list, char *line, int *p_i)

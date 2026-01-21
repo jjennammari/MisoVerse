@@ -9,9 +9,10 @@ void	misoverse_loop(t_miso *mv)
 		//somewhere here handle received signals? read more about signals!
 		line = readline(PROMPT);
 		if (!line)
-			return ;
+			exit_program(mv);
 		add_history(line);
-		create_token_list(mv, line);
+		if (create_token_list(mv, line) == 0)
+			continue;
 		//parse_token_list(fs); + variable expansion
 		//send fs to execution
 	}

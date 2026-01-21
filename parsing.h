@@ -25,7 +25,7 @@ void	init_variables(t_miso *mv);//NOTE: exit_code init to 0 (= success) is corre
 void	misoverse_loop(t_miso *mv);//FIX: malloc error handlin
 
 /* tokenization.c */
-void	create_token_list(t_miso *mv, char *line);//FIX: malloc error handling
+int	create_token_list(t_miso *mv, char *line);//FIX: malloc error handling
 void    add_operator(t_line *list);
 void    add_bltin(t_line *list);
 void    add_arg(t_line *list);
@@ -47,5 +47,8 @@ void	exit_program(t_miso *mv);//NOTE: notes inside this function
 /* free.c */
 void	free_misoverse(t_miso *mv);
 void	free_token_list(t_miso *mv);
+
+/* functions to delete after connecting with libft */
+char	*ft_strchr(const char *s, int c);
 
 #endif

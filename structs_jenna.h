@@ -5,7 +5,7 @@ typedef enum	s_token_type
 {
 	CMD,
 	BLTIN,
-//	FILE,
+	FILE_TYPE,
 	PIPE,
 	RD_IN,
 	RD_OUT,
