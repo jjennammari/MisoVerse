@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/21 19:00:08 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/01/21 20:12:07 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
-# include <stdlib.h>
 # include <unistd.h>
+# include <stdlib.h>
+# include <limits.h>
 # include <signal.h>
 # include <stdio.h>
 # include <fcntl.h>
@@ -35,13 +36,16 @@
 # define LIME	"\033[38;2;0;255;0m"
 # define BABY	"\033[38;2;0;255;247m"
 # define BLOD	"\033[1;38;2;255;0;0m"
+# define ORNG	"\033[38;2;255;153;51m"
 # define PURP	"\033[1;38;2;174;5;252m"
 # define MINT	"\033[1;38;2;55;250;133m"
 # define NEOR	"\033[3m\033[38;2;255;153;51m"
 
-// Type Definitions:
-typedef struct stat t_stat;
+// Global Variable:
+extern int g_signal;
 
+// Type Re-Definitions:
+typedef struct stat t_stat;
 typedef struct sigaction t_sigact;
 
 //		Function Prototypes:
