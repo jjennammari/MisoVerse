@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/21 20:12:07 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/01/24 21:22:50 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,6 @@ extern int g_signal;
 typedef struct stat t_stat;
 typedef struct sigaction t_sigact;
 
-//		Function Prototypes:
-//	 -- --# miso_launch.c #-- --
+//		 Function Prototypes:
+//	 -- -- # miso_launch.c # -- --
 int	miso_launch(t_shell *miso, t_token *head);
