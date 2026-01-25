@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:28:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/24 21:22:53 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/01/25 01:03:51 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,38 +16,64 @@ int	miso_launch(t_miso *shell, t_token *head)
 {
 	int		seg_num;
 	int		exit_status;
+	pid_t	last_child;
 
 	seg_num = 0;
 	exit_status = 0;
 	seg_num = miso_seg_count(head);
 	if (seg_num > 1)
-		exit_status = miso_multiexec(miso, head, seg_num);
+		last_child = miso_multiexec(miso, head, seg_num);
 	else
-		exit_status = miso_exec(miso, head);
+		last_child = miso_exec(miso, head);
 }
+/*Counts the number of command segments to call the corresponding execution
+function. Then waitpid()s for the value they return to hold to the exit 
+status, processing it to update the last exit code, and returning it once
+all processes have ended.*/
 
-int miso_exec(t_miso *shell, t_token *head);
+pid_t miso_exec(t_token *head);
 {
 
 }
+/*It executes a singular command segment, ensuring that child processes
+are created only when estrictly necessary. It returns the PID of the child
+it created, or 0 if it called a built-in.*/
 
-int miso_multiexec(t_miso *shell, t_token *head, int p_num)
+pid_t miso_multiexec(t_token *head, int p_num)
 {
 	char	**cmd;
 	int		p[2];
-	t_token	*trav;
-	int		guide;
+	pid_t	last_child;
+	int		prev_read;
 
-	guide = 0;
-	trav = head;
-
-	while (guide < p_num)
+	prev_read = -1;
+	last_child = 0;
+	while (p_num)
 	{
-		miso_set_channel(head, p);
+		if (p_num - 1 != 0)
+			pipe(p);
+		last_child = fork();
+		if (last_child == 0)
+		{
+			if (prev_read == -1)
+				miso_set_channel(head, 0, p[1], &p);
+			else
+			{
+				if (p_num - 1 == 0)
+					miso_set_channel(head, prev_read, 1, &p);
+				else
+					miso_set_channel(head, prev_read, p[1], &p);
+			}
+		}
+		p_num--;
 	}
 }
+/* If there are pipes, it will iterate through each segment creating
+pipes, fork()-ing the corresponding child processes and eventually 
+calling execve with the passed command. The function then holds on to
+the PID of the las child, and returns it.  */
 
-int miso_set_channel(t_token *head, int pipe[])
+int miso_set_channel(t_token *head, int in, int out)
 {
 	int     fdin;
 	int     fdout;
@@ -55,6 +81,10 @@ int miso_set_channel(t_token *head, int pipe[])
 	fdin = 0;
 	fdout = 1;
 }
+/* If there are pipes in the line, it will check for redirections and 
+open the files accordingly to set the fds to its corresponding values
+and dup2() them with the pipe, to set the "channel" that the data will
+go through in order to excecute the command */
 
 char **miso_argv(t_token *head)
 {
@@ -64,11 +94,11 @@ char **miso_argv(t_token *head)
 
 	trav = head;
 	argc = 1;
-	while(trav->next != NULL && trav->type != CMD && trav->type != BLTIN)
+	while(trav && trav->type != CMD && trav->type != BLTIN)
 		trav = trav->next;
 	if (trav->type != BLTIN)
 		miso_pathfinder(trav->str);
-	while(trav->next != NULL && trav->type != PIPE)
+	while(trav && trav->type != PIPE)
 	{
 		if (trav->type == ARG)
 			argc++;
@@ -78,6 +108,10 @@ char **miso_argv(t_token *head)
 	miso_checknfree(NULL, argv, NULL, NULL);
 	return (miso_populate(argv, argc, head));
 }
+/*Advances until it finds the comand, and if is not a built-in, or has
+a literal path, it updates the str* with the path to the program. Then it 
+counts the arguments passed in order to allocate the argv 2D array and 
+populate it with the strings from the list. */
 
 char	**miso_populate(char **argv, int argc, t_token *head)
 {
@@ -99,8 +133,11 @@ char	**miso_populate(char **argv, int argc, t_token *head)
 	return(argv);
 }
 /* It traverses through the list as it iterates through the passed
-argv buffer, in order to set in order the commands and its arguments
-essentially creating the argument vector that will be 
+argv buffer, in order to set in order the commands and its arguments.
+Essentially creating the argument vector that will be passed to 
+execve(). It assumes that there is only one comand of either type CMD
+or BLTIN, and that the conditions are optimally configured so all 
+arguments come after the comand. */
 
 void miso_pathfinder(char *cmd)
 {
