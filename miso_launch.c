@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:28:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/25 01:03:51 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/01/25 13:34:18 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,40 @@ pipes, fork()-ing the corresponding child processes and eventually
 calling execve with the passed command. The function then holds on to
 the PID of the las child, and returns it.  */
 
-int miso_set_channel(t_token *head, int in, int out)
+void miso_set_channel(t_token *head, int in, int out, int **pipe)
 {
 	int     fdin;
 	int     fdout;
 
 	fdin = 0;
 	fdout = 1;
+	close(pipe[0]);
+	if (!miso_redirin(head, in, &fdin))
+	{
+		if (in != 0)
+		{
+			dup2(in, 0);
+			close(in);
+		}
+	}
+	else
+	{
+		dup2(fdin, 0);
+		close(out);
+	}
+	if (!miso_redirout(head, out, &fdout))
+	{
+		if (out != 1)
+		{
+			dup2(out, 1)
+			close(out)
+		}
+	}
+	else
+	{
+		dup2(fdin, 0);
+		close(out);
+	}
 }
 /* If there are pipes in the line, it will check for redirections and 
 open the files accordingly to set the fds to its corresponding values
