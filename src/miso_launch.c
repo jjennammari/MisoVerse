@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miso.h"
+#include "../inc/miso.h"
 
 int	miso_launch(t_shell *miso, t_token *head)
 {
