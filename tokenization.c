@@ -1,36 +1,65 @@
 # include "parsing.h"
 
-int	create_token_list(t_miso *mv, char *line)
+void	create_token_list(t_miso *mv, char *line)
 {
 	t_line	*list;
 	int		i;
 
 	list = malloc(sizeof(t_line));
 	if (!list)
-		exit_program(mv);
+		return ;
 	i = 0;
 	while (line[i])
 	{
-		if (is_whitespace(line[i]))
+		while (line[i] && is_whitespace(line[i]))
 			i++;
-		else if (is_operator(line[i]))
+		if (ft_strchr("<|>", line[i]) != NULL)
 			add_operator(list, &line[i], &i);
-		else if (is_bltin(line[i]))
-			add_bltin(list);
 		else
-			add_arg(list);
+			add_argument(list, &line[i], &i);
 	}
-	return (0);
 }
 
-void	add_operator(t_line *list, char *line, int *p_i)
+void	add_operator(t_line *list, char *line, int *pi)
 {
-	if (*line == '|')
+	if (line[*pi] == '|')
 	{
-		add_new_node(list, '|', PIPE);
-		p_i++;
-		return ;
+		add_new_token(list, "|", PIPE);
+		*pi += 1;
 	}
+	else if (line[*pi] == '<' || line[*pi] == '>')
+		  add_redirection(list, &line[*pi], pi);
 }
 
-void	add_new_node(t_line *list, t_token *str, t_token_type type)
+void	add_redirection(t_line *list, char *line, int *pi)
+{
+	if (line[*pi] == '<')
+	{
+		if (line[*pi++] == '<')
+		{
+			add_new_token(list, "<<", HEREDOC);
+			*pi += 1;
+		}
+		else
+			add_new_token(list, "<", RD_IN);
+	}
+	else if (line[*pi] == '<')
+	{
+		if (line[*pi++] == '<')
+		{
+			add_new_token(list, "<<", HEREDOC);
+			*pi += 1;
+		}
+		else
+			add_new_token(list, "<", RD_IN);
+	}
+	*pi += 1;
+}
+
+void	add_argument(t_line *list, char *line, int *pi)
+{
+	if (ft_strchr("\"\'", line[*pi]))
+		add_quotes(list, &line[*pi], pi);
+}
+
+void	add_quotes(t_line *list, char *line, int *pi)

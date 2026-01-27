@@ -2,7 +2,7 @@
 
 void	free_misoverse(t_miso *mv)
 {
-	if (mv->list->head != NULL)
+	if (mv->list.head != NULL)
 		free_token_list(mv);
 }
 

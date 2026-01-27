@@ -1,11 +1,12 @@
 #ifndef STRUCTS_JENNA
 #define STRUCTS_JENNA
 
+
 typedef enum	s_token_type
 {
 	CMD,
 	BLTIN,
-	FILE_TYPE,
+	FILE_NAME,
 	PIPE,
 	RD_IN,
 	RD_OUT,
@@ -17,6 +18,8 @@ typedef enum	s_token_type
 typedef struct	s_token
 {
 	t_token_type	type;
+	int				quotes_count;
+	bool			expansion;
 	char			*str;
 	struct s_token	*next;
 } t_token;
@@ -30,9 +33,9 @@ typedef struct	s_line
 
 typedef struct	s_miso
 {
-	int		exit_code;//NOTE: should I still make this static because not dynamically allocating memory to it?
+	int		exit_code;
+	t_line	list;
 	t_token	*node;
-	t_line	*list;
 } t_miso;
 
 #endif
