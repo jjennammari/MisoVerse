@@ -18,7 +18,6 @@ typedef enum	s_token_type
 typedef struct	s_token
 {
 	t_token_type	type;
-	int				quotes_count;
 	bool			expansion;
 	char			*str;
 	struct s_token	*next;
@@ -31,11 +30,11 @@ typedef struct	s_line
 	t_token	*last_node;
 } t_line;
 
-typedef struct	s_miso
+typedef struct	s_shell
 {
 	int		exit_code;
 	t_line	list;
 	t_token	*node;
-} t_miso;
+} t_shell;
 
 #endif

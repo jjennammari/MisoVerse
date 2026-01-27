@@ -29,7 +29,7 @@ void	misoverse_loop(t_miso *mv);//FIX: malloc error handlin
 void	create_token_list(t_miso *mv, char *line);//FIX: malloc error handling
 void    add_operator(t_line *list, char *line, int *pi);
 void	add_redirection(t_line *list, char *line, int *pi);
-void	add_argument(t_line *list, char *line, int *pi);
+void	add_argument(t_line *list, char *line, int *pi, *f(char *));
 
 /* tokenization_utils.c */
 int     is_whitespace(char c);
