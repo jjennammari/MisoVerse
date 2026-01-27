@@ -6,13 +6,13 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:28:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/27 00:28:22 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/01/27 21:06:57 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miso.h"
 
-int	miso_launch(t_miso *shell, t_token *head)
+int	miso_launch(t_shell *miso, t_token *head)
 {
 	int		seg_num;
 	int		exit_status;
@@ -22,9 +22,9 @@ int	miso_launch(t_miso *shell, t_token *head)
 	exit_status = 0;
 	seg_num = miso_seg_count(head);
 	if (seg_num > 1)
-		last_child = miso_multiexec(shell, head, seg_num);
+		last_child = miso_multiexec(miso, head, seg_num);
 	else
-		return(miso_exec(shell, head));
+		return(miso_exec(miso, head));
 	return(miso_waitroom(last_child, &exit_status));
 }
 /* Counts the number of command segments to call the corresponding execution
@@ -49,7 +49,7 @@ doesn't ask to handle other stop reasons like WIFCONTINUED or WIFSTOPPED,
 they are a posibility. That posibility, we've decided to handle as a successful
 end, so the function will return 0 by default.*/
 
-int	miso_exec(t_miso *shell, t_token *head)
+int	miso_exec(t_shell *miso, t_token *head)
 {
 	pid_t	child;
 	char	**cmd;
@@ -65,7 +65,7 @@ int	miso_exec(t_miso *shell, t_token *head)
 		if (child == 0)
 		{
 			miso_channeling(0, head, NULL, -1);
-			miso_call_program(shell, cmd, shell->envp);
+			miso_call_program(miso, cmd, miso->envp);
 			perror(BLOD"PROMPT"RSET);
 			miso_free_matrix(cmd);
 			exit(exit_code);
@@ -76,7 +76,7 @@ int	miso_exec(t_miso *shell, t_token *head)
 		std_cpy[0] = dup(0);
 		std_cpy[1] = dup(1);
 		miso_channeling(0, head, NULL, -1);
-		exit_code = miso_call_builtin(shell, cmd); // Pending, check how they'd be called;
+		exit_code = miso_call_builtin(miso, cmd); // Pending, check how they'd be called;
 		dup2(std_cpy[0], 0);
 		dup2(std_cpy[1], 1);
 		close(std_cpy[0]);
@@ -140,13 +140,13 @@ int	miso_is_builtin(char *cmd)
 /* Uses ft_strncmp and the lenght of the incoming string "cmd" to analyze
 if the command being called is one of the built-in functions */
 
-void	miso_call_program(t_miso *shell, char **cmd, char **envp)
+void	miso_call_program(t_shell *miso, char **cmd, char **envp)
 {
 	int	exit_code;
 
 	exit_code = 127;
 	if (miso_is_builtin(cmd[0]))
-		exit_code = miso_call_builtin(shell, cmd); // Pending, check how they'd be called;
+		exit_code = miso_call_builtin(miso, cmd); // Pending, check how they'd be called;
 	else
 		execve(cmd[0], cmd + 1, envp);
 	if (exit_code == 0)
@@ -176,7 +176,7 @@ void	miso_daddy_pipe_manager(int *prev_read, int *p, int p_num)
 created, and closes the last write end since is no longer needed in
 the parent process */
 
-pid_t	miso_multiexec(t_miso *shell, t_token *head, int p_num)
+pid_t	miso_multiexec(t_shell *miso, t_token *head, int p_num)
 {
 	int		p[2];
 	pid_t	last_child;
@@ -192,7 +192,7 @@ pid_t	miso_multiexec(t_miso *shell, t_token *head, int p_num)
 		if (last_child == 0)
 		{
 			miso_channeling(prev_read, head, p, p_num);
-			miso_call_program(shell, miso_argv(head), shell->envp);
+			miso_call_program(miso, miso_argv(head), miso->envp);
 		}
 		head = miso_next_segment(head);
 		miso_daddy_pipe_manager(&prev_read, p, p_num);
@@ -204,6 +204,21 @@ pid_t	miso_multiexec(t_miso *shell, t_token *head, int p_num)
 pipes, fork()-ing the corresponding child processes and eventually 
 calling execve with the passed command. The function then holds on to
 the PID of the las child, and returns it.  */
+
+t_token *miso_next_segment(t_token *head)
+{
+	while (head)
+	{
+		if (head->type == PIPE)
+		{
+			if (!head->next)
+			{
+				racc_print(2, BLOD"PROMPT"MINT"Error after `%s'\n", head->str);
+				exit(2)
+			}
+		}
+	}
+}
 
 void	miso_redir(int new_fd, int def_fd)
 {

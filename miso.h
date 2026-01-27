@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/24 21:22:50 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/01/27 21:08:56 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 // Includes:
 # include "parsing.h"
-# include "structs_jenna.h"
-# include "./libft/includes/get_next_line_bonus.h"
+# include "./miso_structs.h"
 # include "./libft/includes/libft.h"
+# include "./miso_structs.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
