@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:28:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/25 23:45:30 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/01/27 00:28:22 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,79 @@ int	miso_launch(t_miso *shell, t_token *head)
 	if (seg_num > 1)
 		last_child = miso_multiexec(shell, head, seg_num);
 	else
-		last_child = miso_exec(shell, head);
+		return(miso_exec(shell, head));
+	return(miso_waitroom(last_child, &exit_status));
 }
-/*Counts the number of command segments to call the corresponding execution
-function. Then waitpid()s for the value they return to hold to the exit 
-status, processing it to update the last exit code, and returning it once
-all processes have ended.*/
+/* Counts the number of command segments to call the corresponding execution
+function. If necessary, it waitpid()s for the PID the miso_multiexec function
+returns. To hold on to the exit status of the last child, and processing it,
+to return the last exit code once all processes have ended. */
 
-pid_t	miso_exec(t_miso *shell, t_token *head)
+int	miso_waitroom(pid_t child, int *exit_status)
 {
-	void (shell);
-	void (head);
-	return ;
+	waitpid(child, exit_status, 0);
+	while (wait(NULL) > 0)
+		continue ;
+	if (WIFEXITED(*exit_status))
+		return(WEXITSTATUS(*exit_status));
+	else if (WIFSIGNALED(*exit_status))
+		return(128 + WTERMSIG(*exit_status));
+	return(0);
 }
-/*It executes a singular command segment, ensuring that child processes
+/* Waits for the passed process ID to finish, in order to translate the 
+exit status into the exit code that will be returned. While the proyect
+doesn't ask to handle other stop reasons like WIFCONTINUED or WIFSTOPPED,
+they are a posibility. That posibility, we've decided to handle as a successful
+end, so the function will return 0 by default.*/
+
+int	miso_exec(t_miso *shell, t_token *head)
+{
+	pid_t	child;
+	char	**cmd;
+	int		std_cpy[2];
+	int		exit_code;
+
+	child = 0;
+	exit_code = 127;
+	cmd = miso_argv(head);
+	if (!miso_is_builtin(cmd[0]))
+	{
+		child = fork();
+		if (child == 0)
+		{
+			miso_channeling(0, head, NULL, -1);
+			miso_call_program(shell, cmd, shell->envp);
+			perror(BLOD"PROMPT"RSET);
+			miso_free_matrix(cmd);
+			exit(exit_code);
+		}
+	}
+	else
+	{
+		std_cpy[0] = dup(0);
+		std_cpy[1] = dup(1);
+		miso_channeling(0, head, NULL, -1);
+		exit_code = miso_call_builtin(shell, cmd); // Pending, check how they'd be called;
+		dup2(std_cpy[0], 0);
+		dup2(std_cpy[1], 1);
+		close(std_cpy[0]);
+		close(std_cpy[1]);
+	}
+	if (child > 0)
+		return (miso_waitroom(child, &exit_code));
+	return (exit_code);
+}
+/* It executes a singular command segment, ensuring that child processes
 are created only when estrictly necessary. It returns the PID of the child
 it created, or 0 if it called a built-in.*/
 
 void	miso_channeling(int prev_read, t_token *head, int *p, int p_num)
 {
+	if(p_num == -1)
+	{
+		miso_set_channel(head, 0, 1, NULL);
+		return ;
+	}
 	if (prev_read == -1)
 		miso_set_channel(head, 0, p[1], p);
 	else
@@ -54,6 +108,13 @@ void	miso_channeling(int prev_read, t_token *head, int *p, int p_num)
 	}
 	return ;
 }
+/* It ensures tha the correct input and output stream is being sent to the
+set_channel evaluation, corresponding to which stage of the loop the function
+gets called. It's based on three basic stages, the begining of the line,
+the middle sections, and the end. If if is called at the end, it sends NULL
+instead of the pipe, because the function assumes no further pipes were 
+created. The p_num == -1 case, is for the special condition of there being
+only one segment and no pipes. */
 
 int	miso_is_builtin(char *cmd)
 {
@@ -76,19 +137,31 @@ int	miso_is_builtin(char *cmd)
 		return (1);
 	return (0);
 }
+/* Uses ft_strncmp and the lenght of the incoming string "cmd" to analyze
+if the command being called is one of the built-in functions */
 
 void	miso_call_program(t_miso *shell, char **cmd, char **envp)
 {
+	int	exit_code;
+
+	exit_code = 127;
 	if (miso_is_builtin(cmd[0]))
-		miso_call_builtin(shell, cmd); // Pending to know how they'd be called;
+		exit_code = miso_call_builtin(shell, cmd); // Pending, check how they'd be called;
 	else
 		execve(cmd[0], cmd + 1, envp);
+	if (exit_code == 0)
+		exit(0);
 	perror(BLOD"PROMPT"RSET);
 	miso_free_matrix(cmd);
-	exit(127);
+	exit(exit_code);
 }
+/* Determines whether the comand will be executed with execve or
+ran with a built-in function. In either case it is expected for
+the "execution" to take over and exit accordingly, therefore, if
+the function reaches the perror line, it assumes that an error
+ocurred, and the function exits accordingly. */
 
-void	miso_pipe_manage(int *prev_read, int *p)
+void	miso_daddy_pipe_manager(int *prev_read, int *p, int p_num)
 {
 	if (*prev_read != -1)
 		close(*prev_read);
@@ -99,6 +172,9 @@ void	miso_pipe_manage(int *prev_read, int *p)
 	}
 	return ;
 }
+/* Updates the prev_read variable with the read end of the last pipe
+created, and closes the last write end since is no longer needed in
+the parent process */
 
 pid_t	miso_multiexec(t_miso *shell, t_token *head, int p_num)
 {
@@ -119,7 +195,7 @@ pid_t	miso_multiexec(t_miso *shell, t_token *head, int p_num)
 			miso_call_program(shell, miso_argv(head), shell->envp);
 		}
 		head = miso_next_segment(head);
-		miso_pipe_manage(&prev_read, p);
+		miso_daddy_pipe_manager(&prev_read, p, p_num);
 		p_num--;
 	}
 	return (last_child);
@@ -244,7 +320,7 @@ char	**miso_argv(t_token *head)
 	while (trav && trav->type != CMD && trav->type != BLTIN)
 		trav = trav->next;
 	if (trav->type != BLTIN)
-		miso_pathfinder(trav->str);
+		miso_pathfinder(&trav->str);
 	while (trav && trav->type != PIPE)
 	{
 		if (trav->type == ARG)
@@ -286,7 +362,7 @@ execve(). It assumes that there is only one comand of either type CMD
 or BLTIN, and that the conditions are optimally configured so all 
 arguments come after the comand. */
 
-void	miso_pathfinder(char *cmd)
+void	miso_pathfinder(char **cmd)
 {
 	char	**dirs;
 	int		guide;
@@ -294,19 +370,19 @@ void	miso_pathfinder(char *cmd)
 	char	*temp;
 	char	*old_str;
 
-	if (ft_strchr(cmd_in, '/'))
+	if (ft_strchr(*cmd, '/'))
 		return ;
 	dirs = ft_split(getenv("PATH"), ':');
 	miso_checknfree(NULL, dirs, NULL, NULL);
-	temp = ft_strjoin("/", cmd);
+	temp = ft_strjoin("/", *cmd);
 	miso_checknfree(temp, NULL, NULL, dirs);
 	path_name = miso_pathmatch(dirs, temp);
 	miso_checknfree(path_name, NULL, temp, dirs);
 	free(temp);
 	miso_free_matrix(dirs);
 	miso_customs(path_name, access(path_name, F_OK));
-	old_str = cmd;
-	cmd = path_name;
+	old_str = *cmd;
+	*cmd = path_name;
 	free(old_str);
 	return ;
 }
@@ -319,11 +395,11 @@ the memory of the previous string stored in the node, replacing it
 with the newly found path. It assumes that the command passed is not 
 built-in*/
 
-void	miso_customs(char *program, int exists)
+void	miso_customs(char *program, int doesnt_exist)
 {
 	t_stat	metadata;
 
-	if (exists)
+	if (doesnt_exist)
 	{
 		perror(BLOD"PROMPT"RSET);
 		free(program);
@@ -335,7 +411,7 @@ void	miso_customs(char *program, int exists)
 		free(program);
 		exit(127);
 	}
-	else if (S_ISDIR(&metadata.st_mode))
+	else if (S_ISDIR(metadata.st_mode))
 	{
 		racc_print(2, BLOD"PROMPT: "MINT"%s"RSET": Is a directory\n", program);
 		exit(126);
@@ -346,7 +422,7 @@ void	miso_customs(char *program, int exists)
 program or a directory, in order to print the correct error message and
 exit accordingly. The function is meant to be called with with the 
 access() function on the second parameter, to validate if the "object"
-exists */
+doesn't exist. */
 
 char	*miso_pathmatch(char **dirs, char *temp_filename)
 {
