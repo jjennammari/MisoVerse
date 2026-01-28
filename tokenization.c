@@ -15,9 +15,9 @@ void	create_token_list(t_shell *miso, char *line)
 			i++;
 		if (ft_strchr("<|>", line[i]) != NULL)
 			add_operator(miso, &line[i], &i);
-		else if (ft_strchr("'", line[i]) != NULL)
+		else if (line[i] == '\'')
 		   add_argument(miso, &line[++i], &i, is_squote);
-		else if (ft_strchr("\"", line[i]) != NULL)
+		else if (line[i] == '"')
 		   add_argument(miso, &line[++i], &i, is_dquote);
 		else
 			add_argument(miso, &line[i], &i, is_whitespace);
@@ -28,7 +28,7 @@ void	add_operator(t_shell *miso, char *line, int *pi)
 {
 	if (line[*pi] == '|')
 	{
-		create_new_node(miso, "|", PIPE);
+		add_to_list(miso, "|", PIPE);
 		*pi += 1;
 	}
 	else if (line[*pi] == '<' || line[*pi] == '>')
@@ -41,21 +41,21 @@ void	add_redirection(t_shell *miso, char *line, int *pi)
 	{
 		if (line[*pi++] == '<')
 		{
-			create_new_node(miso, "<<", HEREDOC);
+			add_to_list(miso, "<<", HEREDOC);
 			*pi += 1;
 		}
 		else
-			create_new_node(miso, "<", RD_IN);
+			add_to_list(miso, "<", RD_IN);
 	}
 	else if (line[*pi] == '<')
 	{
 		if (line[*pi++] == '<')
 		{
-			create_new_node(miso, "<<", HEREDOC);
+			add_to_list(miso, "<<", HEREDOC);
 			*pi += 1;
 		}
 		else
-			create_new_node(miso, "<", RD_IN);
+			add_to_list(miso, "<", RD_IN);
 	}
 	*pi += 1;
 }
@@ -76,5 +76,18 @@ void	add_argument(t_shell *miso, char *line, int *pi, int (*f)(char))
 	}
 //	if (!(*f)(line[*pi]))
 //		print syntax error
-	create_new_node(miso, temp, ARG);
+	add_to_list(miso, temp, ARG);
+}
+
+void	add_to_list(t_shell *miso, char *str, t_token_type type)
+{
+	t_token	*new_node;
+
+	new_node = malloc(sizeof(t_token));
+	if (!new_node)
+		// free linked list
+		return ;
+	if (miso->list.head == NULL)
+		miso->list.head = new_node;
+	
 }

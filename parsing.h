@@ -29,13 +29,13 @@ void	misoverse_loop(t_shell *miso);//FIX: malloc error handlin
 void	create_token_list(t_shell *miso, char *line);//FIX: malloc error handling
 void    add_operator(t_shell *miso, char *line, int *pi);
 void	add_redirection(t_shell *miso, char *line, int *pi);
-void	add_argument(t_shell *miso, char *line, int *pi, int (*f)(char));
+void	add_argument(t_shell *miso, char *line, int *pi, int (*f)(char));//TODO: keep in mind that expand is true only with specific scenarios
+void	add_to_list(t_shell *miso, char *str, t_token_type type);
 
 /* tokenization_utils.c */
-int	is_whitespace(char c);
-int	is_squote(char c);
-int	is_dquote(char c);
-void	create_new_node(t_shell *miso, char *str, t_token_type type);//FIX: malloc error handling + free linked list
+int		is_whitespace(char c);
+int		is_squote(char c);
+int		is_dquote(char c);
 
 /* free.c */
 void	free_misoverse(t_shell *miso);
