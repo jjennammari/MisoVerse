@@ -1,6 +1,6 @@
 #include "parsing.h"
 
-void	misoverse_loop(t_miso *mv)
+void	misoverse_loop(t_shell *miso)
 {
 	char	*line;
 
@@ -11,7 +11,7 @@ void	misoverse_loop(t_miso *mv)
 		if (!line)
 			return ;
 		add_history(line);
-		create_token_list(mv, line);
+		create_token_list(miso, line);
 		//parse_token_list(fs); + variable expansion
 		//send fs to execution
 	}

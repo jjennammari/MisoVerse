@@ -1,12 +1,12 @@
 #include "parsing.h"
 
-void	free_misoverse(t_miso *mv)
+void	free_misoverse(t_shell *miso)
 {
-	if (mv->list.head != NULL)
-		free_token_list(mv);
+	if (miso->list.head != NULL)
+		free_token_list(miso);
 }
 
-void	free_token_list(t_miso *mv)
+void	free_token_list(t_shell *miso)
 {
 //	while (mv->list->head != NULL)
 }

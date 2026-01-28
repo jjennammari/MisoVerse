@@ -1,6 +1,6 @@
 #include "parsing.h"
 
-int	main(void)
+int	miso_main(void)
 {
 	t_shell	miso;
 
@@ -15,7 +15,7 @@ void	init_variables(t_shell *miso)
 	miso->node = malloc(sizeof(t_token));
 	if (!miso->node)
 		return ;
-	miso->node->expansion = false;
+	miso->node->expand = false;
 	miso->node->str = NULL;
 	miso->node->next = NULL;
 	miso->list.head = NULL;

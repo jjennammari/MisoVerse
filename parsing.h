@@ -10,7 +10,7 @@
 # include <readline/history.h>
 /* add_history */
 # include <stdbool.h>
-# include "structs_jenna.h"
+# include "miso_structs.h"
 
          /* Self defined PROMPT */
 /* cc with -DPROMPT='"whatever you want :3"' */
@@ -19,24 +19,27 @@
 #endif
 
 /*  main_jenna.c  */
-int		main(void);
-void	init_variables(t_miso *mv);//NOTE: exit_code init to 0 (= success) is correct?
+int		miso_main(void);
+void	init_variables(t_shell *miso);//NOTE: exit_code init to 0 (= success) is correct?
 
 /* fastshell.c */
-void	misoverse_loop(t_miso *mv);//FIX: malloc error handlin
+void	misoverse_loop(t_shell *miso);//FIX: malloc error handlin
 
 /* tokenization.c */
-void	create_token_list(t_miso *mv, char *line);//FIX: malloc error handling
-void    add_operator(t_line *list, char *line, int *pi);
-void	add_redirection(t_line *list, char *line, int *pi);
-void	add_argument(t_line *list, char *line, int *pi, *f(char *));
+void	create_token_list(t_shell *miso, char *line);//FIX: malloc error handling
+void    add_operator(t_shell *miso, char *line, int *pi);
+void	add_redirection(t_shell *miso, char *line, int *pi);
+void	add_argument(t_shell *miso, char *line, int *pi, int (*f)(char));
 
 /* tokenization_utils.c */
-int     is_whitespace(char c);
+int	is_whitespace(char c);
+int	is_squote(char c);
+int	is_dquote(char c);
+void	create_new_node(t_shell *miso, char *str, t_token_type type);//FIX: malloc error handling + free linked list
 
 /* free.c */
-void	free_misoverse(t_miso *mv);
-void	free_token_list(t_miso *mv);
+void	free_misoverse(t_shell *miso);
+void	free_token_list(t_shell *miso);
 
 /* functions to delete after connecting with libft */
 char	*ft_strchr(const char *s, int c);
