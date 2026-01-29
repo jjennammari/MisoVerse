@@ -1,12 +1,24 @@
-#ifndef STRUCTS_JENNA
-#define STRUCTS_JENNA
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   miso_structs.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/29 20:57:19 by lde-san-          #+#    #+#             */
+/*   Updated: 2026/01/29 21:40:19 by lde-san-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#ifndef MISO_STRUCTS_H
+# define MISO_STRUCTS_H
+
+# include <stdbool.h>
 
 typedef enum	s_token_type
 {
-	CMD,
-	BLTIN,
-	FILE_NAME,
+	SYS_CMD,
+	BLT_CMD,
 	PIPE,
 	RD_IN,
 	RD_OUT,
@@ -18,7 +30,7 @@ typedef enum	s_token_type
 typedef struct	s_token
 {
 	t_token_type	type;
-	bool			expansion;
+	bool			expand;
 	char			*str;
 	struct s_token	*next;
 } t_token;
@@ -33,6 +45,7 @@ typedef struct	s_line
 typedef struct	s_shell
 {
 	int		exit_code;
+	char	**envp;
 	t_line	list;
 	t_token	*node;
 } t_shell;

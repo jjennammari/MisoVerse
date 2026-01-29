@@ -6,17 +6,23 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:35:38 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/28 20:05:21 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/01/29 22:11:22 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
+char		**miso_argv(t_token *head);
+static void	miso_pathfinder(char **cmd);
+static void	miso_customs(char *program, int doesnt_exist);
+static char	*miso_pathmatch(char **dirs, char *temp_filename);
+static char	**miso_populate(char **argv, int argc, t_token *head);
+
 char	**miso_argv(t_token *head)
 {
 	t_token	*trav;
 	int		argc;
-	char	*argv;
+	char	**argv;
 
 	trav = head;
 	argc = 1;
@@ -42,7 +48,6 @@ populate it with the strings from the list. */
 static void	miso_pathfinder(char **cmd)
 {
 	char	**dirs;
-	int		guide;
 	char	*path_name;
 	char	*temp;
 	char	*old_str;

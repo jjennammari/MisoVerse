@@ -6,11 +6,16 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:28:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/28 19:16:37 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/01/29 22:32:09 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
+
+static int		miso_exec(t_shell *miso, t_token *head);
+int				miso_launch(t_shell *miso, t_token *head);
+int				miso_call_builtin(t_shell *miso, char **cmd);
+static pid_t	miso_multiexec(t_shell *miso, t_token *head, int p_num);
 
 int	miso_launch(t_shell *miso, t_token *head)
 {
@@ -52,7 +57,7 @@ static int	miso_exec(t_shell *miso, t_token *head)
 		}
 	}
 	else
-		exit_code = miso_daddy_exec()
+		exit_code = miso_daddy_exec(miso, cmd, std_cpy, head);
 	if (child > 0)
 		return (miso_waitroom(child, &exit_code));
 	return (exit_code);
@@ -72,7 +77,7 @@ static pid_t	miso_multiexec(t_shell *miso, t_token *head, int p_num)
 	while (p_num)
 	{
 		if (!head)
-			racc_print(2, BLOD"PROMPT"MINT": Unexpected Syntax");
+			racc_print(2, BLOD"PROMPT"MINT" Unexpected Syntax"RSET);
 		if (p_num - 1 != 0)
 			pipe(p);
 		last_child = fork();
@@ -91,3 +96,13 @@ static pid_t	miso_multiexec(t_shell *miso, t_token *head, int p_num)
 pipes, fork()-ing the corresponding child processes and eventually 
 calling execve with the passed command. The function then holds on to
 the PID of the last child, and returns it.  */
+
+int	miso_call_builtin(t_shell *miso, char **cmd)
+{
+	(void)miso;
+	(void)cmd;
+	return (0);
+}
+/* This function validates the command passed on cmd[0], to call the
+corresponding built-in program. Depending on the program, it will return
+the value of the exit code, or 1 by default. */

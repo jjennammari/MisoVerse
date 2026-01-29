@@ -6,11 +6,17 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:41:47 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/28 20:08:11 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/01/29 22:34:40 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
+
+int		miso_is_builtin(char *cmd);
+void	miso_free_matrix(char **matrix);
+int		miso_waitroom(pid_t child, int *exit_status);
+void	miso_call_program(t_shell *miso, char **cmd, char **envp);
+void	miso_checknfree(void *check1, char **check2, void *free1, char **free2);
 
 void	miso_call_program(t_shell *miso, char **cmd, char **envp)
 {
@@ -40,7 +46,7 @@ int	miso_waitroom(pid_t child, int *exit_status)
 		continue ;
 	if (WIFEXITED(*exit_status))
 		return(WEXITSTATUS(*exit_status));
-	else if (WIFSIGNALED(*exit_status)
+	else if (WIFSIGNALED(*exit_status))
 		return(128 + WTERMSIG(*exit_status));
 	return(0);
 }
@@ -74,7 +80,7 @@ int	miso_is_builtin(char *cmd)
 /* Uses ft_strncmp and the lenght of the incoming string "cmd" to analyze
 if the command being called is one of the built-in functions */
 
-void	miso_checknfree(void *check1, void **check2, void *free1, void **free2)
+void	miso_checknfree(void *check1, char **check2, void *free1, char **free2)
 {
 	if (check1 || check2)
 		return ;

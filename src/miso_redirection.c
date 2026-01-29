@@ -6,11 +6,17 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:17:12 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/28 20:07:17 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/01/29 21:26:51 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
+
+static void	miso_redir(int new_fd, int def_fd);
+static int	miso_scan_redin(t_token *head, int *fd);
+static int	miso_scan_redout(t_token *lst, int *fd);
+static void	miso_set_channel(t_token *head, int in, int out, int *pipe);
+void		miso_channeling(int prev_read, t_token *head, int *p, int p_num);
 
 static void	miso_redir(int new_fd, int def_fd)
 {

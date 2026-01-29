@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/27 21:44:59 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/01/29 22:30:51 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MISO_H
 
 // Includes:
-# include "./miso_structs.h"
 # include "./libft/includes/libft.h"
 # include "./miso_structs.h"
 # include <readline/readline.h>
@@ -42,7 +41,7 @@
 # define NEOR	"\033[3m\033[38;2;255;153;51m"
 
          /* Self defined PROMPT */
-/* cc with -DPROMPT='"whatever you want :3"' */
+/* Compile with -DPROMPT="Whatever you'd like" */
 # ifndef PROMPT
 #  define PROMPT "MisoVerse #"
 # endif
@@ -54,27 +53,27 @@ extern int g_signal;
 typedef struct stat t_stat;
 typedef struct sigaction t_sigact;
 
-//			Function Prototypes:
-//	 -- -- #	miso_launch.c		# -- --
+//					Function Prototypes:
+//	 -- -- #			miso_launch.c			# -- --
 int	miso_launch(t_shell *miso, t_token *head);
-//	 -- -- #	main_jenna.c		# -- --
-int		main(void);
-void	init_variables(t_miso *mv);//NOTE: exit_code init to 0 (= success) is correct?
+int miso_call_builtin(t_shell *miso, char **cmd);
 
-//	 -- -- #	 fastshell.c		# -- --
-void	misoverse_loop(t_miso *mv);//FIX: malloc error handlin
+//	 -- -- #		  miso_pathfinder.c			# -- --
+char	**miso_argv(t_token *head);
 
-//	 -- -- #	tokenization.c		# -- --
-void	create_token_list(t_miso *mv, char *line);//FIX: malloc error handling
-void    add_operator(t_line *list, char *line, int *pi);
-void	add_redirection(t_line *list, char *line, int *pi);
-void	add_argument(t_line *list, char *line, int *pi, *f(char *));
+//	 -- -- #		 miso_redirection.c			# -- --
+void	miso_channeling(int prev_read, t_token *head, int *p, int p_num);
 
-//	 -- -- #  tokenization_utils.c	# -- --
-int     is_whitespace(char c);
+//	 -- -- #	  miso_exec_utils_alpha.c		# -- --
+int		miso_is_builtin(char *cmd);
+void	miso_free_matrix(char **matrix);
+int		miso_waitroom(pid_t child, int *exit_status);
+void	miso_call_program(t_shell *miso, char **cmd, char **envp);
+void	miso_checknfree(void *check1, char **check2, void *free1, char **free2);
 
-//	 -- -- #		free.c			# -- --
-void	free_misoverse(t_miso *mv);
-void	free_token_list(t_miso *mv);
-
+//	 -- -- #	  miso_exec_utils_beta.c		# -- --
+int		miso_seg_count(t_token *head);
+t_token *miso_next_segment(t_token *head);
+void	miso_daddy_pipe_manager(int *prev_read, int *p, int p_num);
+int		miso_daddy_exec(t_shell *miso, char **cmd, int *std_cpy, t_token *head);
 #endif
