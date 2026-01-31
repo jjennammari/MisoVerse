@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/29 22:30:51 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/01/31 21:14:09 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,27 +53,37 @@ extern int g_signal;
 typedef struct stat t_stat;
 typedef struct sigaction t_sigact;
 
-//					Function Prototypes:
-//	 -- -- #			miso_launch.c			# -- --
+//			Function Prototypes:
+//	 -- -- #	miso_launch.c
 int	miso_launch(t_shell *miso, t_token *head);
 int miso_call_builtin(t_shell *miso, char **cmd);
 
-//	 -- -- #		  miso_pathfinder.c			# -- --
+//	 -- -- #	miso_pathfinder.c
 char	**miso_argv(t_token *head);
 
-//	 -- -- #		 miso_redirection.c			# -- --
+//	 -- -- #	miso_redirection.c
 void	miso_channeling(int prev_read, t_token *head, int *p, int p_num);
 
-//	 -- -- #	  miso_exec_utils_alpha.c		# -- --
-int		miso_is_builtin(char *cmd);
+//	 -- -- #	miso_exec_utils_alpha.c
 void	miso_free_matrix(char **matrix);
 int		miso_waitroom(pid_t child, int *exit_status);
-void	miso_call_program(t_shell *miso, char **cmd, char **envp);
+void	miso_call_program(t_shell *miso, char **cmd);
+int		(*miso_is_builtin(char *cmd))(t_shell *, char **);
 void	miso_checknfree(void *check1, char **check2, void *free1, char **free2);
 
-//	 -- -- #	  miso_exec_utils_beta.c		# -- --
+//	 -- -- #	miso_exec_utils_beta.c
 int		miso_seg_count(t_token *head);
 t_token *miso_next_segment(t_token *head);
 void	miso_daddy_pipe_manager(int *prev_read, int *p, int p_num);
+int		miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **));
 int		miso_daddy_exec(t_shell *miso, char **cmd, int *std_cpy, t_token *head);
+
+//    -- -- #	Built in Functions: miso_(built_in).c
+int		miso_cd(t_shell *miso, char **argv);
+int     miso_pwd(t_shell *miso, char **argv);
+int     miso_env(t_shell *miso, char **argv);
+int     miso_echo(t_shell *miso, char **argv);
+int     miso_exit(t_shell *miso, char **argv);
+int     miso_unset(t_shell *miso, char **argv);
+int     miso_export(t_shell *miso, char **argv);
 #endif

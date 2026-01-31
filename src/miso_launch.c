@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:28:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/29 22:32:09 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/01/31 21:14:26 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,24 @@ static int	miso_exec(t_shell *miso, t_token *head)
 {
 	pid_t	child;
 	char	**cmd;
-	int		std_cpy[2];
 	int		exit_code;
+	int		(*built_in)(t_shell *, char **);
 
 	child = 0;
 	exit_code = 127;
 	cmd = miso_argv(head);
-	if (!miso_is_builtin(cmd[0]))
+	built_in = miso_is_builtin(cmd[0]);
+	if (!built_in)
 	{
 		child = fork();
 		if (child == 0)
 		{
 			miso_channeling(0, head, NULL, -1);
-			miso_call_program(miso, cmd, miso->envp);
+			miso_call_program(miso, cmd);
 		}
 	}
 	else
-		exit_code = miso_daddy_exec(miso, cmd, std_cpy, head);
+		exit_code = miso_rn(miso, cmd, head, built_in);
 	if (child > 0)
 		return (miso_waitroom(child, &exit_code));
 	return (exit_code);
@@ -84,7 +85,7 @@ static pid_t	miso_multiexec(t_shell *miso, t_token *head, int p_num)
 		if (last_child == 0)
 		{
 			miso_channeling(prev_read, head, p, p_num);
-			miso_call_program(miso, miso_argv(head), miso->envp);
+			miso_call_program(miso, miso_argv(head));
 		}
 		head = miso_next_segment(head);
 		miso_daddy_pipe_manager(&prev_read, p, p_num);
@@ -97,11 +98,19 @@ pipes, fork()-ing the corresponding child processes and eventually
 calling execve with the passed command. The function then holds on to
 the PID of the last child, and returns it.  */
 
-int	miso_call_builtin(t_shell *miso, char **cmd)
+int	miso_call_builtin(t_shell *miso, char **cmd, int (*f)(t_shell *, char **));
 {
-	(void)miso;
-	(void)cmd;
-	return (0);
+	int	exit_code;
+
+	exit_code = 127;
+	if (!f)
+	{
+		miso_free_matrix(cmd);
+		return(exit_code);
+	}
+	exit = *f(miso, cmd);
+	miso_free_matrix(cmd);
+	return ();
 }
 /* This function validates the command passed on cmd[0], to call the
 corresponding built-in program. Depending on the program, it will return

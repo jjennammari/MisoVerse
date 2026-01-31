@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:41:47 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/29 22:34:40 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/01/31 21:14:21 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,26 @@
 int		miso_is_builtin(char *cmd);
 void	miso_free_matrix(char **matrix);
 int		miso_waitroom(pid_t child, int *exit_status);
-void	miso_call_program(t_shell *miso, char **cmd, char **envp);
+void	miso_call_program(t_shell *miso, char **cmd);
+int		(*miso_is_builtin(char *cmd))(t_shell *, char **);
 void	miso_checknfree(void *check1, char **check2, void *free1, char **free2);
 
-void	miso_call_program(t_shell *miso, char **cmd, char **envp)
+void	miso_call_program(t_shell *miso, char **cmd)
 {
 	int	exit_code;
+	int	(*built_in)(t_shell *, char **);
 
 	exit_code = 127;
-	if (miso_is_builtin(cmd[0]))
-		exit_code = miso_call_builtin(miso, cmd); // Pending, check how they'd be called;
+	built_in = miso_is_builtin(cmd[0]);
+	if (built_in)
+		exit_code = miso_call_builtin(miso, cmd, built_in);
 	else
-		execve(cmd[0], cmd + 1, envp);
+		execve(cmd[0], cmd, miso->envp);
 	if (exit_code == 0)
+	{
+		miso_free_matrix(cmd);
 		exit(0);
+	}
 	perror(BLOD"PROMPT"RSET);
 	miso_free_matrix(cmd);
 	exit(exit_code);
@@ -56,26 +62,26 @@ doesn't ask to handle other stop reasons like WIFCONTINUED or WIFSTOPPED,
 they are a posibility. That posibility, we've decided to handle as a successful
 end, so the function will return 0 by default.*/
 
-int	miso_is_builtin(char *cmd)
+int	(*miso_is_builtin(char *cmd))(t_shell *, char **)
 {
 	size_t	len;
 
 	len = ft_strlen(cmd);
-	if (!ft_strncmp("echo", cmd, len) && (len == 4))
-		return (1);
-	if (!ft_strncmp("cd", cmd, len) && (len == 2))
-		return (1);
-	if (!ft_strncmp("pwd", cmd, len) && (len == 3))
-		return (1);
-	if (!ft_strncmp("export", cmd, len) && (len == 6))
-		return (1);
-	if (!ft_strncmp("unset", cmd, len) && (len == 5))
-		return (1);
-	if (!ft_strncmp("env", cmd, len) && (len == 3))
-		return (1);
-	if (!ft_strncmp("exit", cmd, len) && (len == 4))
-		return (1);
-	return (0);
+	if ((len == 4) && !ft_strncmp("echo", cmd, len))
+		return (&miso_echo);
+	if ((len == 2) && !ft_strncmp("cd", cmd, len))
+		return (&miso_cd);
+	if ((len == 3) && !ft_strncmp("pwd", cmd, len))
+		return (&miso_pwd);
+	if ((len == 6) && !ft_strncmp("export", cmd, len))
+		return (&miso_export);
+	if ((len == 5) && !ft_strncmp("unset", cmd, len))
+		return (&miso_unset);
+	if ((len == 3) && !ft_strncmp("env", cmd, len))
+		return (&miso_env);
+	if ((len == 4) && !ft_strncmp("exit", cmd, len))
+		return (&miso_exit);
+	return (NULL);
 }
 /* Uses ft_strncmp and the lenght of the incoming string "cmd" to analyze
 if the command being called is one of the built-in functions */
