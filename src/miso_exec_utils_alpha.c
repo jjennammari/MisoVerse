@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:41:47 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/02 19:02:35 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/03 15:02:47 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,12 @@ void	miso_checknfree(void *check1, char **check2, void *free1, char **free2)
 		free(free1);
 	if (free2)
 		miso_free_matrix(free2);
-	exit(66);
+	exit(1);
 }
 /* Mainly for checking memory allocations, this option takes either a * or
 ** pointer to check and one to free previous dependencies if necessary. The
-function will print the message from errno if necessary and exit with a 
-common error code */
+function will print the message from errno if necessary and exit with 
+EXIT_FAILURE */
 
 void	miso_free_matrix(char **matrix)
 {
