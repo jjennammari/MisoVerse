@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/31 21:14:09 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/02 19:03:21 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ typedef struct sigaction t_sigact;
 //			Function Prototypes:
 //	 -- -- #	miso_launch.c
 int	miso_launch(t_shell *miso, t_token *head);
-int miso_call_builtin(t_shell *miso, char **cmd);
 
 //	 -- -- #	miso_pathfinder.c
 char	**miso_argv(t_token *head);
@@ -67,8 +66,8 @@ void	miso_channeling(int prev_read, t_token *head, int *p, int p_num);
 //	 -- -- #	miso_exec_utils_alpha.c
 void	miso_free_matrix(char **matrix);
 int		miso_waitroom(pid_t child, int *exit_status);
-void	miso_call_program(t_shell *miso, char **cmd);
-int		(*miso_is_builtin(char *cmd))(t_shell *, char **);
+void	miso_call_program(t_shell *miso, char **cmd, t_token *head);
+int		(*miso_is_builtin(char *cmd))(t_shell *miso, char **cmd);
 void	miso_checknfree(void *check1, char **check2, void *free1, char **free2);
 
 //	 -- -- #	miso_exec_utils_beta.c

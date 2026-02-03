@@ -6,20 +6,19 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:41:47 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/31 21:14:21 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/02 19:02:35 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
-int		miso_is_builtin(char *cmd);
 void	miso_free_matrix(char **matrix);
 int		miso_waitroom(pid_t child, int *exit_status);
-void	miso_call_program(t_shell *miso, char **cmd);
-int		(*miso_is_builtin(char *cmd))(t_shell *, char **);
+void	miso_call_program(t_shell *miso, char **cmd, t_token *head);
+int		(*miso_is_builtin(char *cmd))(t_shell *miso, char **cmd);
 void	miso_checknfree(void *check1, char **check2, void *free1, char **free2);
 
-void	miso_call_program(t_shell *miso, char **cmd)
+void	miso_call_program(t_shell *miso, char **cmd, t_token *head)
 {
 	int	exit_code;
 	int	(*built_in)(t_shell *, char **);
@@ -27,7 +26,7 @@ void	miso_call_program(t_shell *miso, char **cmd)
 	exit_code = 127;
 	built_in = miso_is_builtin(cmd[0]);
 	if (built_in)
-		exit_code = miso_call_builtin(miso, cmd, built_in);
+		exit_code = miso_rn(miso, cmd, head, built_in);
 	else
 		execve(cmd[0], cmd, miso->envp);
 	if (exit_code == 0)
@@ -51,10 +50,10 @@ int	miso_waitroom(pid_t child, int *exit_status)
 	while (wait(NULL) > 0)
 		continue ;
 	if (WIFEXITED(*exit_status))
-		return(WEXITSTATUS(*exit_status));
+		return (WEXITSTATUS(*exit_status));
 	else if (WIFSIGNALED(*exit_status))
-		return(128 + WTERMSIG(*exit_status));
-	return(0);
+		return (128 + WTERMSIG(*exit_status));
+	return (0);
 }
 /* Waits for the passed process ID to finish, in order to translate the 
 exit status into the exit code that will be returned. While the proyect
@@ -62,7 +61,7 @@ doesn't ask to handle other stop reasons like WIFCONTINUED or WIFSTOPPED,
 they are a posibility. That posibility, we've decided to handle as a successful
 end, so the function will return 0 by default.*/
 
-int	(*miso_is_builtin(char *cmd))(t_shell *, char **)
+int	(*miso_is_builtin(char *cmd))(t_shell *miso, char **cmd)
 {
 	size_t	len;
 
@@ -84,7 +83,9 @@ int	(*miso_is_builtin(char *cmd))(t_shell *, char **)
 	return (NULL);
 }
 /* Uses ft_strncmp and the lenght of the incoming string "cmd" to analyze
-if the command being called is one of the built-in functions */
+if the command being called is one of the built-in functions. It will 
+return a pointer to said function, or NULL if is not one of the listed 
+commands. */
 
 void	miso_checknfree(void *check1, char **check2, void *free1, char **free2)
 {
