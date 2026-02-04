@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/02 19:03:21 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/04 21:55:46 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,25 +40,25 @@
 # define MINT	"\033[1;38;2;55;250;133m"
 # define NEOR	"\033[3m\033[38;2;255;153;51m"
 
-         /* Self defined PROMPT */
-/* Compile with -DPROMPT="Whatever you'd like" */
+//			Self defined PROMPT
+// Compile with -DPROMPT="Whatever you'd like"
 # ifndef PROMPT
-#  define PROMPT "MisoVerse #"
+#  define PROMPT "Misoverse »"
 # endif
 
 // Global Variable:
-extern int g_signal;
+extern int					g_signal;
 
 // Type Re-Definitions:
-typedef struct stat t_stat;
-typedef struct sigaction t_sigact;
+typedef struct stat			t_stat;
+typedef struct sigaction	t_sigact;
 
 //			Function Prototypes:
 //	 -- -- #	miso_launch.c
-int	miso_launch(t_shell *miso, t_token *head);
+int		miso_launch(t_shell *miso, t_token *head);
 
 //	 -- -- #	miso_pathfinder.c
-char	**miso_argv(t_token *head);
+char	**miso_argv(t_token *head, char **envp);
 
 //	 -- -- #	miso_redirection.c
 void	miso_channeling(int prev_read, t_token *head, int *p, int p_num);
@@ -72,17 +72,24 @@ void	miso_checknfree(void *check1, char **check2, void *free1, char **free2);
 
 //	 -- -- #	miso_exec_utils_beta.c
 int		miso_seg_count(t_token *head);
-t_token *miso_next_segment(t_token *head);
+t_token	*miso_next_segment(t_token *head);
 void	miso_daddy_pipe_manager(int *prev_read, int *p, int p_num);
 int		miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **));
 int		miso_daddy_exec(t_shell *miso, char **cmd, int *std_cpy, t_token *head);
 
+//   -- -- #    miso_environment_utils.c
+char	**miso_envinit(char **envp);
+char    *miso_getenv(const char *key, char **envp);
+int		miso_add_envar(char ***envp, char *key, char *varlue);
+int		miso_envar_update(char **envp, char *key, char *new_value);
+char	*miso_find_envar(char **envp, const char *key, size_t klen, int *guide);
+
 //    -- -- #	Built in Functions: miso_(built_in).c
 int		miso_cd(t_shell *miso, char **argv);
-int     miso_pwd(t_shell *miso, char **argv);
-int     miso_env(t_shell *miso, char **argv);
-int     miso_echo(t_shell *miso, char **argv);
-int     miso_exit(t_shell *miso, char **argv);
-int     miso_unset(t_shell *miso, char **argv);
-int     miso_export(t_shell *miso, char **argv);
+int		miso_pwd(t_shell *miso, char **argv);
+int		miso_env(t_shell *miso, char **argv);
+int		miso_echo(t_shell *miso, char **argv);
+int		miso_exit(t_shell *miso, char **argv);
+int		miso_unset(t_shell *miso, char **argv);
+int		miso_export(t_shell *miso, char **argv);
 #endif

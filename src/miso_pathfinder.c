@@ -6,19 +6,19 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:35:38 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/29 22:11:22 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/04 21:49:04 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
-char		**miso_argv(t_token *head);
-static void	miso_pathfinder(char **cmd);
+char		**miso_argv(t_token *head, char **envp);
+static void	miso_pathfinder(char **cmd, char **envp);
 static void	miso_customs(char *program, int doesnt_exist);
 static char	*miso_pathmatch(char **dirs, char *temp_filename);
 static char	**miso_populate(char **argv, int argc, t_token *head);
 
-char	**miso_argv(t_token *head)
+char	**miso_argv(t_token *head, char **envp)
 {
 	t_token	*trav;
 	int		argc;
@@ -29,7 +29,7 @@ char	**miso_argv(t_token *head)
 	while (trav && trav->type != SYS_CMD && trav->type != BLT_CMD)
 		trav = trav->next;
 	if (trav->type != BLT_CMD)
-		miso_pathfinder(&trav->str);
+		miso_pathfinder(&trav->str, envp);
 	while (trav && trav->type != PIPE)
 	{
 		if (trav->type == ARG)
@@ -45,7 +45,7 @@ a literal path, it updates the str* with the path to the program. Then it
 counts the arguments passed in order to allocate the argv 2D array and 
 populate it with the strings from the list. */
 
-static void	miso_pathfinder(char **cmd)
+static void	miso_pathfinder(char **cmd, char **envp)
 {
 	char	**dirs;
 	char	*path_name;
@@ -54,7 +54,7 @@ static void	miso_pathfinder(char **cmd)
 
 	if (ft_strchr(*cmd, '/'))
 		return ;
-	dirs = ft_split(getenv("PATH"), ':');
+	dirs = ft_split(miso_getenv("PATH=", envp), ':');
 	miso_checknfree(NULL, dirs, NULL, NULL);
 	temp = ft_strjoin("/", *cmd);
 	miso_checknfree(temp, NULL, NULL, dirs);
