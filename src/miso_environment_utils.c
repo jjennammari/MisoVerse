@@ -6,14 +6,14 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:42:57 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/04 21:44:24 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/05 01:29:59 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
 char	**miso_envinit(char **envp);
-char    *miso_getenv(const char *key, char **envp);
+char	*miso_getenv(const char *key, char **envp);
 int		miso_add_envar(char ***envp, char *key, char *varlue);
 int		miso_envar_update(char **envp, char *key, char *new_value);
 char	*miso_find_envar(char **envp, const char *key, size_t klen, int *guide);
@@ -75,7 +75,7 @@ error. In case of an error, the variable won't be updated. */
 char	*miso_find_envar(char **envp, const char *key, size_t klen, int *guide)
 {
 	int	i;
-	int *index;
+	int	*index;
 
 	if (guide)
 		index = guide;
@@ -122,23 +122,22 @@ int	miso_add_envar(char ***envp, char *key, char *varlue)
 		*envp = temp;
 		return (-1);
 	}
-	return (guide);
+	return (1);
 }
 /* It looks for the *key passed inside of **envp. If it finds it it'll
-return the index of the array in which it found it, otherwise, it will
-allocate space for a new array and for the new variable, appending it
-at the end. It will return -1 on allocation error and 0 on success. */
+return 1, otherwise, it will allocate space for a new array and for the
+new variable, appending it at the end. It will return -1 on allocation
+error and 0 on success. */
 
 char	*miso_getenv(const char *key, char **envp)
 {
 	char	*var;
-	int		i;
 	int		key_len;
-	
+
 	key_len = ft_strlen(key);
 	if (!key || key_len == 0 || key[key_len - 1] != '=')
 		return (NULL);
-	var = miso_find_envar(envp, key, key_len, &i);
+	var = miso_find_envar(envp, key, key_len, NULL);
 	if (!var)
 		return (NULL);
 	return (var + key_len);

@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/04 21:55:46 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/05 00:42:45 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,20 @@ char	**miso_argv(t_token *head, char **envp);
 void	miso_channeling(int prev_read, t_token *head, int *p, int p_num);
 
 //	 -- -- #	miso_exec_utils_alpha.c
-void	miso_free_matrix(char **matrix);
 int		miso_waitroom(pid_t child, int *exit_status);
 void	miso_call_program(t_shell *miso, char **cmd, t_token *head);
 int		(*miso_is_builtin(char *cmd))(t_shell *miso, char **cmd);
-void	miso_checknfree(void *check1, char **check2, void *free1, char **free2);
+int     miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **));
 
 //	 -- -- #	miso_exec_utils_beta.c
 int		miso_seg_count(t_token *head);
 t_token	*miso_next_segment(t_token *head);
 void	miso_daddy_pipe_manager(int *prev_read, int *p, int p_num);
-int		miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **));
-int		miso_daddy_exec(t_shell *miso, char **cmd, int *std_cpy, t_token *head);
+
+//   -- -- #    miso_exec_utils_charlie.c
+void	miso_free_matrix(char **matrix);
+int		miso_freenret(void *free1, char **free2, int ret)
+void    miso_checknfree(void *check1, char **check2, void *free1, char **free2);
 
 //   -- -- #    miso_environment_utils.c
 char	**miso_envinit(char **envp);

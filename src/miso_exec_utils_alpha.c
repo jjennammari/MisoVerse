@@ -6,17 +6,16 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:41:47 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/03 15:02:47 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/05 00:43:52 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
-void	miso_free_matrix(char **matrix);
 int		miso_waitroom(pid_t child, int *exit_status);
 void	miso_call_program(t_shell *miso, char **cmd, t_token *head);
 int		(*miso_is_builtin(char *cmd))(t_shell *miso, char **cmd);
-void	miso_checknfree(void *check1, char **check2, void *free1, char **free2);
+int		miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **));
 
 void	miso_call_program(t_shell *miso, char **cmd, t_token *head)
 {
@@ -87,37 +86,32 @@ if the command being called is one of the built-in functions. It will
 return a pointer to said function, or NULL if is not one of the listed 
 commands. */
 
-void	miso_checknfree(void *check1, char **check2, void *free1, char **free2)
+int	miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **))
 {
-	if (check1 || check2)
-		return ;
-	perror(BLOD"PROMPT"RSET);
-	if (free1)
-		free(free1);
-	if (free2)
-		miso_free_matrix(free2);
-	exit(1);
-}
-/* Mainly for checking memory allocations, this option takes either a * or
-** pointer to check and one to free previous dependencies if necessary. The
-function will print the message from errno if necessary and exit with 
-EXIT_FAILURE */
+	int	exit_code;
+	int	std_cpy[2];
 
-void	miso_free_matrix(char **matrix)
-{
-	int	guide;
-
-	if (!matrix)
-		return ;
-	guide = 0;
-	while (matrix[guide])
+	exit_code = 127;
+	std_cpy[0] = dup(0);
+	std_cpy[1] = dup(1);
+	if (std_cpy[0] == -1 || std_cpy[1] == -1)
 	{
-		free(matrix[guide]);
-		guide++;
+		perror(BLOD"PROMPT"RSET);
+		return (1);
 	}
-	free(matrix);
-	return ;
+	miso_channeling(0, h, NULL, -1);
+	if (f)
+		exit_code = f(m, c);
+	dup2(std_cpy[0], 0);
+	dup2(std_cpy[1], 1);
+	close(std_cpy[0]);
+	close(std_cpy[1]);
+	miso_free_matrix(c);
+	return (exit_code);
 }
-/*Traverses all the pointers in the 2D array passed, freeing its contents and
-eventually the array itself. It assumes that all pointers in the array either
-are allocated or NULL, and that the array has a NULL pointer only at the end.*/
+/* Creates a copy of the stdin and stdout, in order to be able to reestablish
+them after execution when there're redirections in the command. The function
+is meant to be used in the parent process, so it will return  an exit code 
+instead of using exit(). It executes the built-in function passed, and it will
+return its exit code, 1 on dup error, or 127 if the pointer to function comes
+NULL. */
