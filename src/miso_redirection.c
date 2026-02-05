@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:17:12 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/29 21:26:51 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/02 19:06:45 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ after this call*/
 
 void	miso_channeling(int prev_read, t_token *head, int *p, int p_num)
 {
-	if(p_num == -1)
+	if (p_num == -1)
 	{
 		miso_set_channel(head, 0, 1, NULL);
 		return ;

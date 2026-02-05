@@ -6,29 +6,33 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:41:47 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/29 22:34:40 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/05 00:43:52 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
-int		miso_is_builtin(char *cmd);
-void	miso_free_matrix(char **matrix);
 int		miso_waitroom(pid_t child, int *exit_status);
-void	miso_call_program(t_shell *miso, char **cmd, char **envp);
-void	miso_checknfree(void *check1, char **check2, void *free1, char **free2);
+void	miso_call_program(t_shell *miso, char **cmd, t_token *head);
+int		(*miso_is_builtin(char *cmd))(t_shell *miso, char **cmd);
+int		miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **));
 
-void	miso_call_program(t_shell *miso, char **cmd, char **envp)
+void	miso_call_program(t_shell *miso, char **cmd, t_token *head)
 {
 	int	exit_code;
+	int	(*built_in)(t_shell *, char **);
 
 	exit_code = 127;
-	if (miso_is_builtin(cmd[0]))
-		exit_code = miso_call_builtin(miso, cmd); // Pending, check how they'd be called;
+	built_in = miso_is_builtin(cmd[0]);
+	if (built_in)
+		exit_code = miso_rn(miso, cmd, head, built_in);
 	else
-		execve(cmd[0], cmd + 1, envp);
+		execve(cmd[0], cmd, miso->envp);
 	if (exit_code == 0)
+	{
+		miso_free_matrix(cmd);
 		exit(0);
+	}
 	perror(BLOD"PROMPT"RSET);
 	miso_free_matrix(cmd);
 	exit(exit_code);
@@ -45,10 +49,10 @@ int	miso_waitroom(pid_t child, int *exit_status)
 	while (wait(NULL) > 0)
 		continue ;
 	if (WIFEXITED(*exit_status))
-		return(WEXITSTATUS(*exit_status));
+		return (WEXITSTATUS(*exit_status));
 	else if (WIFSIGNALED(*exit_status))
-		return(128 + WTERMSIG(*exit_status));
-	return(0);
+		return (128 + WTERMSIG(*exit_status));
+	return (0);
 }
 /* Waits for the passed process ID to finish, in order to translate the 
 exit status into the exit code that will be returned. While the proyect
@@ -56,61 +60,58 @@ doesn't ask to handle other stop reasons like WIFCONTINUED or WIFSTOPPED,
 they are a posibility. That posibility, we've decided to handle as a successful
 end, so the function will return 0 by default.*/
 
-int	miso_is_builtin(char *cmd)
+int	(*miso_is_builtin(char *cmd))(t_shell *miso, char **cmd)
 {
 	size_t	len;
 
 	len = ft_strlen(cmd);
-	if (!ft_strncmp("echo", cmd, len) && (len == 4))
-		return (1);
-	if (!ft_strncmp("cd", cmd, len) && (len == 2))
-		return (1);
-	if (!ft_strncmp("pwd", cmd, len) && (len == 3))
-		return (1);
-	if (!ft_strncmp("export", cmd, len) && (len == 6))
-		return (1);
-	if (!ft_strncmp("unset", cmd, len) && (len == 5))
-		return (1);
-	if (!ft_strncmp("env", cmd, len) && (len == 3))
-		return (1);
-	if (!ft_strncmp("exit", cmd, len) && (len == 4))
-		return (1);
-	return (0);
+	if ((len == 4) && !ft_strncmp("echo", cmd, len))
+		return (&miso_echo);
+	if ((len == 2) && !ft_strncmp("cd", cmd, len))
+		return (&miso_cd);
+	if ((len == 3) && !ft_strncmp("pwd", cmd, len))
+		return (&miso_pwd);
+	if ((len == 6) && !ft_strncmp("export", cmd, len))
+		return (&miso_export);
+	if ((len == 5) && !ft_strncmp("unset", cmd, len))
+		return (&miso_unset);
+	if ((len == 3) && !ft_strncmp("env", cmd, len))
+		return (&miso_env);
+	if ((len == 4) && !ft_strncmp("exit", cmd, len))
+		return (&miso_exit);
+	return (NULL);
 }
 /* Uses ft_strncmp and the lenght of the incoming string "cmd" to analyze
-if the command being called is one of the built-in functions */
+if the command being called is one of the built-in functions. It will 
+return a pointer to said function, or NULL if is not one of the listed 
+commands. */
 
-void	miso_checknfree(void *check1, char **check2, void *free1, char **free2)
+int	miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **))
 {
-	if (check1 || check2)
-		return ;
-	perror(BLOD"PROMPT"RSET);
-	if (free1)
-		free(free1);
-	if (free2)
-		miso_free_matrix(free2);
-	exit(66);
-}
-/* Mainly for checking memory allocations, this option takes either a * or
-** pointer to check and one to free previous dependencies if necessary. The
-function will print the message from errno if necessary and exit with a 
-common error code */
+	int	exit_code;
+	int	std_cpy[2];
 
-void	miso_free_matrix(char **matrix)
-{
-	int	guide;
-
-	if (!matrix)
-		return ;
-	guide = 0;
-	while (matrix[guide])
+	exit_code = 127;
+	std_cpy[0] = dup(0);
+	std_cpy[1] = dup(1);
+	if (std_cpy[0] == -1 || std_cpy[1] == -1)
 	{
-		free(matrix[guide]);
-		guide++;
+		perror(BLOD"PROMPT"RSET);
+		return (1);
 	}
-	free(matrix);
-	return ;
+	miso_channeling(0, h, NULL, -1);
+	if (f)
+		exit_code = f(m, c);
+	dup2(std_cpy[0], 0);
+	dup2(std_cpy[1], 1);
+	close(std_cpy[0]);
+	close(std_cpy[1]);
+	miso_free_matrix(c);
+	return (exit_code);
 }
-/*Traverses all the pointers in the 2D array passed, freeing its contents and
-eventually the array itself. It assumes that all pointers in the array either
-are allocated or NULL, and that the array has a NULL pointer only at the end.*/
+/* Creates a copy of the stdin and stdout, in order to be able to reestablish
+them after execution when there're redirections in the command. The function
+is meant to be used in the parent process, so it will return  an exit code 
+instead of using exit(). It executes the built-in function passed, and it will
+return its exit code, 1 on dup error, or 127 if the pointer to function comes
+NULL. */

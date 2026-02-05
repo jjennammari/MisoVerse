@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:45:54 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/01/29 22:33:19 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/02 19:05:36 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,8 @@
 int		miso_seg_count(t_token *head);
 t_token	*miso_next_segment(t_token *head);
 void	miso_daddy_pipe_manager(int *prev_read, int *p, int p_num);
-int		miso_daddy_exec(t_shell *miso, char **cmd, int *std_cpy, t_token *head);
 
-int	miso_daddy_exec(t_shell *miso, char **cmd, int *std_cpy, t_token *head)
-{
-	int	exit_code;
-
-	std_cpy[0] = dup(0);
-	std_cpy[1] = dup(1);
-	miso_channeling(0, head, NULL, -1);
-	exit_code = miso_call_builtin(miso, cmd);
-	dup2(std_cpy[0], 0);
-	dup2(std_cpy[1], 1);
-	close(std_cpy[0]);
-	close(std_cpy[1]);
-	return (exit_code);
-}
-/* Creates a copy of the stdin and stdout, in order to be able to reestablish
-them after execution when there're redirections in the command. The function
-is meant to be used in the parent process, hence it having daddy in the name,
-and it returning an exit code instead of using exit(). */
-
-t_token *miso_next_segment(t_token *head)
+t_token	*miso_next_segment(t_token *head)
 {
 	while (head)
 	{
