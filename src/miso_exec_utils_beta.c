@@ -6,13 +6,14 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:45:54 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/02 19:05:36 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/06 21:55:57 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
 int		miso_seg_count(t_token *head);
+char    **miso_matrixdup(char **matrix);
 t_token	*miso_next_segment(t_token *head);
 void	miso_daddy_pipe_manager(int *prev_read, int *p, int p_num);
 
@@ -72,3 +73,33 @@ void	miso_daddy_pipe_manager(int *prev_read, int *p, int p_num)
 /* Updates the prev_read variable with the read end of the last pipe
 created, and closes the last write end since is no longer needed in
 the parent process */
+
+char	**miso_matrixdup(char **matrix)
+{
+	char	**result;
+	int		guide;
+
+	guide = 0;
+	while (matrix[guide])
+		guide++;
+	result = ft_calloc(guide + 1, sizeof(char *));
+	if (!result)
+	{
+		perror(BLOD"PROMPT"RSET);
+		return (NULL);
+	}
+	result[guide] = NULL;
+	while (guide-- > 0)
+	{
+		result[guide] = ft_strdup(matrix[guide]);
+		if (!result[guide])
+		{
+			perror(BLOD"PROMPT"RSET);
+			miso_free_matrix(result);
+			return (NULL);
+		}
+	}
+	return (result);
+}
+/* Duplicates the matrix passed as a parameter and returns a copy
+to the new matrix or NULL in case of allocation error. */

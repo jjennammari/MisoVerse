@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miso_environment_utils.c                           :+:      :+:    :+:   */
+/*   miso_environment_utils_alpha.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:42:57 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/05 01:29:59 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/06 22:11:24 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,29 @@ int	miso_envar_update(char **envp, char *key, char *new_value)
 
 	old_var = miso_find_envar(envp, key, ft_strlen(key), &guide);
 	if (!old_var)
-		return (0);
-	envp[guide] = ft_strjoin(key, new_value);
-	if (envp[guide])
-		free(old_var);
-	else
+		return (1);
+	if (new_value)
 	{
+		envp[guide] = ft_strjoin(key, new_value);
+		if (envp[guide])
+			return (miso_freenret(old_var, NULL, 0, 0));
 		envp[guide] = old_var;
 		return (-1);
 	}
-	return (1);
+	while (envp[guide])
+	{
+		envp[guide] = envp[guide + 1];
+		guide++;
+	}
+	return (miso_freenret(old_var, NULL, 0, 0));
 }
 /*It searches for the *key variable inside of **envp, expecting the
-key formated like: "KEY_NAME=". It will then allocate a fresh string
-concatenating the *key and the *new_value, and asign it to the pointer
-of the old_var, freeing the old_var in the process. It will return 1
-on success, 0 if the variable can't be found, and -1 on allocation
+key formated like: "KEY_NAME=". Then, it will either allocate a fresh
+string concatenating the *key and the *new_value, and asign it to the 
+pointer of the old_var, freeing the old_var in the process. Or, if the
+*new_value is set to NULL, it will shift the remaining variables in
+envp, essentially removing the variable it found. The function will
+return 0 on success, 1 if the variable can't be found, and -1 on allocation
 error. In case of an error, the variable won't be updated. */
 
 char	*miso_find_envar(char **envp, const char *key, size_t klen, int *guide)
@@ -101,33 +108,35 @@ int	miso_add_envar(char ***envp, char *key, char *varlue)
 	int		guide;
 	char	**temp;
 
-	if (!miso_find_envar(*envp, key, ft_strlen(key), &guide))
+	if (miso_find_envar(*envp, key, ft_strlen(key), &guide))
+		return (1);
+	if (!varlue)
+		return (0);
+	temp = *envp;
+	*envp = ft_calloc(guide + 2, sizeof(char *));
+	if (*envp)
 	{
-		temp = *envp;
-		*envp = ft_calloc(guide + 2, sizeof(char *));
-		if (*envp)
+		(*envp)[guide + 1] = NULL;
+		(*envp)[guide] = ft_strjoin(key, varlue);
+		if ((*envp)[guide])
 		{
-			(*envp)[guide + 1] = NULL;
-			(*envp)[guide] = ft_strjoin(key, varlue);
-			if ((*envp)[guide])
-			{
-				while (guide-- > 0)
-					(*envp)[guide] = temp[guide];
-				free(temp);
-				return (0);
-			}
-			free(*envp);
+			while (guide-- > 0)
+				(*envp)[guide] = temp[guide];
+			free(temp);
+			return (0);
 		}
-		perror(BLOD"PROMPT"RSET);
-		*envp = temp;
-		return (-1);
+		free(*envp);
 	}
-	return (1);
+	perror(BLOD"PROMPT"RSET);
+	*envp = temp;
+	return (-1);
 }
 /* It looks for the *key passed inside of **envp. If it finds it it'll
 return 1, otherwise, it will allocate space for a new array and for the
-new variable, appending it at the end. It will return -1 on allocation
-error and 0 on success. */
+new variable, appending it at the end. However, if *varlue is setto NULL,
+it won't append anything, as it assumes that appending NULL means that
+the variable is supposed to be unset, which already is if it can't be
+found of course. It will return -1 on allocation error and 0 on success. */
 
 char	*miso_getenv(const char *key, char **envp)
 {
