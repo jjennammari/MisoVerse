@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:42:57 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/06 22:11:24 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/07 16:44:39 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ char	**miso_envinit(char **envp)
 /*Creates a heap-allocated replica of the **envp variable, to ensure
 that its variables can be safely freed and/or modified when necessary.
 It expects to be executed in the parent process, and it will exit at
-any memory allocation error, terminating the shell. */
+any memory allocation error, terminating the shell. If PWD is not set
+by the moment the shell is started, it will create it and initialize
+it as well. */
 
 int	miso_envar_update(char **envp, char *key, char *new_value)
 {
@@ -70,14 +72,15 @@ int	miso_envar_update(char **envp, char *key, char *new_value)
 	}
 	return (miso_freenret(old_var, NULL, 0, 0));
 }
-/*It searches for the *key variable inside of **envp, expecting the
-key formated like: "KEY_NAME=". Then, it will either allocate a fresh
-string concatenating the *key and the *new_value, and asign it to the 
-pointer of the old_var, freeing the old_var in the process. Or, if the
-*new_value is set to NULL, it will shift the remaining variables in
-envp, essentially removing the variable it found. The function will
-return 0 on success, 1 if the variable can't be found, and -1 on allocation
-error. In case of an error, the variable won't be updated. */
+/*It searches for the *key variable inside of **envp, expecting
+the key formated like: "KEY_NAME=". Then, it will either allocate a 
+fresh string concatenating the *key and the *new_value, and asign 
+it to the pointer of the old_var, freeing the old_var in the process. 
+Or, if the *new_value is set to NULL, it will shift the remaining 
+variables in envp, essentially ensuring that the variable remains 
+removed. The function will return 0 on success, 1 if the variable 
+can't be found, and -1 on allocation error. In case of an error, 
+the variable won't be updated. */
 
 char	*miso_find_envar(char **envp, const char *key, size_t klen, int *guide)
 {
@@ -133,10 +136,11 @@ int	miso_add_envar(char ***envp, char *key, char *varlue)
 }
 /* It looks for the *key passed inside of **envp. If it finds it it'll
 return 1, otherwise, it will allocate space for a new array and for the
-new variable, appending it at the end. However, if *varlue is setto NULL,
-it won't append anything, as it assumes that appending NULL means that
-the variable is supposed to be unset, which already is if it can't be
-found of course. It will return -1 on allocation error and 0 on success. */
+new variable, moving all of the pointers to the new array and appending 
+the  new  variable at the end.  That said, if *varlue is setto NULL, it 
+won't append anything, as it assumes that appending NULL means that the
+variable is supposed to be unset, which already is if it can't be found 
+of course. It will return -1 on allocation error and 0 on success. */
 
 char	*miso_getenv(const char *key, char **envp)
 {

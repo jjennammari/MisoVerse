@@ -6,33 +6,33 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 20:23:46 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/03 00:17:49 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/07 16:22:22 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
- #include "../../inc/miso.h"
+#include "../../inc/miso.h"
 
 static int	miso_n_validate(char *arg);
-int			miso_echo(t_shell *miso, char **cmd);
+int			miso_echo(t_shell *miso, char **argv);
 
-int	miso_echo(t_shell *miso, char **cmd)
+int	miso_echo(t_shell *miso, char **argv)
 {
-	int guide;
-	int nl_ending;
+	int	guide;
+	int	nl_ending;
 
 	guide = 1;
-	nl_ending = miso_n_validate(cmd[guide]);
+	nl_ending = miso_n_validate(argv[guide]);
 	if (!nl_ending)
 	{
-		while (cmd[guide] && !miso_n_validate(cmd[guide]))
+		while (argv[guide] && !miso_n_validate(argv[guide]))
 			guide++;
 	}
-	while (cmd[guide])
+	while (argv[guide])
 	{
-		if (!cmd[guide + 1])
-			racc_print(1, "%s", cmd[guide]);
+		if (!argv[guide + 1])
+			racc_print(1, "%s", argv[guide]);
 		else
-			racc_print(1, "%s ", cmd[guide]);
+			racc_print(1, "%s ", argv[guide]);
 		guide++;
 	}
 	if (nl_ending)
@@ -40,24 +40,24 @@ int	miso_echo(t_shell *miso, char **cmd)
 	return (0);
 }
 /* The subject specifies that only explicitly requested behavior is required.
- While environment variable expansion is mentioned, escape sequence expansion
- is not. Therefore, this implementation of echo treats backslashes ('\')
- literally, as regular characters. This is especially reasonable since escape
- processing is typically handled by the shell itself, meaning echo would
- receive them literally anyway. The function always returns 0. It skips all
- leading "-n" flags, if present, to determine whether the trailing newline 
- should be printed. */
- 
+While environment variable expansion is mentioned, escape sequence expansion
+is not. Therefore, this implementation of echo treats backslashes ('\')
+literally, as regular characters. This is especially reasonable since escape
+processing is typically handled by the shell itself, meaning echo would
+receive them literally anyway. The function always returns 0. It skips all
+leading "-n" flags, if present, to determine whether the trailing newline 
+should be printed. */
+
 static int	miso_n_validate(char *arg)
 {
-	int guide;
+	int	guide;
 
 	guide = 0;
 	if (!arg || arg[guide] != '-')
 		return (1);
 	guide++;
 	if (arg[guide] != 'n')
-		return(1);
+		return (1);
 	while (arg[guide] == 'n')
 		guide++;
 	if (arg[guide])

@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/01/29 22:49:31 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/02/07 17:56:44 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ RSET	= \033[0m
 
 SRC_DIR = src/
 OBJ_DIR = obj/
+BLTIN_DIR = built-ins/
 
 MAIN_FILE = $(SRC_DIR)miso_main.c
 
@@ -35,6 +36,12 @@ FILE += miso_pathfinder.c
 FILE += miso_redirection.c
 FILE += miso_exec_utils_beta.c
 FILE += miso_exec_utils_alpha.c
+FILE += miso_exec_utils_charlie.c
+FILE += miso_environment_utils_beta.c
+FILE += miso_environment_utils_alpha.c
+FILE += $(BLTIN_DIR)miso_cd.c
+FILE += $(BLTIN_DIR)miso_pwd.c
+FILE += $(BLTIN_DIR)miso_echo.c
 
 SRC = $(addprefix $(SRC_DIR),$(FILE))
 
@@ -63,7 +70,8 @@ $(OBJ_DIR):
 
 open:
 	@printf "$(MINT)"
-	find . -maxdepth 2 -name "*.c" -exec xdg-open {} \;
+	for f in $(SRC); do xdg-open $$f; done
+	@sleep 0.3
 	@printf "$(ORNG)"
 	find . -maxdepth 2 -name "*.h" -exec xdg-open {} \;
 	@printf "$(RSET)"
@@ -73,7 +81,7 @@ $(LIBFT):
 	@make -C ./inc/libft
 	@printf "$(RSET)"
 
-$(MISO_LIB): $(OBJ)
+$(MISO_LIB): $(OBiJ)
 	@ar -rcs $@ $^
 
 clean:

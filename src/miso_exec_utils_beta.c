@@ -6,14 +6,14 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:45:54 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/06 21:55:57 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/07 16:26:54 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
 int		miso_seg_count(t_token *head);
-char    **miso_matrixdup(char **matrix);
+char	**miso_matrixdup(char **matrix);
 t_token	*miso_next_segment(t_token *head);
 void	miso_daddy_pipe_manager(int *prev_read, int *p, int p_num);
 

@@ -6,19 +6,24 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 13:25:13 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/06 23:14:07 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/07 17:19:29 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miso.h"
 
-int	miso_cd(t_shell *miso, char **cmd)
+static int	miso_chdir_oldpwd(t_shell *m);
+int			miso_cd(t_shell *miso, char **argv);
+static int	miso_chdir(t_shell *miso, char **cmd, int arc);
+static int	miso_chdir_to_arg(t_shell *m, char *p, int p_len);
+
+int	miso_cd(t_shell *miso, char **argv)
 {
 	int		arc;
 	char	**og_envp;
 
 	arc = 0;
-	while (cmd[arc])
+	while (argv[arc])
 		arc++;
 	og_envp = miso->envp;
 	miso->envp = miso_matrixdup(og_envp);
@@ -27,7 +32,7 @@ int	miso_cd(t_shell *miso, char **cmd)
 		miso->envp = og_envp;
 		return (1);
 	}
-	if (miso_chdir(miso, cmd, arc))
+	if (miso_chdir(miso, argv, arc))
 	{
 		miso_free_matrix(miso->envp);
 		miso->envp = og_envp;
@@ -42,7 +47,7 @@ the directory is changed successfully, it will update the envp and
 free the unchanged copy. It returns 1 on any type of failure and 0
 on success. */
 
-int	miso_chdir(t_shell *miso, char **cmd, int arc)
+static int	miso_chdir(t_shell *miso, char **cmd, int arc)
 {
 	char	*home;
 
@@ -91,7 +96,7 @@ to call the function that will change to the OLDPWD. After changing,
 it updates the PWD and OLDPWD with its new values. It returns 1 on
 any type of failure and 0 on success. */
 
-int	miso_chdir_oldpwd(t_shell *m)
+static int	miso_chdir_oldpwd(t_shell *m)
 {
 	char	*old_pwd;
 

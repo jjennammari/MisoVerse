@@ -6,15 +6,19 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 22:11:44 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/06 23:25:53 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/08 00:00:14 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
+int		miso_env_addorupdate(char ***envp, char *key, char *varlue);
+char	*miso_remove_envar(char **envp, const char *key, int key_len);
+char	*miso_extract_variable(char **envp, const char *key, int key_len);
+
 int	miso_env_addorupdate(char ***envp, char *key, char *varlue)
 {
-	int exit_code;
+	int	exit_code;
 
 	exit_code = miso_add_envar(envp, key, varlue);
 	if (exit_code == -1)
@@ -38,7 +42,7 @@ char	*miso_extract_variable(char **envp, const char *key, int key_len)
 	int		guide;
 
 	envar = miso_find_envar(envp, key, key_len, &guide);
-	if(!envar)
+	if (!envar)
 		return (NULL);
 	while (envp[guide])
 	{
@@ -54,6 +58,14 @@ char	*miso_extract_variable(char **envp, const char *key, int key_len)
 	envar[guide] = '\0';
 	return (envar);
 }
+/* Looks for the envirornment variable passed on *key, assuming that's
+formatted as "KEY_NAME=", and that the key_len is the length of that 
+string (yes, including the assignmen operator '='). If it finds it, it
+will remove the pointer from the envp array by shifting all remaining
+pointers. Making the array end with 2 NULL pointers. And do a similar
+treatment to the variable it found, ensuring that a string containing 
+only the value of the variable is returned. Either that or it will 
+return NULL if the envirorment variable can't be found. */
 
 char	*miso_remove_envar(char **envp, const char *key, int key_len)
 {
@@ -61,7 +73,7 @@ char	*miso_remove_envar(char **envp, const char *key, int key_len)
 	int		guide;
 
 	envar = miso_find_envar(envp, key, key_len, &guide);
-	if(!envar)
+	if (!envar)
 		return (NULL);
 	while (envp[guide])
 	{
@@ -71,3 +83,10 @@ char	*miso_remove_envar(char **envp, const char *key, int key_len)
 	guide = 0;
 	return (envar);
 }
+/* Looks for the envirornment variable passed on *key, assuming that's
+formatted as "KEY_NAME=", and that the key_len is the length of that
+string (yes, including the assignmen operator '='). If it finds it, it
+will remove the pointer from the envp array by shifting all remaining
+pointers. Making the array end with 2 NULL pointers. Then it will return
+to the caller a pointer to the variable it extracted. Either that or
+it will return NULL if the envirorment variable can't be found. */
