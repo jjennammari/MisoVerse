@@ -6,12 +6,14 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 22:11:44 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/08 00:00:14 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/12 22:57:33 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
+char    *miso_get_key(char *var);
+int     miso_envarcmp(const char *var, const char *key);
 int		miso_env_addorupdate(char ***envp, char *key, char *varlue);
 char	*miso_remove_envar(char **envp, const char *key, int key_len);
 char	*miso_extract_variable(char **envp, const char *key, int key_len);
@@ -36,12 +38,13 @@ needing to worry about it. Also simplifies the return values for
 these functions, making it so that it'll only return the basic 1
 on error 0 on success. */
 
-char	*miso_extract_variable(char **envp, const char *key, int key_len)
+char	*miso_extract_variable(char **envp, const char *key)
 {
 	char	*envar;
 	int		guide;
+	int		key_len;
 
-	envar = miso_find_envar(envp, key, key_len, &guide);
+	envar = miso_find_envar(envp, key, &guide);
 	if (!envar)
 		return (NULL);
 	while (envp[guide])
@@ -50,29 +53,31 @@ char	*miso_extract_variable(char **envp, const char *key, int key_len)
 		guide++;
 	}
 	guide = 0;
-	while (envar[key_len + guide])
+	key_len = 0;
+	while (envar[key_len] && envar[key_len] != '=')
+		key_len++;
+	if (envar[key_len] == '=')
 	{
-		envar[guide] = envar[key_len + guide];
-		guide++;
+		key_len++;
+		while (envar[key_len + guide])
+			envar[guide] = envar[key_len + guide++];
 	}
 	envar[guide] = '\0';
 	return (envar);
 }
-/* Looks for the envirornment variable passed on *key, assuming that's
-formatted as "KEY_NAME=", and that the key_len is the length of that 
-string (yes, including the assignmen operator '='). If it finds it, it
+/* Looks for the envirornment variable passed on *key. If it finds it, it
 will remove the pointer from the envp array by shifting all remaining
 pointers. Making the array end with 2 NULL pointers. And do a similar
 treatment to the variable it found, ensuring that a string containing 
 only the value of the variable is returned. Either that or it will 
 return NULL if the envirorment variable can't be found. */
 
-char	*miso_remove_envar(char **envp, const char *key, int key_len)
+char	*miso_remove_envar(char **envp, const char *key)
 {
 	char	*envar;
 	int		guide;
 
-	envar = miso_find_envar(envp, key, key_len, &guide);
+	envar = miso_find_envar(envp, key, &guide);
 	if (!envar)
 		return (NULL);
 	while (envp[guide])
@@ -83,10 +88,51 @@ char	*miso_remove_envar(char **envp, const char *key, int key_len)
 	guide = 0;
 	return (envar);
 }
-/* Looks for the envirornment variable passed on *key, assuming that's
-formatted as "KEY_NAME=", and that the key_len is the length of that
-string (yes, including the assignmen operator '='). If it finds it, it
+/* Looks for the envirornment variable passed on *key. If it finds it, it
 will remove the pointer from the envp array by shifting all remaining
 pointers. Making the array end with 2 NULL pointers. Then it will return
 to the caller a pointer to the variable it extracted. Either that or
 it will return NULL if the envirorment variable can't be found. */
+
+int	miso_envarcmp(const char *var, const char *key)
+{
+	int guide;
+
+	guide = 0;
+	while (key[guide] && var[guide] && var[guide] != '=' && key[guide] != '=' 
+		&& key[guide] == var[guide])
+		guide++;
+	if ((var[guide] == '\0' || var[guide] == '=') 
+		&& (key[guide] == '\0' || key[guide] == '='))
+		return (0);
+	return (1);
+}
+/* Compares the Key identifier with the one at the begining of
+the variable passed, until either of them hits the end, a '='
+or until they are diferent. If they are different it will return
+1. Otherwise, it will return 0. */
+
+char	*miso_get_key(char *var)
+{
+	int		guide;
+	char	*key;
+
+	guide = 0;
+	while (var[guide] && var[guide] != '=')
+		guide++;
+	if (!var[guide])
+		return (ft_strdup(var));
+	key = ft_calloc(guide + 2, sizeof(char));
+	if (!key)
+		return (NULL);
+	while (guide > -1)
+	{
+		key[guide] = var[guide];
+		guide--;
+	}
+	return (key);
+}
+/* Makes a copy of the key coming from the envar that was passed
+as a parameter. If the envar has no "key" it will simply return a
+pointer to a duplicate of it. If there's an error it will return
+NULL.  */

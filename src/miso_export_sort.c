@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 21:35:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/07 23:59:22 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/10 20:47:19 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,15 @@ int	miso_export_sort(char **envp, int envp_c)
 	}
 	return (free(envp), 0);
 }
-/* Remember that a NULL envp, when export gets called alone, returns
-0 and prints nothing. In this case we are only returning 1 because it
-would mean an allocation error in this case, since we are planning to
+/* When export gets called on its own, it prints the whole envp 
+in alphabetical order. This function searches for the "smallest"
+envar one by one, extracts it from the envp, prints it and frees 
+it. Making it so that the envp gets gradually smaller. The function
+expects to be called with a duplicate of the envp array so these
+actions don't really affect the shell state. A NULL envp, when 
+export gets called alone, returns 0 and prints nothing. In this 
+case we are only returning 1 in that situation because it would 
+mean an allocation error in this case, since we are planning to
 call this function with a duplicate of envp. */
 
 int	miso_printnfree(char **envp, char *tiny, int tiny_len)
@@ -71,3 +77,6 @@ int	miso_printnfree(char **envp, char *tiny, int tiny_len)
 	free(var);
 	return (0);
 }
+/* Separates the "KEY=" from the "variable" in the envar, in
+order to search for it in envp  and extract it. The envar is
+then printed in the expected format for export, and frees it. */

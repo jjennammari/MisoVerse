@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 18:52:00 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/07 20:02:42 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/12 21:11:17 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,7 @@ static int	miso_unset_loop(t_shell *miso, char **argv)
 	index = 1;
 	while (argv[index])
 	{
-		key = ft_strjoin(argv[index], "=");
-		if (!key)
-			miso_freenret(NULL, NULL, 1, 1);
+		key = argv[index];
 		ex_envar = miso_remove_envar(miso->envp, key, ft_strlen(key));
 		free(ex_envar);
 		free(key);
