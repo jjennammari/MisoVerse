@@ -6,17 +6,17 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 22:11:44 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/12 22:57:33 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/13 20:46:34 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
-char    *miso_get_key(char *var);
-int     miso_envarcmp(const char *var, const char *key);
+char	*miso_get_key(char *var);
+int		miso_envarcmp(const char *var, const char *key);
+char	*miso_remove_envar(char **envp, const char *key);
+char	*miso_extract_variable(char **envp, const char *key);
 int		miso_env_addorupdate(char ***envp, char *key, char *varlue);
-char	*miso_remove_envar(char **envp, const char *key, int key_len);
-char	*miso_extract_variable(char **envp, const char *key, int key_len);
 
 int	miso_env_addorupdate(char ***envp, char *key, char *varlue)
 {
@@ -44,14 +44,7 @@ char	*miso_extract_variable(char **envp, const char *key)
 	int		guide;
 	int		key_len;
 
-	envar = miso_find_envar(envp, key, &guide);
-	if (!envar)
-		return (NULL);
-	while (envp[guide])
-	{
-		envp[guide] = envp[guide + 1];
-		guide++;
-	}
+	envar = miso_remove_envar(envp, key);
 	guide = 0;
 	key_len = 0;
 	while (envar[key_len] && envar[key_len] != '=')
@@ -60,7 +53,10 @@ char	*miso_extract_variable(char **envp, const char *key)
 	{
 		key_len++;
 		while (envar[key_len + guide])
-			envar[guide] = envar[key_len + guide++];
+		{
+			envar[guide] = envar[key_len + guide];
+			guide++;
+		}
 	}
 	envar[guide] = '\0';
 	return (envar);
@@ -85,7 +81,6 @@ char	*miso_remove_envar(char **envp, const char *key)
 		envp[guide] = envp[guide + 1];
 		guide++;
 	}
-	guide = 0;
 	return (envar);
 }
 /* Looks for the envirornment variable passed on *key. If it finds it, it
@@ -96,13 +91,13 @@ it will return NULL if the envirorment variable can't be found. */
 
 int	miso_envarcmp(const char *var, const char *key)
 {
-	int guide;
+	int	guide;
 
 	guide = 0;
-	while (key[guide] && var[guide] && var[guide] != '=' && key[guide] != '=' 
+	while (key[guide] && var[guide] && var[guide] != '=' && key[guide] != '='
 		&& key[guide] == var[guide])
 		guide++;
-	if ((var[guide] == '\0' || var[guide] == '=') 
+	if ((var[guide] == '\0' || var[guide] == '=')
 		&& (key[guide] == '\0' || key[guide] == '='))
 		return (0);
 	return (1);

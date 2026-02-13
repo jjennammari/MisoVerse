@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 21:35:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/10 20:47:19 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/13 21:36:49 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,36 @@ int	miso_printnfree(char **envp, char *tiny, int tiny_len)
 		var = miso_remove_envar(envp, key, key_len + 1);
 		free(key);
 	}
-	racc_print(1, LIME"declare -x"NEOR"%s\n", var);
+	miso_export_print_format(var);
 	free(var);
 	return (0);
 }
 /* Separates the "KEY=" from the "variable" in the envar, in
 order to search for it in envp  and extract it. The envar is
 then printed in the expected format for export, and frees it. */
+
+static void miso_export_print_format(char *var)
+{
+	char	*writer;
+
+	writer = var;
+	while (*writer && *writer != '=')
+		writer++;
+	if (*writer == '=')
+	{
+		writer = var;
+		racc_print(1, LIME"declare -x ");
+		while (*writer && *writer != '=')
+			racc_print(1, PURP"%c", writer++);
+		racc_print(1, BABY"%c", writer++);
+		racc_print(1, MINT"\"");
+		while (*writer)
+			racc_print(1, ORNG"%c", writer++);
+		racc_print(1, MINT"\""RSET"\n");
+	}
+	else
+		racc_print(1, LIME"declare -x "PURP"%s\n", var);
+	return ;
+}
+/* Prints the variable "var" in the format that's expected
+when calling export alone (declare -x KEY="Value")  */

@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 20:23:46 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/07 16:22:22 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/13 20:11:59 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	miso_echo(t_shell *miso, char **argv)
 	int	nl_ending;
 
 	guide = 1;
+	(void)miso;
 	nl_ending = miso_n_validate(argv[guide]);
 	if (!nl_ending)
 	{

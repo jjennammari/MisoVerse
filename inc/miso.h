@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/07 17:29:33 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/13 19:59:01 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	miso_daddy_pipe_manager(int *prev_read, int *p, int p_num);
 
 //   -- -- #    miso_exec_utils_charlie.c
 void	miso_free_matrix(char **matrix);
-int		miso_freenret(void *free1, char **free2, int ret)
+int		miso_freenret(void *free1, void *free2, int p_err, int ret);
 void    miso_checknfree(void *check1, char **check2, void *free1, char **free2);
 
 //   -- -- #    miso_environment_utils_alpha.c
@@ -85,12 +85,14 @@ char	**miso_envinit(char **envp);
 char    *miso_getenv(const char *key, char **envp);
 int		miso_add_envar(char ***envp, char *key, char *varlue);
 int		miso_envar_update(char **envp, char *key, char *new_value);
-char	*miso_find_envar(char **envp, const char *key, size_t klen, int *guide);
+char	*miso_find_envar(char **envp, const char *key, int *guide);
 
 //   -- -- #    miso_environment_utils_beta.c
-int		miso_env_addorupdate(char ***envp, char *key, char *varlue);
-char	*miso_remove_envar(char **envp, const char *key, int key_len);
-char	*miso_extract_variable(char **envp, const char *key, int key_len);
+char    *miso_get_key(char *var);
+int     miso_envarcmp(const char *var, const char *key);
+char    *miso_remove_envar(char **envp, const char *key);
+char	*miso_extract_variable(char **envp, const char *key);
+int     miso_env_addorupdate(char ***envp, char *key, char *varlue);
 
 //    -- -- #	Built in Functions: miso_(built_in).c
 int		miso_cd(t_shell *miso, char **argv);

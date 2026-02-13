@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 13:25:13 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/12 23:27:14 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/13 20:10:57 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ any type of error, after printing the corresponding error message. */
 static int	miso_chdir_to_arg(t_shell *m, char *p, int p_len)
 {
 	char	*cwd;
+	char	*pwd;
 
 	if (p_len == 1 && p[0] == '-')
 		return (miso_chdir_oldpwd(m));

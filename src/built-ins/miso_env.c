@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 20:08:23 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/11 20:36:09 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/13 20:28:56 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	miso_env(t_shell *miso, char **argv)
 	char	*writer;
 
 	index = 0;
-	if (!(miso->envp))
+	if (!(miso->envp) || !argv)
 		return (0);
 	while ((miso->envp)[index])
 	{
