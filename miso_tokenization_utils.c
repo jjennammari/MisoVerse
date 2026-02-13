@@ -14,7 +14,7 @@
 
 int	is_whitespace(char c)
 {
-	if (c == 32 || c >= 9 && c <= 13)
+	if (c == 32 || c >= 9 & c <= 13)
 		return (1);
 	return (0);
 }
@@ -52,10 +52,10 @@ int	is_builtin(char *word)
 	return (0);
 }
 
-void	set_commandtype(t_shell *miso)
+void	set_commandtype(t_token *node)
 {
-	if (is_builtin(miso->node->str))
-		miso->node->type = BLT_CMD;
+	if (is_builtin(node->str))
+		node->type = BLT_CMD;
 	else
-		miso->node->type = SYS_CMD;
+		node->type = SYS_CMD;
 }

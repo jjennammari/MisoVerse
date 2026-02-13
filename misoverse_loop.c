@@ -23,7 +23,7 @@ void	misoverse_loop(t_shell *miso)
 			return ;
 		add_history(line);
 		miso_token_list(miso, line);
-		miso_parser(miso);
+		miso_parse(miso);
 		print_token_list(miso);
 		misoverse_free(miso);
 	}

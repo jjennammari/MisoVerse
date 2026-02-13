@@ -89,7 +89,7 @@ void	add_argument(t_shell *miso, char *line, int *pi, int (*f)(char))
 			break ;
 		}
 		else if (line[i] == '$' && line[0] == '\'')
-			miso->node->expand = true;
+			miso->node->expand = 1;
 		temp[i] = line[i];
 		i++;
 	}

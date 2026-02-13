@@ -21,7 +21,6 @@
 /* readline, cc with -lreadline */
 # include <readline/history.h>
 /* add_history */
-# include <stdbool.h>
 # include "miso_structs.h"
 
 		/* Self defined PROMPT */
@@ -41,17 +40,19 @@ void	misoverse_loop(t_shell *miso);//FIX: malloc error handlin
 void	miso_token_list(t_shell *miso, char *line);//FIX: malloc error handling
 void	add_operator(t_shell *miso, char *line, int *pi);
 void	add_redirection(t_shell *miso, char *line, int *pi);
-void	add_argument(t_shell *miso, char *line, int *pi, int (*f)(char));//TODO: keep in mind that expand is true only with specific scenarios FIX: malloc error handling
+void	add_argument(t_shell *miso, char *line, int *pi, int (*f)(char));//TODO: keep in mind that expand is true only with specific scenarios FIX: malloc error handling / fix handling quotes
 void	add_to_list(t_shell *miso, char *str, t_token_type type);//FIX: malloc error handling
 
-/* tokenization_utils.c */
+/* tokenization_utils.c FIX: too many functions */
 int		is_whitespace(char c);
 int		is_squote(char c);
 int		is_dquote(char c);
 int		is_builtin(char *word);
-void	set_commandtype(t_shell *miso);
+void	set_commandtype(t_token *node);
 
 /* miso_parser.c */
+int	miso_parse(t_shell *miso);
+int	parse_pipe(t_shell *miso);//FIX: print error message
 
 /* free.c */
 void	misoverse_free(t_shell *miso);
