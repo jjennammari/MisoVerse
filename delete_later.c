@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miso_free.c                                        :+:      :+:    :+:   */
+/*   delete_later.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/29 22:48:00 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/01/29 22:48:03 by jemustaj         ###   ########.fr       */
+/*   Created: 2026/01/29 22:50:38 by jemustaj          #+#    #+#             */
+/*   Updated: 2026/01/29 22:50:40 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void	misoverse_free(t_shell *miso)
-{
-	if (miso->list.head != NULL)
-		free_token_list(miso);
-}
-
-void	free_token_list(t_shell *miso)
+void	print_token_list(t_shell *miso)
 {
 	t_token	*temp;
+	int		t_count;
 
-	while (miso->list.head != NULL)
+	temp = miso->list.head;
+	t_count = 0;
+	while (temp)
 	{
-		temp = miso->list.head;
-		miso->list.head = miso->list.head->next;
-		if (temp->str)
-			free(temp->str);
-		free(temp);
+		printf("Token %d\n", t_count);
+		printf("Token STR: %s\n", temp->str);
+		printf("Token TYPE: %d\n", temp->type);
+		printf("Expandable: %s\n\n", temp->expand?"true":"false");
+		temp = temp->next;
+		t_count += 1;
 	}
 }
