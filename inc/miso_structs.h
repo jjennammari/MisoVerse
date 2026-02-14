@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 20:57:19 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/04 00:44:17 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/14 16:22:17 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_shell
 {
 	int		exit_code;
 	char	**envp;
+	char	**exp;
 	t_line	list;
 	t_token	*node;
 }	t_shell;

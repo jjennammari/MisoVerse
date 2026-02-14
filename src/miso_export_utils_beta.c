@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miso_export_sort.c                                 :+:      :+:    :+:   */
+/*   miso_export_utils_beta.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 21:35:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/13 21:36:49 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/14 16:29:13 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	miso_export_sort(char **envp, int envp_c)
 	int		guide;
 	int		tiny_len;
 
-	if (!envp || !(*envp))
+	if (!envp)
 		return (miso_freenret(NULL, NULL, 1, 1));
 	while (envp_c-- > 0)
 	{
@@ -50,7 +50,7 @@ case we are only returning 1 in that situation because it would
 mean an allocation error in this case, since we are planning to
 call this function with a duplicate of envp. */
 
-int	miso_printnfree(char **envp, char *tiny, int tiny_len)
+static int	miso_printnfree(char **envp, char *tiny, int tiny_len)
 {
 	char	*key;
 	int		key_len;
@@ -61,7 +61,7 @@ int	miso_printnfree(char **envp, char *tiny, int tiny_len)
 	while (tiny[key_len] && tiny[key_len] != '=')
 		key_len++;
 	if (!tiny[key_len])
-		var = miso_remove_envar(envp, tiny, tiny_len);
+		var = miso_remove_envar(envp, tiny);
 	else
 	{
 		key = ft_calloc(key_len + 2, sizeof(char));
@@ -70,7 +70,7 @@ int	miso_printnfree(char **envp, char *tiny, int tiny_len)
 		guide = 0;
 		while (guide < (key_len + 1))
 			key[guide] = tiny[guide++];
-		var = miso_remove_envar(envp, key, key_len + 1);
+		var = miso_remove_envar(envp, key);
 		free(key);
 	}
 	miso_export_print_format(var);
