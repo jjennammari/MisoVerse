@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 16:23:11 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/14 17:56:29 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/15 15:55:48 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ void	miso_exp_innit(t_shell *miso)
 	}
 	return ;
 }
+/* Takes a pointer to the Misoverse shell struct and initializes the
+export list with all the keys from the variables in the current envp
+array. It expects to be called after the envp pointer was initialized 
+with a copy of the original. It doesn't have a return value because
+it will free the allocated memory and exit in case of an error. Thus 
+terminating the shell. */
 
 int	miso_addexp(t_shell *miso, char *key)
 {
@@ -63,6 +69,11 @@ int	miso_addexp(t_shell *miso, char *key)
 	free(temp);
 	return (0);
 }
+/* It will allocate space for a new export list, increasing its size
+by one. The previously allocated keys then get moved to the new array
+appending a duplicate of the new one at the end. It returns 1 in case
+of an allocation error and 0 on success. If the key is already in the
+array, it will return successfully. */
 
 void	miso_removexp(t_shell *miso, char *key)
 {
@@ -80,6 +91,11 @@ void	miso_removexp(t_shell *miso, char *key)
 	free(temp);
 	return ;
 }
+/* It will look for the key passed as a parameter, inside the current
+export array. If it finds it, it will remove it by shifting all remaining
+pointers. Making the array end with 2 NULL pointers. Then it will return 
+freeing the extracted variable in the process. Either that or it will
+return early if the envirorment variable can't be found. */
 
 char	*miso_expcheck(char **exp, char *key, int *index)
 {
@@ -99,3 +115,9 @@ char	*miso_expcheck(char **exp, char *key, int *index)
 	}
 	return (NULL);
 }
+/* It searches for the *key variable inside of **exp. It will then
+return the pointer to the variable or NULL if it doesn't find it. As
+it searches the variable, it will update the guide variable it
+received (or a local one if the int *index pointer is set to NULL),
+so after execution, the caller will either have the index of where
+the variable is in the array or the current full length of **exp. */
