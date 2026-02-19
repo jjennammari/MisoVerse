@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:42:57 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/12 23:27:00 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/19 15:10:46 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ char	*miso_getenv(const char *key, char **envp)
 	int		key_len;
 
 	key_len = ft_strlen(key);
-	if (!key || key_len == 0 || key[key_len - 1] != '=')
+	if (!key || key_len == 0 || key[key_len - 1])
 		return (NULL);
 	var = miso_find_envar(envp, key, NULL);
 	if (!var)
@@ -157,7 +157,7 @@ char	*miso_getenv(const char *key, char **envp)
 		var++;
 	if ((*var) == '=')
 		return (var + 1);
-	return (var);
+	return (NULL);
 }
 /* It looks at the environment variables passed on **envp, to match
 the *key passed as a parameter. Once it finds it, it returns a 

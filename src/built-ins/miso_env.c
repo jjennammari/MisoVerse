@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 20:08:23 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/13 20:28:56 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/19 15:04:33 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	miso_env(t_shell *miso, char **argv)
 		writer = (miso->envp)[index];
 		while (*writer && *writer != '=')
 			writer++;
-		if (*writer == '=')
+		if (*writer == '=' && !miso_isvarinexp(miso->exp, (miso->envp)[index]))
 		{
 			writer = (miso->envp)[index];
 			while (*writer && *writer != '=')
@@ -40,7 +40,7 @@ int	miso_env(t_shell *miso, char **argv)
 	}
 	return (0);
 }
-/* Prints all variables stored in envp regardless of other 
+/* Prints all exported variables stored in envp regardless of other 
 arguments, and will always return 0. The function is designed
 to format different parts of each variable in different colors
 to help with readability and farm some aura. */

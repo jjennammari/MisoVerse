@@ -6,13 +6,13 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 21:35:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/14 16:29:13 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:45:10 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
-int	miso_export_sort(char **envp, int envp_c)
+int	miso_export_sort(t_shell *miso, char **envp, int envp_c)
 {
 	char	*tiny;
 	int		guide;
@@ -34,7 +34,7 @@ int	miso_export_sort(char **envp, int envp_c)
 			}
 			guide++;
 		}
-		if (miso_printnfree(envp, tiny, tiny_len))
+		if (miso_printnfree(miso->exp, envp, tiny, tiny_len))
 			return (miso_free_matrix(envp), 1);
 	}
 	return (free(envp), 0);
@@ -50,38 +50,24 @@ case we are only returning 1 in that situation because it would
 mean an allocation error in this case, since we are planning to
 call this function with a duplicate of envp. */
 
-static int	miso_printnfree(char **envp, char *tiny, int tiny_len)
+static int	miso_printnfree(char **exp, char **envp, char *tiny)
 {
 	char	*key;
-	int		key_len;
-	int		guide;
 	char	*var;
 
-	key_len = 0;
-	while (tiny[key_len] && tiny[key_len] != '=')
-		key_len++;
-	if (!tiny[key_len])
-		var = miso_remove_envar(envp, tiny);
-	else
-	{
-		key = ft_calloc(key_len + 2, sizeof(char));
-		if (!key)
-			return (1);
-		guide = 0;
-		while (guide < (key_len + 1))
-			key[guide] = tiny[guide++];
-		var = miso_remove_envar(envp, key);
-		free(key);
-	}
-	miso_export_print_format(var);
-	free(var);
-	return (0);
+	key = miso_get_key(tiny);
+	if (!key)
+		return (1);
+	var = miso_remove_envar(envp, key);
+	if (miso_expcheck(exp, tiny, NULL))
+		miso_export_print_format(var);
+	return (miso_freenret(key, var, 0, 0));
 }
 /* Separates the "KEY=" from the "variable" in the envar, in
 order to search for it in envp  and extract it. The envar is
 then printed in the expected format for export, and frees it. */
 
-static void miso_export_print_format(char *var)
+static void	miso_export_print_format(char *var)
 {
 	char	*writer;
 

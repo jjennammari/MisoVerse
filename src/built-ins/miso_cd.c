@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 13:25:13 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/13 20:10:57 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/19 15:13:04 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	miso_chdir(t_shell *miso, char **cmd, int arc)
 		return (miso_chdir_to_arg(miso, cmd[1], ft_strlen(cmd[1])));
 	if (arc == 1)
 	{
-		home = miso_getenv("HOME=", miso->envp);
+		home = miso_getenv("HOME", miso->envp);
 		if (!home)
 			racc_print(2, BLOD"PROMPT "MINT"cd: "RSET"HOME not set\n");
 		else

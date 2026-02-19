@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 16:23:11 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/15 15:55:48 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:45:05 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	miso_exp_innit(t_shell *miso)
 	int	guide;
 
 	guide = 0;
-	while((miso->envp)[guide])
+	while ((miso->envp)[guide])
 		guide++;
 	miso->exp = ft_calloc(guide + 1, sizeof(char *));
 	miso_checknfree(NULL, miso->exp, NULL, miso->envp);
 	(miso->exp)[guide] = NULL;
-	while(guide-- > 0)
+	while (guide-- > 0)
 	{
 		(miso->exp)[guide] = miso_get_key((miso->envp)[guide]);
 		if (!(miso->exp)[guide])
@@ -121,3 +121,19 @@ it searches the variable, it will update the guide variable it
 received (or a local one if the int *index pointer is set to NULL),
 so after execution, the caller will either have the index of where
 the variable is in the array or the current full length of **exp. */
+
+int	miso_isvarinexp(char **exp, char *var)
+{
+	int index;
+
+	index = 0
+	while (exp[index])
+	{
+		if (!miso_envarcmp(exp[index], var))
+			return (0);
+		index++;
+	}
+	return (1);
+}
+/* It searches for the passed variable inside of **exp. If it finds
+it, it will return 0, otherwise, it'll return 1. */
