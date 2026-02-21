@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:41:47 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/05 00:43:52 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/20 16:30:24 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ void	miso_call_program(t_shell *miso, char **cmd, t_token *head)
 	if (built_in)
 		exit_code = miso_rn(miso, cmd, head, built_in);
 	else
+	{
+		miso_envp_exp_filter(miso->exp, miso->envp);
 		execve(cmd[0], cmd, miso->envp);
+	}
 	if (exit_code == 0)
 	{
 		miso_free_matrix(cmd);

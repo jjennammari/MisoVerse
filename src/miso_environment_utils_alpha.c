@@ -148,7 +148,7 @@ char	*miso_getenv(const char *key, char **envp)
 	int		key_len;
 
 	key_len = ft_strlen(key);
-	if (!key || key_len == 0 || key[key_len - 1])
+	if (!key || key_len == 0)
 		return (NULL);
 	var = miso_find_envar(envp, key, NULL);
 	if (!var)

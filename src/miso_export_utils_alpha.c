@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 16:23:11 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/17 18:45:05 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/20 16:17:04 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,15 +125,23 @@ the variable is in the array or the current full length of **exp. */
 int	miso_isvarinexp(char **exp, char *var)
 {
 	int index;
+	int	guide;
 
 	index = 0
 	while (exp[index])
 	{
-		if (!miso_envarcmp(exp[index], var))
+		guide = 0;
+		while (exp[index][guide] && var[guide] && exp[index][guide] != '='
+			&& var[guide] != '=' && exp[index][guide] == var[guide])
+			guide++;
+		if (var[guide] == '=' && (exp[index][guide] == '\0'
+			|| exp[index][guide] == '='))
 			return (0);
 		index++;
 	}
 	return (1);
 }
 /* It searches for the passed variable inside of **exp. If it finds
-it, it will return 0, otherwise, it'll return 1. */
+it, it will return 0, otherwise, it'll return 1. The function is meant
+to look only for exported variables with an assignment. So if the var
+doesn't contain a '=' it will return 1 even if it is technically exported. */
