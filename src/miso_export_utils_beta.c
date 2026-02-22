@@ -6,11 +6,16 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 21:35:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/17 18:45:10 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/22 11:47:34 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
+
+static void	miso_export_print_format(char *var);
+void		miso_envp_exp_filter(char **exp, char **envp);
+static int	miso_printnfree(char **exp, char **envp, char *tiny);
+int			miso_export_sort(t_shell *miso, char **envp, int envp_c);
 
 int	miso_export_sort(t_shell *miso, char **envp, int envp_c)
 {
@@ -59,13 +64,14 @@ static int	miso_printnfree(char **exp, char **envp, char *tiny)
 	if (!key)
 		return (1);
 	var = miso_remove_envar(envp, key);
-	if (miso_expcheck(exp, tiny, NULL))
+	if (miso_expcheck(exp, key, NULL))
 		miso_export_print_format(var);
 	return (miso_freenret(key, var, 0, 0));
 }
 /* Separates the "KEY=" from the "variable" in the envar, in
-order to search for it in envp  and extract it. The envar is
-then printed in the expected format for export, and frees it. */
+order to search for it in envp  and extract it. Then, if it 
+is exported, the envar is printed in the expected format for 
+export, and freed. */
 
 static void	miso_export_print_format(char *var)
 {
@@ -92,3 +98,31 @@ static void	miso_export_print_format(char *var)
 }
 /* Prints the variable "var" in the format that's expected
 when calling export alone (declare -x KEY="Value")  */
+
+void	miso_exp_filter(char **exp, char **envp)
+{
+	int		guide;
+	char	*not_exported;
+
+	guide = 0;
+	while (*envp)
+	{
+		guide = 0;
+		if (!miso_isvarinexp(exp, *envp))
+		{
+			envp++;
+			continue ;
+		}
+		not_exported = *envp;
+		while (envp[guide])
+		{
+			envp[guide] = envp[guide + 1];
+			guide++;
+		}
+		free(not_exported);
+	}
+	return ;
+}
+/* The function will evaluate each variable in envp to free any
+that are not exported. The function is meant to run in a child
+process, so it only affects the array that will be sent to execve. */

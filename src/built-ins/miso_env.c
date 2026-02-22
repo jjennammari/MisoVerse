@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 20:08:23 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/19 15:04:33 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/22 11:54:19 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	miso_env(t_shell *miso, char **argv)
 	}
 	return (0);
 }
-/* Prints all exported variables stored in envp regardless of other 
-arguments, and will always return 0. The function is designed
-to format different parts of each variable in different colors
-to help with readability and farm some aura. */
+/* Prints all exported variables, stored in envp, that have and
+asigned value, regardless of other arguments, and will always 
+return 0. The function is designed to format different parts of 
+each variable in different colors to help with readability and 
+farm some aura. */

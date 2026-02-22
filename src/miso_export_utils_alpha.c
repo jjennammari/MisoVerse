@@ -6,13 +6,19 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 16:23:11 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/20 16:17:04 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/22 20:14:21 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
-void	miso_exp_innit(t_shell *miso)
+int		miso_addexp(t_shell *miso, char *key);
+int		miso_isvarinexp(char **exp, char *var);
+void	miso_removexp(t_shell *miso, char *key);
+void	miso_exp_innit(t_shell *miso, char *path_valid);
+char	*miso_expcheck(char **exp, char *key, int *index);
+
+void	miso_exp_innit(t_shell *miso, char *path_valid)
 {
 	int	guide;
 
@@ -33,6 +39,8 @@ void	miso_exp_innit(t_shell *miso)
 			exit(1);
 		}
 	}
+	if (!path_valid)
+		miso_removexp(miso, "PATH");
 	return ;
 }
 /* Takes a pointer to the Misoverse shell struct and initializes the
@@ -40,7 +48,12 @@ export list with all the keys from the variables in the current envp
 array. It expects to be called after the envp pointer was initialized 
 with a copy of the original. It doesn't have a return value because
 it will free the allocated memory and exit in case of an error. Thus 
-terminating the shell. */
+terminating the shell. In the special case that envp comes empty from 
+the caller shell, bash sets a default path for the envirorment, but
+this created variable is not exported from startup. For this reason
+the function is intended to be called with a pointer to the first  
+element of the original **envp, that way if it is NULL, PATH will be
+purged immediately from the exp array. */
 
 int	miso_addexp(t_shell *miso, char *key)
 {
@@ -124,10 +137,10 @@ the variable is in the array or the current full length of **exp. */
 
 int	miso_isvarinexp(char **exp, char *var)
 {
-	int index;
+	int	index;
 	int	guide;
 
-	index = 0
+	index = 0;
 	while (exp[index])
 	{
 		guide = 0;

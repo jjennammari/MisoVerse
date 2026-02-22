@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:42:57 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/19 15:10:46 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/22 20:14:28 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	*miso_find_envar(char **envp, const char *key, int *guide);
 char	**miso_envinit(char **envp)
 {
 	int		guide;
-	char	*cwd;
 	char	**clone;
 
 	guide = 0;
@@ -29,27 +28,21 @@ char	**miso_envinit(char **envp)
 		guide++;
 	clone = ft_calloc(guide + 1, sizeof(char *));
 	miso_checknfree(NULL, clone, NULL, NULL);
-	cwd = getcwd(NULL, 0);
-	miso_checknfree(cwd, NULL, NULL, clone);
 	clone[guide] = NULL;
 	while (guide-- > 0)
 	{
 		clone[guide] = ft_strdup(envp[guide]);
 		miso_checknfree(clone[guide], NULL, cwd, clone);
 	}
-	if ((miso_add_envar(&clone, "OLDPWD", "")) == -1)
-		miso_checknfree(NULL, NULL, cwd, clone);
-	if (miso_env_addorupdate(&clone, "PWD", cwd))
-		miso_checknfree(NULL, NULL, cwd, clone);
-	free(cwd);
+	miso_keyvariables_init(&clone)
 	return (clone);
 }
 /*Creates a heap-allocated replica of the **envp variable, to ensure
 that its variables can be safely freed and/or modified when necessary.
 It expects to be executed in the parent process, and it will exit at
-any memory allocation error, terminating the shell. If PWD is not set
-by the moment the shell is started, it will create it and initialize
-it as well. */
+any memory allocation error, terminating the shell. If any key variable
+is not set by the moment the shell is started, it will create it and 
+initialize it as well. */
 
 int	miso_envar_update(char **envp, char *key, char *new_value)
 {

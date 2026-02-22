@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 21:08:32 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/16 18:00:43 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/22 21:20:06 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,56 @@ int	miso_export(t_shell *miso, char **argv)
 		else
 			return (1);
 	}
-	if (miso_parsenexport(envp_clone, argv))
+	if (miso_parsenexport(miso, &envp_clone, argv))
 		return (1);
 	miso_free_matrix(miso->envp);
 	miso->envp = envp_clone;
+	return (0);
+}
+
+int miso_parsenexport(t_shell *miso, char ***envp, char **argv)
+{
+	int		guide;
+	int		exit_code;
+	char	*key;
+
+	guide = 0;
+	exit_code = 0;
+	while (argv[guide])
+	{
+		if (miso_exparse(argv[guide]))
+		{
+			exit_code = 1;
+			guide++;
+			continue ;
+		}
+		key = miso_get_key(argv[guide]);
+		if (!key)
+			return (miso_freenret(NULL, NULL, 1, 1);
+		if (miso_exp_add_or_update(miso, envp, (argv[guide]) + ft_strlen(key))
+			return (miso_freenret(key, NULL, 1, 1))
+		free(key);
+		guide++;
+	}
+	return (exit_code);
+}
+
+int	miso_exp_add_or_update(t_shell *miso, char ***envp, char *key, char *var)
+{
+	char	key_term;
+
+	key_term = key[ft_strlen(key)];
+	if (!key_term)
+	{
+		if (miso_env_addorupdate(envp, key, "");
+			return (1);
+	}
+	else
+	{
+		if (miso_env_addorupdate(envp, key, var);
+			return (1);
+	}
+	if (miso_addexp(miso, key))
+		return (1);
 	return (0);
 }
