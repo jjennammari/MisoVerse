@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 21:35:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/22 11:47:34 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/02/24 20:19:40 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int	miso_export_sort(t_shell *miso, char **envp, int envp_c)
 	int		guide;
 	int		tiny_len;
 
-	if (!envp)
-		return (miso_freenret(NULL, NULL, 1, 1));
 	while (envp_c-- > 0)
 	{
 		guide = 0;
@@ -40,20 +38,16 @@ int	miso_export_sort(t_shell *miso, char **envp, int envp_c)
 			guide++;
 		}
 		if (miso_printnfree(miso->exp, envp, tiny, tiny_len))
-			return (miso_free_matrix(envp), 1);
+			return (1);
 	}
-	return (free(envp), 0);
+	return (0);
 }
 /* When export gets called on its own, it prints the whole envp 
 in alphabetical order. This function searches for the "smallest"
 envar one by one, extracts it from the envp, prints it and frees 
 it. Making it so that the envp gets gradually smaller. The function
 expects to be called with a duplicate of the envp array so these
-actions don't really affect the shell state. A NULL envp, when 
-export gets called alone, returns 0 and prints nothing. In this 
-case we are only returning 1 in that situation because it would 
-mean an allocation error in this case, since we are planning to
-call this function with a duplicate of envp. */
+actions don't really affect the shell state. */
 
 static int	miso_printnfree(char **exp, char **envp, char *tiny)
 {
