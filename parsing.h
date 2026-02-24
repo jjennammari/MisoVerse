@@ -40,7 +40,7 @@ void	misoverse_loop(t_shell *miso);//TODO: check continue actually skips all and
 void	miso_tokenization(t_shell *miso, char *line);
 void	add_operator(t_shell *miso, char *line, int *pi);
 void	add_redirection(t_shell *miso, char *line, int *pi);
-<<<<<<< HEAD
+
 void	add_argument(t_shell *miso, char *line, int *pi, int (*f)(char));
 void	add_to_list(t_shell *miso, char *str, t_token_type type);
 
@@ -49,14 +49,14 @@ void	add_quotes(t_shell *miso, char *str, int *pi, int (*f)(char));
 int		validate_quotes(t_shell *miso, const char *str, int (*f)(char));
 int		is_squote(char c);
 int		is_dquote(char c);
-=======
+
 void	add_argument(t_shell *miso, char *line, int *pi, int (*f)(char));//TODO: keep in mind that expand is true only with specific scenarios FIX: malloc error handling / fix handling quotes
 void	add_to_list(t_shell *miso, char *str, t_token_type type);//FIX: malloc error handling
->>>>>>> origin/jenna
+
 
 /* tokenization_utils.c FIX: too many functions */
 int		is_whitespace(char c);
-<<<<<<< HEAD
+
 char	*create_token_str(char *str, int len);
 
 /* miso_parser.c */
@@ -71,7 +71,7 @@ void	miso_expand_variable(char *str);//TODO: need to increase i variable after e
 char	*get_var_name(char *str, int *pi);//TODO: check that len = i++ is correct way to add i + 1 to len
 char	*add_to_string(char *s1, char *s2);
 int		ft_isalnum(char c);
-=======
+
 int		is_squote(char c);
 int		is_dquote(char c);
 int		is_builtin(char *word);
@@ -80,7 +80,6 @@ void	set_commandtype(t_token *node);
 /* miso_parser.c */
 int	miso_parse(t_shell *miso);
 int	parse_pipe(t_shell *miso);//FIX: print error message
->>>>>>> origin/jenna
 
 /* free.c */
 void	misoverse_free(t_shell *miso);
