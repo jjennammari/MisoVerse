@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../inc/parsing.h"
 
 void	add_quotes(t_shell *miso, char *str, int *pi, int (*f)(char))
 {

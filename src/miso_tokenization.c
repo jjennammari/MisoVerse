@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../inc/parsing.h"
 
 void	miso_tokenization(t_shell *miso, char *line)
 {
@@ -86,21 +86,9 @@ void	add_argument(t_shell *miso, char *str, int *pi, int (*f)(char))
 	len = 0;
 	while (str[len] && !is_whitespace(str[len]) && !ft_strchr("<|>'\"", str[len]))
 	{
-<<<<<<< HEAD
 		if (str[len] == '$' && miso->node->expand == 0)
 			miso->node->expand = 1;
 		len++;
-=======
-		if ((*f)(line[i]))
-		{
-			i++;
-			break ;
-		}
-		else if (line[i] == '$' && line[0] == '\'')
-			miso->node->expand = 1;
-		temp[i] = line[i];
-		i++;
->>>>>>> origin/jenna
 	}
 	temp = create_token_str(str, len);
 	add_to_list(miso, temp, ARG);

@@ -16,6 +16,7 @@
 // Includes:
 # include "./libft/includes/libft.h"
 # include "./miso_structs.h"
+# include "parsing.h"//TODO: merge and delete with miso.h when ready
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>

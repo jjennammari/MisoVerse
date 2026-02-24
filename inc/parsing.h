@@ -33,14 +33,13 @@
 int		main(void);
 void	init_variables(t_shell *miso);//NOTE: exit_code init to 0 (= success) is correct?
 
-/* fastshell.c */
+/* misoverse_loop.c */
 void	misoverse_loop(t_shell *miso);//TODO: check continue actually skips all and starts the loop from beginning
 
 /* tokenization.c */
 void	miso_tokenization(t_shell *miso, char *line);
 void	add_operator(t_shell *miso, char *line, int *pi);
 void	add_redirection(t_shell *miso, char *line, int *pi);
-
 void	add_argument(t_shell *miso, char *line, int *pi, int (*f)(char));
 void	add_to_list(t_shell *miso, char *str, t_token_type type);
 
@@ -50,17 +49,15 @@ int		validate_quotes(t_shell *miso, const char *str, int (*f)(char));
 int		is_squote(char c);
 int		is_dquote(char c);
 
-void	add_argument(t_shell *miso, char *line, int *pi, int (*f)(char));//TODO: keep in mind that expand is true only with specific scenarios FIX: malloc error handling / fix handling quotes
-void	add_to_list(t_shell *miso, char *str, t_token_type type);//FIX: malloc error handling
-
-
-/* tokenization_utils.c FIX: too many functions */
+/* tokenization_utils.c */
 int		is_whitespace(char c);
-
 char	*create_token_str(char *str, int len);
 
 /* miso_parser.c */
-int		miso_parsing(t_shell *miso);
+int		miso_parser(t_shell *miso);
+void	search_cmd(t_shell *miso, t_token *node);
+int		parse_redirections(t_shell *miso, t_token *node);
+int		parse_pipe(t_shell *miso, t_token *node);
 
 /* miso_parser_utils.c */
 int		is_builtin(char *word);
@@ -72,24 +69,9 @@ char	*get_var_name(char *str, int *pi);//TODO: check that len = i++ is correct w
 char	*add_to_string(char *s1, char *s2);
 int		ft_isalnum(char c);
 
-int		is_squote(char c);
-int		is_dquote(char c);
-int		is_builtin(char *word);
-void	set_commandtype(t_token *node);
-
-/* miso_parser.c */
-int	miso_parse(t_shell *miso);
-int	parse_pipe(t_shell *miso);//FIX: print error message
-
-/* free.c */
+/* miso_free.c */
 void	misoverse_free(t_shell *miso);
 void	free_token_list(t_shell *miso);
-
-/* ft_strlen.c */
-size_t	ft_strlen(const char *s);
-
-/* ft_strchr.c*/
-char	*ft_strchr(const char *s, int c);
 
 /* delete_later.c */
 void	print_token_list(t_shell *miso);

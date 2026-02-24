@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../inc/parsing.h"
 
 int	is_builtin(char *word)
 {

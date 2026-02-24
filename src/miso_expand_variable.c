@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../inc/parsing.h"
 
 void	miso_expand_variable(t_shell *miso, char *str)
 {
@@ -50,7 +50,12 @@ char	*get_var_name(char *str, int *pi)
 		len++;
 	if (len == 0)
 		return (NULL);
-	name = malloc (sizeof(char) * len + 1);
+	name = malloc(sizeof(char) * len + 1);
+	if (!name)
+	{
+		perror(BLOD"PROMPT"MINT");
+		// function that mapache makes to free and exit
+	}
 	while (*pi < len)
 	{
 		name[*pi] = str[*pi];

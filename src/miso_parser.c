@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../inc/parsing.h"
 
-<<<<<<< HEAD
 int	miso_parser(t_shell *miso)
 {
 	t_token	*temp;
@@ -24,55 +23,18 @@ int	miso_parser(t_shell *miso)
 		while (temp && temp->type != PIPE)
 		{
 			if (ft_strchr("<|>", temp->str))
-				if (parse_redirections(temp))
+				if (parse_redirections(miso, temp))
 					return (1);
 			temp = temp->next;
 		}
 		if (temp->type == PIPE)
-			if (parse_pipe(temp))
+			if (parse_pipe(miso, temp))
 				return (1);
 		miso->list.cmd_found = 0;
-=======
-int	miso_parse(t_shell *miso)
-{
-	if (parse_redirections(miso))
-		return (1);
-	if (parse_pipe(miso))
-		return (1);
-	return (0);
-}
-
-int	parse_redirections(t_shell *miso)
-{
-	if (
-	return (0);
-}
-
-int	parse_pipe(t_shell *miso)
-{
-	t_token	*temp;
-
-	if (miso->list.head->type == PIPE || miso->list.last_node->type == PIPE)
-	{
-		//print error message
-		return (1);
-	}
-	temp = miso->list.head;
-	while (temp)
-	{
-		if (temp->type == PIPE && temp->next->type == PIPE)
-		{
-			//print error message
-			return (1);
-		}
-		if (temp->type == PIPE && temp->next->type == ARG)
-			set_commandtype(temp->next);
->>>>>>> origin/jenna
 		temp = temp->next;
 	}
 	return (0);
 }
-<<<<<<< HEAD
 
 void	search_cmd(t_shell *miso, t_token *node)
 {
@@ -109,7 +71,7 @@ int	parse_pipe(t_shell *miso, t_token *node)
 		racc_print(2, BLOD"PROMPT"MINT" Syntax error near PIPE\n");
 		return (1);
 	}
-	if (miso->list.head->type == PIPE || miso->list.last_node->type == PIPE)
+	else if (miso->list.head->type == PIPE || miso->list.last_node->type == PIPE)
 	{
 		miso->list.syntax_err = 1;
 		racc_print(2, BLOD"PROMPT"MINT" Syntax error near PIPE\n");
@@ -123,5 +85,3 @@ int	parse_pipe(t_shell *miso, t_token *node)
 	}
 	return (0);
 }
-=======
->>>>>>> origin/jenna
