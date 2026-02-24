@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:50:38 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/01/29 22:50:40 by jemustaj         ###   ########.fr       */
+/*   Updated: 2026/02/18 21:53:55 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	print_token_list(t_shell *miso)
 		printf("Token %d\n", t_count);
 		printf("Token STR: %s\n", temp->str);
 		printf("Token TYPE: %d\n", temp->type);
-		printf("Expandable: %s\n\n", temp->expand?"true":"false");
+		printf("Expandable: %d\n\n", temp->expand);
 		temp = temp->next;
 		t_count += 1;
 	}

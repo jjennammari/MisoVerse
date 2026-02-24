@@ -6,52 +6,54 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:47:33 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/02/13 15:03:15 by jemustaj         ###   ########.fr       */
+/*   Updated: 2026/02/24 10:46:10 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void	miso_token_list(t_shell *miso, char *line)
+void	miso_tokenization(t_shell *miso, char *line)
 {
-	t_line	*list;
 	int		i;
 
-	list = malloc(sizeof(t_line));
-	if (!list)
-		return ;
 	i = 0;
-	while (line[i])
+	while (line[i] && !miso->list.syntax_err)
 	{
 		while (line[i] && is_whitespace(line[i]))
 			i++;
 		if (ft_strchr("<|>", line[i]) != NULL)
 			add_operator(miso, &line[i], &i);
 		else if (line[i] == '\'')
-			add_argument(miso, &line[++i], &i, is_squote);
+			add_quotes(miso, &line[++i], &i, is_squote);
 		else if (line[i] == '"')
-			add_argument(miso, &line[++i], &i, is_dquote);
-		else
+			add_quotes(miso, &line[++i], &i, is_dquote);
+		else if (line[i])
 			add_argument(miso, &line[i], &i, is_whitespace);
 	}
 }
 
-void	add_operator(t_shell *miso, char *line, int *pi)
+void	add_operator(t_shell *miso, char *str, int *pi)
 {
-	if (line[*pi] == '|')
+	int	i;
+
+	i = 0;
+	if (str[i] == '|')
 	{
 		add_to_list(miso, "|", PIPE);
 		*pi += 1;
 	}
-	else if (line[*pi] == '<' || line[*pi] == '>')
-		add_redirection(miso, &line[*pi], pi);
+	else
+		add_redirection(miso, str, pi);
 }
 
-void	add_redirection(t_shell *miso, char *line, int *pi)
+void	add_redirection(t_shell *miso, char *str, int *pi)
 {
-	if (line[*pi] == '<')
+	int	i;
+
+	i = 0;
+	if (str[i] == '<')
 	{
-		if (line[*pi++] == '<')
+		if (str[i + 1] == '<')
 		{
 			add_to_list(miso, "<<", HEREDOC);
 			*pi += 1;
@@ -59,44 +61,36 @@ void	add_redirection(t_shell *miso, char *line, int *pi)
 		else
 			add_to_list(miso, "<", RD_IN);
 	}
-	else if (line[*pi] == '<')
+	else if (str[i] == '>')
 	{
-		if (line[*pi++] == '<')
+		if (str[i + 1] == '>')
 		{
-			add_to_list(miso, "<<", HEREDOC);
+			add_to_list(miso, ">>", APPEND);
 			*pi += 1;
 		}
 		else
-			add_to_list(miso, "<", RD_IN);
+			add_to_list(miso, ">", RD_OUT);
 	}
 	*pi += 1;
 }
 
-void	add_argument(t_shell *miso, char *line, int *pi, int (*f)(char))
+void	add_argument(t_shell *miso, char *str, int *pi, int (*f)(char))
 {
-	char	*temp;
 	int		i;
+	int		len;
+	char	*temp;
 
-	temp = malloc(sizeof(char) * ft_strlen(line) + 1);
-	if (!temp)
+	if (miso->list.syntax_err)
 		return ;
-	i = 0;
-	while (line[i])
+	miso->node->expand = 0;
+	len = 0;
+	while (str[len] && !is_whitespace(str[len]) && !ft_strchr("<|>'\"", str[len]))
 	{
-		if ((*f)(line[i]))
-		{
-			i++;
-			break ;
-		}
-		else if (line[i] == '$' && line[0] == '\'')
-			miso->node->expand = true;
-		temp[i] = line[i];
-		i++;
+		if (str[len] == '$' && miso->node->expand == 0)
+			miso->node->expand = 1;
+		len++;
 	}
-	temp[i] = '\0';
-	*pi += i;
-//	if (!(*f)(line[*pi]))
-//		print syntax error
+	temp = create_token_str(str, len);
 	add_to_list(miso, temp, ARG);
 }
 
@@ -106,7 +100,10 @@ void	add_to_list(t_shell *miso, char *str, t_token_type type)
 
 	new_node = malloc(sizeof(t_token));
 	if (!new_node)
-		return ;
+	{
+		perror(BLOD"PROMPT"MINT");
+		// function that mapache makes to free and exit
+	}
 	new_node->str = str;
 	new_node->type = type;
 	new_node->next = NULL;

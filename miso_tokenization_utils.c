@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:35 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/02/13 13:45:38 by jemustaj         ###   ########.fr       */
+/*   Updated: 2026/02/20 21:37:51 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,43 +19,23 @@ int	is_whitespace(char c)
 	return (0);
 }
 
-int	is_squote(char c)
+char	*create_token_str(char *str, int len)
 {
-	if (c == '\'')
-		return (1);
-	return (0);
-}
+	char	*temp;
+	int		i;
 
-int	is_dquote(char c)
-{
-	if (c == '"')
-		return (1);
-	return (0);
-}
-
-int	is_builtin(char *word)
-{
-	if (ft_strcmp("echo", word))
-		return (1);
-	else if (ft_strcmp("cd", word))
-		return (1);
-	if (ft_strcmp("pwd", word))
-		return (1);
-	if (ft_strcmp("export", word))
-		return (1);
-	if (ft_strcmp("unset", word))
-		return (1);
-	if (ft_strcmp("env", word))
-		return (1);
-	if (ft_strcmp("exit", word))
-		return (1);
-	return (0);
-}
-
-void	set_commandtype(t_shell *miso)
-{
-	if (is_builtin(miso->node->str))
-		miso->node->type = BLT_CMD;
-	else
-		miso->node->type = SYS_CMD;
+	temp = malloc(sizeof(char) * len + 1);
+	if (!temp)
+	{
+		perror(BLOD"PROMPT"MINT");
+		// function that mapache makes to free and exit
+	}
+	i = 0;
+	while (i < len)
+	{
+		temp[i] = str[i];
+		i++;
+	}
+	temp[i] = '\0';
+	return (temp);
 }
