@@ -12,6 +12,7 @@
 
 #include "parsing.h"
 
+<<<<<<< HEAD
 int	miso_parser(t_shell *miso)
 {
 	t_token	*temp;
@@ -31,10 +32,47 @@ int	miso_parser(t_shell *miso)
 			if (parse_pipe(temp))
 				return (1);
 		miso->list.cmd_found = 0;
+=======
+int	miso_parse(t_shell *miso)
+{
+	if (parse_redirections(miso))
+		return (1);
+	if (parse_pipe(miso))
+		return (1);
+	return (0);
+}
+
+int	parse_redirections(t_shell *miso)
+{
+	if (
+	return (0);
+}
+
+int	parse_pipe(t_shell *miso)
+{
+	t_token	*temp;
+
+	if (miso->list.head->type == PIPE || miso->list.last_node->type == PIPE)
+	{
+		//print error message
+		return (1);
+	}
+	temp = miso->list.head;
+	while (temp)
+	{
+		if (temp->type == PIPE && temp->next->type == PIPE)
+		{
+			//print error message
+			return (1);
+		}
+		if (temp->type == PIPE && temp->next->type == ARG)
+			set_commandtype(temp->next);
+>>>>>>> origin/jenna
 		temp = temp->next;
 	}
 	return (0);
 }
+<<<<<<< HEAD
 
 void	search_cmd(t_shell *miso, t_token *node)
 {
@@ -85,3 +123,5 @@ int	parse_pipe(t_shell *miso, t_token *node)
 	}
 	return (0);
 }
+=======
+>>>>>>> origin/jenna
