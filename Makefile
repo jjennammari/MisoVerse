@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/02/22 20:12:51 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/02/24 21:08:00 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ SRC_DIR = src/
 OBJ_DIR = obj/
 BLTIN_DIR = built-ins/
 
-MAIN_FILE = $(SRC_DIR)miso_main.c
+MAIN_FILE = $(SRC_DIR)main.c
 
 FILE = miso_launch.c
 FILE += miso_pathfinder.c
