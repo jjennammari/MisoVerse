@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/parsing.h"
+#include "../inc/miso.h"
 
-void	miso_expand_variable(t_shell *miso, char *str)
+void	miso_expand_variable(t_shell *miso, char *str, t_token *node)
 {
 	char	*var_name;
 	char	*expansion;
@@ -25,28 +25,39 @@ void	miso_expand_variable(t_shell *miso, char *str)
 		if (str[i] == '$')
 		{
 			i++;
-			var_name = get_var_name(&str[i], &i);
+			var_name = miso_get_var_name(&str[i], &i);
 			if (!var_name)
 			{
-				result = add_to_string(result, "$");
+				result = miso_add_to_string(result, "$");
 				break ;
 			}
 			expansion = miso_getenv(var_name, miso->envp);
-			result = add_to_string(result, expansion);
+			result = miso_add_to_string(result, expansion);
 			free(var_name);
 		}
 		else
-			result = add_to_string(result, &str[i]);
+		{
+			result = miso_add_to_string(result, &str[i]);
+			i++;
+		}
 	}
+	miso_add_new_token_str(result, node);
 }
 
-char	*get_var_name(char *str, int *pi)
+void	miso_add_new_token_str(char *str, t_token *node)
+{
+	free(node->str);
+	node->str = str;
+	node->expand = 0;
+}
+
+char	*miso_get_var_name(char *str, int *pi)
 {
 	char	*name;
 	int		len;
 
 	len = 0;
-	while (str[len] && (ft_isalnum(str[len]) && str[len] == '_'))
+	while (str[len] && (miso_is_alnum(str[len]) && str[len] == '_'))
 		len++;
 	if (len == 0)
 		return (NULL);
@@ -65,7 +76,7 @@ char	*get_var_name(char *str, int *pi)
 	return (name);
 }
 
-char	*add_to_string(char *s1, char *s2)
+char	*miso_add_to_string(char *s1, char *s2)
 {
 	char	*result;
 
@@ -80,7 +91,7 @@ char	*add_to_string(char *s1, char *s2)
 	return (result);
 }
 
-int	ft_isalnum(char c)
+int	miso_is_alnum(char c)
 {
 	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c >= 48 && c <= 57))
 		return (1);

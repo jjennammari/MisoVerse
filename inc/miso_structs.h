@@ -38,7 +38,6 @@ typedef struct s_token
 typedef struct s_line
 {
 	int		cmd_found;
-	int		syntax_err;
 	t_token	*head;
 	t_token	*last_node;
 }	t_line;

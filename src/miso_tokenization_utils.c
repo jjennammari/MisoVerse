@@ -10,16 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/parsing.h"
+#include "../inc/miso.h"
 
-int	is_whitespace(char c)
+int	miso_is_whitespace(char c)
 {
 	if (c == 32 || c >= 9 && c <= 13)
 		return (1);
 	return (0);
 }
 
-char	*create_token_str(char *str, int len)
+char	*miso_create_token_str(char *str, int len)
 {
 	char	*temp;
 	int		i;
