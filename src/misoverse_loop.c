@@ -21,12 +21,11 @@ void	misoverse_loop(t_shell *miso)
 		line = readline(PROMPT);
 		if (!line)
 		{
-			perror(BLOD"PROMPT"MINT");
+			perror(BLOD"PROMPT"MINT);
 			// function that mapache makes to free and exit
 		}
 		add_history(line);
-		miso_tokenization(miso, line);
-		if (miso->list.syntax_err == 1)
+		if (miso_tokenization(miso, line))
 			continue ;
 		miso_print_token_list(miso);
 		if (miso_parser(miso))

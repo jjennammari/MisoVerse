@@ -27,7 +27,7 @@ char	*miso_create_token_str(char *str, int len)
 	temp = malloc(sizeof(char) * len + 1);
 	if (!temp)
 	{
-		perror(BLOD"PROMPT"MINT");
+		perror(BLOD"PROMPT"MINT);
 		// function that mapache makes to free and exit
 	}
 	i = 0;

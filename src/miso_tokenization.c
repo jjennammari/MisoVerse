@@ -87,8 +87,6 @@ void	miso_add_argument(t_shell *miso, char *str, int *pi, int (*f)(char))
 	int		len;
 	char	*temp;
 
-	if (miso->list.syntax_err)
-		return ;
 	miso->node->expand = 0;
 	len = 0;
 	while (str[len] && !miso_is_whitespace(str[len]) && !ft_strchr("<|>'\"", str[len]))
@@ -108,7 +106,7 @@ void	miso_add_to_list(t_shell *miso, char *str, t_token_type type)
 	new_node = malloc(sizeof(t_token));
 	if (!new_node)
 	{
-		perror(BLOD"PROMPT"MINT");
+		perror(BLOD"PROMPT"MINT);
 		// function that mapache makes to free and exit
 	}
 	new_node->str = str;
