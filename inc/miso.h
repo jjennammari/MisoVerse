@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/13 19:59:01 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/01 12:57:06 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	miso_channeling(int prev_read, t_token *head, int *p, int p_num);
 //	 -- -- #	miso_exec_utils_alpha.c
 int		miso_waitroom(pid_t child, int *exit_status);
 void	miso_call_program(t_shell *miso, char **cmd, t_token *head);
-int		(*miso_is_builtin(char *cmd))(t_shell *miso, char **cmd);
+int     (*miso_is_builtin(char *cmd))(t_shell *miso, char **cmd);
 int     miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **));
 
 //	 -- -- #	miso_exec_utils_beta.c
