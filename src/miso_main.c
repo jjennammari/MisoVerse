@@ -10,20 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../inc/miso.h"
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	t_shell	miso;
 
-	init_variables(&miso);
+	miso_init_variables(&miso, argc, argv);
 	misoverse_loop(&miso);
 	misoverse_free(&miso);
 	return (0);
 }
 
-void	init_variables(t_shell *miso)
+void	miso_init_variables(t_shell *miso, int argc, char **argv)
 {
+	(void)argc;
+	(void)argv;
 	miso->exit_code = 0;
 	miso->node = malloc(sizeof(t_token));
 	if (!miso->node)
@@ -31,7 +33,6 @@ void	init_variables(t_shell *miso)
 	miso->node->expand = 0;
 	miso->node->str = NULL;
 	miso->node->next = NULL;
-	miso->list.syntax_err = 0;
 	miso->list.cmd_found = 0;
 	miso->list.head = NULL;
 	miso->list.last_node = NULL;

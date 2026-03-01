@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../inc/miso.h"
 
-<<<<<<< HEAD
 int	miso_parser(t_shell *miso)
 {
 	t_token	*temp;
@@ -20,108 +19,66 @@ int	miso_parser(t_shell *miso)
 	temp = miso->list.head;
 	while (temp)
 	{
-		search_cmd(miso, temp);
+		miso_search_cmd(miso, temp);
 		while (temp && temp->type != PIPE)
 		{
-			if (ft_strchr("<|>", temp->str))
-				if (parse_redirections(temp))
+			if (temp->expand == 1)
+				miso_expand_variable(miso, temp->str, temp);
+			else if (miso_is_redirection(temp->type))
+				if (miso_parse_redirections(miso, temp))
 					return (1);
 			temp = temp->next;
 		}
 		if (temp->type == PIPE)
-			if (parse_pipe(temp))
+			if (miso_parse_pipe(miso, temp))
 				return (1);
 		miso->list.cmd_found = 0;
-=======
-int	miso_parse(t_shell *miso)
-{
-	if (parse_redirections(miso))
-		return (1);
-	if (parse_pipe(miso))
-		return (1);
-	return (0);
-}
-
-int	parse_redirections(t_shell *miso)
-{
-	if (
-	return (0);
-}
-
-int	parse_pipe(t_shell *miso)
-{
-	t_token	*temp;
-
-	if (miso->list.head->type == PIPE || miso->list.last_node->type == PIPE)
-	{
-		//print error message
-		return (1);
-	}
-	temp = miso->list.head;
-	while (temp)
-	{
-		if (temp->type == PIPE && temp->next->type == PIPE)
-		{
-			//print error message
-			return (1);
-		}
-		if (temp->type == PIPE && temp->next->type == ARG)
-			set_commandtype(temp->next);
->>>>>>> origin/jenna
-		temp = temp->next;
+		if (temp)
+			temp = temp->next;
 	}
 	return (0);
 }
-<<<<<<< HEAD
 
-void	search_cmd(t_shell *miso, t_token *node)
+int	miso_parse_redirections(t_shell *miso, t_token *node)
 {
-	if (node->type == ARG)
+	if (miso_is_redirection(miso->list.last_node->type))
 	{
-		set_commandtype(miso, node);
-		miso->list.cmd_found = 1;
-	}
-}
-
-int	parse_redirections(t_shell *miso, t_token *node)
-{
-	if (ft_strchr("<|>", miso->list.last_node->type))
-	{
-		miso->list.syntax_err = 1;
 		racc_print(2, BLOD"PROMPT"MINT" Syntax error near redirection operator\n");
 		return (1);
 	}
-	else if (node->next->type == ARG && node->next->ne)
+	else if (node->next->type != ARG)
+	{
+		racc_print(2, BLOD"PROMPT"MINT" Syntax error near redirection operator\n");
+		return (1);
+	}
+	else if (node->next->type == ARG && node->next->next == ARG)
 	{
 		if (miso->list.cmd_found == 0)
 		{
-			set_commandtype(miso, node);
-			return (0);
+			miso_set_commandtype(miso, node->next->next);
+			miso->list.cmd_found = 1;
 		}
+		return (0);
 	}
+	return (0);
 }
 
-int	parse_pipe(t_shell *miso, t_token *node)
+int	miso_parse_pipe(t_shell *miso, t_token *node)
 {
 	if (miso->list.cmd_found == 0)
 	{
-		miso->list.syntax_err = 1;
-		racc_print(2, BLOD"PROMPT"MINT" Syntax error near PIPE\n");
+		racc_print(2, BLOD"PROMPT"MINT" Syntax error near pipe\n");
 		return (1);
 	}
-	if (miso->list.head->type == PIPE || miso->list.last_node->type == PIPE)
+	else if (miso->list.head->type == PIPE || miso->list.last_node->type == PIPE)
 	{
-		miso->list.syntax_err = 1;
-		racc_print(2, BLOD"PROMPT"MINT" Syntax error near PIPE\n");
+		racc_print(2, BLOD"PROMPT"MINT" Syntax error near pipe\n");
 		return (1);
 	}
 	else if (node->type == PIPE && node->next->type == PIPE)
 	{
-		miso->list.syntax_err = 1;
-		racc_print(2, BLOD"PROMPT"MINT" Syntax error near PIPE\n");
+		racc_print(2, BLOD"PROMPT"MINT" Syntax error near pipe\n");
 		return (1);
 	}
 	return (0);
 }
-=======
->>>>>>> origin/jenna

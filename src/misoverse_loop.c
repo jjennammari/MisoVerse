@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../inc/miso.h"
 
 void	misoverse_loop(t_shell *miso)
 {
@@ -25,15 +25,11 @@ void	misoverse_loop(t_shell *miso)
 			// function that mapache makes to free and exit
 		}
 		add_history(line);
-<<<<<<< HEAD
 		miso_tokenization(miso, line);
 		if (miso->list.syntax_err == 1)
 			continue ;
-		//miso_parsing(miso);
-=======
-		miso_token_list(miso, line);
-		miso_parse(miso);
->>>>>>> origin/jenna
-		print_token_list(miso);
+		miso_print_token_list(miso);
+		if (miso_parser(miso))
+			continue ;
 	}
 }

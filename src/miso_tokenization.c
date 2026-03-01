@@ -10,43 +10,50 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../inc/miso.h"
 
-void	miso_tokenization(t_shell *miso, char *line)
+int	miso_tokenization(t_shell *miso, char *line)
 {
 	int		i;
 
 	i = 0;
-	while (line[i] && !miso->list.syntax_err)
+	while (line[i])
 	{
-		while (line[i] && is_whitespace(line[i]))
+		while (line[i] && miso_is_whitespace(line[i]))
 			i++;
 		if (ft_strchr("<|>", line[i]) != NULL)
-			add_operator(miso, &line[i], &i);
+			miso_add_operator(miso, &line[i], &i);
 		else if (line[i] == '\'')
-			add_quotes(miso, &line[++i], &i, is_squote);
+		{
+			if (miso_add_quotes(miso, &line[++i], &i, miso_is_squote))
+				return (1);
+		}
 		else if (line[i] == '"')
-			add_quotes(miso, &line[++i], &i, is_dquote);
+		{
+			if (miso_add_quotes(miso, &line[++i], &i, miso_is_dquote))
+				return (1);
+		}
 		else if (line[i])
-			add_argument(miso, &line[i], &i, is_whitespace);
+			miso_add_argument(miso, &line[i], &i, miso_is_whitespace);
 	}
+	return (0);
 }
 
-void	add_operator(t_shell *miso, char *str, int *pi)
+void	miso_add_operator(t_shell *miso, char *str, int *pi)
 {
 	int	i;
 
 	i = 0;
 	if (str[i] == '|')
 	{
-		add_to_list(miso, "|", PIPE);
+		miso_add_to_list(miso, "|", PIPE);
 		*pi += 1;
 	}
 	else
-		add_redirection(miso, str, pi);
+		miso_add_redirection(miso, str, pi);
 }
 
-void	add_redirection(t_shell *miso, char *str, int *pi)
+void	miso_add_redirection(t_shell *miso, char *str, int *pi)
 {
 	int	i;
 
@@ -55,26 +62,26 @@ void	add_redirection(t_shell *miso, char *str, int *pi)
 	{
 		if (str[i + 1] == '<')
 		{
-			add_to_list(miso, "<<", HEREDOC);
+			miso_add_to_list(miso, "<<", HEREDOC);
 			*pi += 1;
 		}
 		else
-			add_to_list(miso, "<", RD_IN);
+			miso_add_to_list(miso, "<", RD_IN);
 	}
 	else if (str[i] == '>')
 	{
 		if (str[i + 1] == '>')
 		{
-			add_to_list(miso, ">>", APPEND);
+			miso_add_to_list(miso, ">>", APPEND);
 			*pi += 1;
 		}
 		else
-			add_to_list(miso, ">", RD_OUT);
+			miso_add_to_list(miso, ">", RD_OUT);
 	}
 	*pi += 1;
 }
 
-void	add_argument(t_shell *miso, char *str, int *pi, int (*f)(char))
+void	miso_add_argument(t_shell *miso, char *str, int *pi, int (*f)(char))
 {
 	int		i;
 	int		len;
@@ -84,29 +91,17 @@ void	add_argument(t_shell *miso, char *str, int *pi, int (*f)(char))
 		return ;
 	miso->node->expand = 0;
 	len = 0;
-	while (str[len] && !is_whitespace(str[len]) && !ft_strchr("<|>'\"", str[len]))
+	while (str[len] && !miso_is_whitespace(str[len]) && !ft_strchr("<|>'\"", str[len]))
 	{
-<<<<<<< HEAD
 		if (str[len] == '$' && miso->node->expand == 0)
 			miso->node->expand = 1;
 		len++;
-=======
-		if ((*f)(line[i]))
-		{
-			i++;
-			break ;
-		}
-		else if (line[i] == '$' && line[0] == '\'')
-			miso->node->expand = 1;
-		temp[i] = line[i];
-		i++;
->>>>>>> origin/jenna
 	}
-	temp = create_token_str(str, len);
-	add_to_list(miso, temp, ARG);
+	temp = miso_create_token_str(str, len);
+	miso_add_to_list(miso, temp, ARG);
 }
 
-void	add_to_list(t_shell *miso, char *str, t_token_type type)
+void	miso_add_to_list(t_shell *miso, char *str, t_token_type type)
 {
 	t_token	*new_node;
 

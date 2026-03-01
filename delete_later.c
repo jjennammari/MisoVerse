@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "miso.h"
 
-void	print_token_list(t_shell *miso)
+void	miso_print_token_list(t_shell *miso)
 {
 	t_token	*temp;
 	int		t_count;

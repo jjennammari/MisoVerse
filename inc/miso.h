@@ -26,6 +26,7 @@
 # include <limits.h>
 # include <signal.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <fcntl.h>
 # include <errno.h>
 
@@ -54,6 +55,56 @@ typedef struct stat			t_stat;
 typedef struct sigaction	t_sigact;
 
 //			Function Prototypes:
+
+/*  miso_main.c  */
+int		main(int argc, char **argv, char **envp);
+void	miso_init_variables(t_shell *miso, int argc, char **argv);//NOTE: exit_code init to 0 (= success) is correct?
+
+/* misoverse_loop.c */
+void	misoverse_loop(t_shell *miso);//TODO: check continue actually skips all and starts the loop from beginning
+
+/* tokenization.c */
+int		miso_tokenization(t_shell *miso, char *line);
+void	miso_add_operator(t_shell *miso, char *line, int *pi);
+void	miso_add_redirection(t_shell *miso, char *line, int *pi);
+void	miso_add_argument(t_shell *miso, char *line, int *pi, int (*f)(char));
+void	miso_add_to_list(t_shell *miso, char *str, t_token_type type);
+
+/* miso_tokenization_quotes */
+int		miso_add_quotes(t_shell *miso, char *str, int *pi, int (*f)(char));
+int		miso_validate_quotes(t_shell *miso, const char *str, int (*f)(char));
+int		miso_is_squote(char c);
+int		miso_is_dquote(char c);
+
+/* tokenization_utils.c */
+int		miso_is_whitespace(char c);
+char	*miso_create_token_str(char *str, int len);
+
+/* miso_parser.c */
+int		miso_parser(t_shell *miso);
+int		miso_parse_redirections(t_shell *miso, t_token *node);
+int		miso_parse_pipe(t_shell *miso, t_token *node);
+
+/* miso_parser_utils.c */
+int		miso_is_builtin(char *word);
+void	miso_set_commandtype(t_shell *miso, t_token *node);
+void	miso_search_cmd(t_shell *miso, t_token *node);
+int		miso_is_redirection(t_token_type type);
+
+/* miso_expand_variable.c */
+void	miso_expand_variable(t_shell *miso, char *str, t_token *node);//TODO: function too long
+char	*miso_get_var_name(char *str, int *pi);
+char	*miso_add_to_string(char *s1, char *s2);
+void	miso_add_new_token_str(char *str, t_token *node);
+int		miso_is_alnum(char c);
+
+/* miso_free.c */
+void	misoverse_free(t_shell *miso);
+void	miso_free_token_list(t_shell *miso);
+
+/* delete_later.c */
+void	miso_print_token_list(t_shell *miso);
+
 //	 -- -- #	miso_launch.c
 int		miso_launch(t_shell *miso, t_token *head);
 
