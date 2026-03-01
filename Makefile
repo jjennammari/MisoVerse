@@ -30,7 +30,7 @@ SRC_DIR = src/
 OBJ_DIR = obj/
 BLTIN_DIR = built-ins/
 
-MAIN_FILE = $(SRC_DIR)main.c
+MAIN_FILE = $(SRC_DIR)miso_main.c
 
 FILE = miso_launch.c
 FILE += miso_pathfinder.c

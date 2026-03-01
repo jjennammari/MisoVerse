@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/parsing.h"
+#include "../inc/miso.h"
 
 void	misoverse_free(t_shell *miso)
 {
