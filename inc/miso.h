@@ -44,7 +44,7 @@
 //			Self defined PROMPT
 // Compile with -DPROMPT="Whatever you'd like"
 # ifndef PROMPT
-#  define PROMPT "Misoverse »"
+#  define PROMPT "misoverse »"
 # endif
 
 // Global Variable:
