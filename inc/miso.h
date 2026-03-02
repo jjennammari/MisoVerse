@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/01 12:57:06 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/02 11:23:45 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	miso_channeling(int prev_read, t_token *head, int *p, int p_num);
 //	 -- -- #	miso_exec_utils_alpha.c
 int		miso_waitroom(pid_t child, int *exit_status);
 void	miso_call_program(t_shell *miso, char **cmd, t_token *head);
-int     (*miso_is_builtin(char *cmd))(t_shell *miso, char **cmd);
+int     (*miso_get_builtin(char *cmd))(t_shell *miso, char **cmd);
 int     miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **));
 
 //	 -- -- #	miso_exec_utils_beta.c
@@ -145,7 +145,22 @@ char    *miso_remove_envar(char **envp, const char *key);
 char	*miso_extract_variable(char **envp, const char *key);
 int     miso_env_addorupdate(char ***envp, char *key, char *varlue);
 
-//    -- -- #	Built in Functions: miso_(built_in).c
+//   -- -- #    miso_environment_utils_charlie.c
+void	miso_keyvariables_init(char ***envp);
+
+//   -- -- #    miso_export_utils_alpha.c
+int		miso_addexp(t_shell *miso, char *key);
+int		miso_isvarinexp(char **exp, char *var);
+void	miso_removexp(t_shell *miso, char *key);
+void	miso_exp_innit(t_shell *miso, char *path_valid);
+char	*miso_expcheck(char **exp, char *key, int *index);
+
+//   -- -- #    miso_export_utils_beta.c
+void	miso_exp_filter(char **exp, char **envp);
+int		miso_export_sort(t_shell *miso, char **envp, int envp_c);
+int     miso_exp_addorupdate(t_shell *m, char ***env, char *key, char *var);
+
+//    -- -- #	Built in Functions: miso_(builtin).c
 int		miso_cd(t_shell *miso, char **argv);
 int		miso_pwd(t_shell *miso, char **argv);
 int		miso_env(t_shell *miso, char **argv);

@@ -40,7 +40,7 @@ int	miso_env(t_shell *miso, char **argv)
 	}
 	return (0);
 }
-/* Prints all exported variables, stored in envp, that have and
+/* Prints all exported variables, stored in envp, that have an
 asigned value, regardless of other arguments, and will always 
 return 0. The function is designed to format different parts of 
 each variable in different colors to help with readability and 

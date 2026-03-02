@@ -6,11 +6,15 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 15:18:15 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/22 20:40:08 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/02 12:29:22 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
+
+static void	miso_update_shlvl(char ***envp);
+void		miso_keyvariables_init(char ***envp);
+static void	miso_path_confirm(char ***envp, char *paths);
 
 void miso_keyvariables_init(char ***envp)
 {
@@ -24,7 +28,7 @@ void miso_keyvariables_init(char ***envp)
 		miso_checknfree(NULL, NULL, cwd, *envp);
 	free(cwd);
 	miso_update_shlvl(envp);
-	miso_path_confirm(envp, miso_getenv("PATH", envp));
+	miso_path_confirm(envp, miso_getenv("PATH", *envp));
 	return ;
 }
 /* Checks and initializes the key varibles that should be set on 
@@ -50,12 +54,12 @@ static void	miso_update_shlvl(char ***envp)
 	char	*new_lvl;
 	int		crnt_lvl;
 	
-	if (!miso_find_envar(*envp, "SHLVL"))
+	if (!miso_find_envar(*envp, "SHLVL", NULL))
 	{
 		miso_add_envar(envp, "SHLVL=", "1");
 		return ;
 	}
-	crnt_lvl = ft_atoi(miso_getenv("SHLVL", envp));
+	crnt_lvl = ft_atoi(miso_getenv("SHLVL", *envp));
 	new_lvl = ft_itoa(crnt_lvl + 1);
 	if (!new_lvl)
 		miso_checknfree(NULL, NULL, new_lvl, *envp);

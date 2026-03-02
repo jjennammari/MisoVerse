@@ -31,6 +31,6 @@ int	miso_pwd(t_shell *miso, char **argv)
 }
 /* The function calls "getcwd(NULL, 0)" to have it allocate memory dynamically
 and store in it the absolute path to the current working directory, that it
-getsfrom the kernel. The result is then printed with a trailing newline, and
-free()d immediately after. The function will return 1 in error and 0 on 
+gets from the kernel. The result is then printed with a trailing newline, and
+free()'d immediately after. The function will return 1 in error and 0 on 
 success, printing the corresponding error message if necessary. */

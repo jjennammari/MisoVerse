@@ -6,16 +6,17 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 21:35:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/24 20:19:40 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/02 11:28:14 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
 static void	miso_export_print_format(char *var);
-void		miso_envp_exp_filter(char **exp, char **envp);
+void		miso_exp_filter(char **exp, char **envp);
 static int	miso_printnfree(char **exp, char **envp, char *tiny);
 int			miso_export_sort(t_shell *miso, char **envp, int envp_c);
+int			miso_exp_addorupdate(t_shell *m, char ***env, char *key, char *var);
 
 int	miso_export_sort(t_shell *miso, char **envp, int envp_c)
 {
@@ -37,7 +38,7 @@ int	miso_export_sort(t_shell *miso, char **envp, int envp_c)
 			}
 			guide++;
 		}
-		if (miso_printnfree(miso->exp, envp, tiny, tiny_len))
+		if (miso_printnfree(miso->exp, envp, tiny))
 			return (1);
 	}
 	return (0);
@@ -120,3 +121,29 @@ void	miso_exp_filter(char **exp, char **envp)
 /* The function will evaluate each variable in envp to free any
 that are not exported. The function is meant to run in a child
 process, so it only affects the array that will be sent to execve. */
+
+int	miso_exp_addorupdate(t_shell *m, char ***env, char *key, char *var)
+{
+	char	key_term;
+
+	key_term = key[ft_strlen(key) - 1];
+	if (key_term != '=')
+	{
+		if (miso_env_addorupdate(env, key, ""))
+			return (1);
+	}
+	else
+	{
+		if (miso_env_addorupdate(env, key, var))
+			return (1);
+	}
+	if (miso_addexp(m, key))
+		return (1);
+	return (0);
+}
+/* The function will check if the last character of the key is an
+'=' which would indicate that export was called with an assignment.
+If it finds the '=', it will call miso_env_addorupdate with the key
+and varlue passed to the function, otherwise, it will call it with
+an empty varlue ("") in order to only export the variable. It will
+return 1 on error and 0 on success.  */

@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:42:57 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/22 20:14:28 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/02 11:31:39 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ char	**miso_envinit(char **envp)
 	while (guide-- > 0)
 	{
 		clone[guide] = ft_strdup(envp[guide]);
-		miso_checknfree(clone[guide], NULL, cwd, clone);
+		miso_checknfree(clone[guide], NULL, NULL, clone);
 	}
-	miso_keyvariables_init(&clone)
+	miso_keyvariables_init(&clone);
 	return (clone);
 }
 /*Creates a heap-allocated replica of the **envp variable, to ensure

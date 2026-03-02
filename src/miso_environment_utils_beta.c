@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 22:11:44 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/13 20:46:34 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/02 11:20:06 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ int	miso_env_addorupdate(char ***envp, char *key, char *varlue)
 		return (1);
 	if (exit_code == 1)
 	{
-		if (miso_envar_update(*envp, key, varlue) == -1)
-			return (1);
+		if (key[ft_strlen(key) - 1] == '=')
+		{
+			if (miso_envar_update(*envp, key, varlue) == -1)
+				return (1);
+		}
 	}
 	return (0);
 }

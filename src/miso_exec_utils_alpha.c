@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:41:47 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/22 11:42:16 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/02 09:39:53 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		miso_waitroom(pid_t child, int *exit_status);
 void	miso_call_program(t_shell *miso, char **cmd, t_token *head);
-int		(*miso_is_builtin(char *cmd))(t_shell *miso, char **cmd);
+int		(*miso_get_builtin(char *cmd))(t_shell *miso, char **cmd);
 int		miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **));
 
 void	miso_call_program(t_shell *miso, char **cmd, t_token *head)
@@ -23,7 +23,7 @@ void	miso_call_program(t_shell *miso, char **cmd, t_token *head)
 	int	(*built_in)(t_shell *, char **);
 
 	exit_code = 127;
-	built_in = miso_is_builtin(cmd[0]);
+	built_in = miso_get_builtin(cmd[0]);
 	if (built_in)
 		exit_code = miso_rn(miso, cmd, head, built_in);
 	else
@@ -63,7 +63,7 @@ doesn't ask to handle other stop reasons like WIFCONTINUED or WIFSTOPPED,
 they are a posibility. That posibility, we've decided to handle as a successful
 end, so the function will return 0 by default.*/
 
-int	(*miso_is_builtin(char *cmd))(t_shell *miso, char **cmd)
+int	(*miso_get_builtin(char *cmd))(t_shell *miso, char **cmd)
 {
 	size_t	len;
 

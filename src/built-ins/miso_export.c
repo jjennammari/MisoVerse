@@ -6,11 +6,16 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 21:08:32 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/24 20:19:31 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/02 12:39:51 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miso.h"
+
+static int	miso_exparse(char *arg);
+int         miso_export(t_shell *miso, char **argv);
+static int  miso_parsenexport(t_shell *m, char ***env, char **argv);
+static int  miso_exp_no_args(t_shell *miso, char **envp_clone, int envlen);
 
 int	miso_export(t_shell *miso, char **argv)
 {
@@ -41,22 +46,29 @@ int	miso_export(t_shell *miso, char **argv)
 	return (0);
 }
 
-int	miso_exp_no_args(t_shell *miso, char **evp_clone, int envlen)
+static int	miso_exp_no_args(t_shell *miso, char **envp_clone, int envlen)
 {
 	if (!*(miso->envp))
-		return (miso_free_matrix(envp_clone), 0);
+	{
+		miso_free_matrix(envp_clone);
+		return (0);
+	}
 	if (!miso_export_sort(miso, envp_clone, envlen))
-		return (miso_free_matrix(envp_clone), 0);
-	return (miso_free_matrix(envp_clone), 1);
+	{
+		miso_free_matrix(envp_clone);
+		return (0);
+	}
+	miso_free_matrix(envp_clone);
+	return (1);
 }
 
-int miso_parsenexport(t_shell *m, char ***env, char **argv)
+static int miso_parsenexport(t_shell *m, char ***env, char **argv)
 {
 	int		guide;
 	int		exit_code;
 	char	*key;
 
-	if (!miso->exp)
+	if (!m->exp)
 		return (miso_freenret(NULL, NULL, 1, 1));
 	guide = 0;
 	exit_code = 0;
@@ -72,34 +84,14 @@ int miso_parsenexport(t_shell *m, char ***env, char **argv)
 		if (!key)
 			return (miso_freenret(NULL, NULL, 1, 1));
 		if (miso_exp_addorupdate(m, env, key, (argv[guide]) + ft_strlen(key)))
-			return (miso_freenret(key, NULL, 1, 1))
+			return (miso_freenret(key, NULL, 1, 1));
 		free(key);
 		guide++;
 	}
 	return (exit_code);
 }
 
-int	miso_exp_addorupdate(t_shell *miso, char ***envp, char *key, char *var)
-{
-	char	key_term;
-
-	key_term = key[ft_strlen(key) - 1];
-	if (!key_term)
-	{
-		if (miso_env_addorupdate(envp, key, ""))
-			return (1);
-	}
-	else
-	{
-		if (miso_env_addorupdate(envp, key, var))
-			return (1);
-	}
-	if (miso_addexp(miso, key))
-		return (1);
-	return (0);
-}
-
-int	miso_exparse(char *arg)
+static int	miso_exparse(char *arg)
 {
 	int	guide;
 	int	print_error;
