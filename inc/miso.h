@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/02 11:23:45 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/05 21:12:33 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include <fcntl.h>
 # include <errno.h>
 
-// Text Color:
+// Miso Colors:
 # define RSET	"\033[0m"
 # define B_WI	"\033[1;37m"
 # define LIME	"\033[38;2;0;255;0m"
