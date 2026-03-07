@@ -16,7 +16,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	miso;
 
+	(void)envp;
 	miso_init_variables(&miso, argc, argv);
+	init_daddy_signals();
 	misoverse_loop(&miso);
 	misoverse_free(&miso);
 	return (0);

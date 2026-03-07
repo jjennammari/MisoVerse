@@ -43,6 +43,17 @@ FILE += miso_export_utils_alpha.c
 FILE += miso_environment_utils_beta.c
 FILE += miso_environment_utils_alpha.c
 FILE += miso_environment_utils_charlie.c
+FILE += miso_signals.c
+FILE += miso_handle_heredoc.c
+FILE += miso_handle_heredoc_utils.c
+FILE += miso_parser.c
+FILE += miso_parser_utils.c
+FILE += miso_tokenization.c
+FILE += miso_tokenization_quotes.c
+FILE += miso_tokenization_utils.c
+FILE += miso_expand_variable.c
+FILE += miso_free.c
+FILE += misoverse_loop.c
 FILE += $(BLTIN_DIR)miso_cd.c
 FILE += $(BLTIN_DIR)miso_pwd.c
 FILE += $(BLTIN_DIR)miso_env.c
@@ -62,7 +73,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(MISO_LIB) ./inc/miso_structs.h ./inc/miso.h
 	@printf "$(BABY)"
-	$(COMPILE) $(LIBFT) $(MISO_LIB) $(MAIN_FILE) -o $(NAME)
+	$(COMPILE) $(MAIN_FILE) $(MISO_LIB) $(LIBFT) -o $(NAME) -lreadline
 	@printf "$(MINT)"
 	@ls -la
 	@printf "$(RSET)"

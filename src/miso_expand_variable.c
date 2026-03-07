@@ -64,8 +64,8 @@ char	*miso_get_var_name(char *str, int *pi)
 	name = malloc(sizeof(char) * len + 1);
 	if (!name)
 	{
-		perror(BLOD"PROMPT"MINT");
-		// function that mapache makes to free and exit
+		perror(BLOD"PROMPT"MINT);
+		return (NULL);
 	}
 	while (*pi < len)
 	{
@@ -83,8 +83,8 @@ char	*miso_add_to_string(char *s1, char *s2)
 	result = ft_strjoin(s1, s2);
 	if (!result)
 	{
-		perror(BLOD"PROMPT"MINT");
-		// function that mapache makes to free and exit
+		perror(BLOD"PROMPT"MINT);
+		return (NULL);
 	}
 	if (s1)
 		free(s1);

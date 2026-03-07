@@ -46,19 +46,12 @@ int	miso_parse_redirections(t_shell *miso, t_token *node)
 		racc_print(2, BLOD"PROMPT"MINT" Syntax error near redirection operator\n");
 		return (1);
 	}
-	else if (node->next->type != ARG)
+	if (node->type == HEREDOC)
+		return (miso_handle_heredoc(miso, node));
+	if (!node->next || node->next->type != ARG)
 	{
 		racc_print(2, BLOD"PROMPT"MINT" Syntax error near redirection operator\n");
 		return (1);
-	}
-	else if (node->next->type == ARG && node->next->next == ARG)
-	{
-		if (miso->list.cmd_found == 0)
-		{
-			miso_set_commandtype(miso, node->next->next);
-			miso->list.cmd_found = 1;
-		}
-		return (0);
 	}
 	return (0);
 }

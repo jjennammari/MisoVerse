@@ -22,12 +22,11 @@ void	misoverse_loop(t_shell *miso)
 		if (!line)
 		{
 			perror(BLOD"PROMPT"MINT);
-			// function that mapache makes to free and exit
+			break ;
 		}
 		add_history(line);
 		if (miso_tokenization(miso, line))
 			continue ;
-		miso_print_token_list(miso);
 		if (miso_parser(miso))
 			continue ;
 	}

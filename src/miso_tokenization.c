@@ -83,13 +83,12 @@ void	miso_add_redirection(t_shell *miso, char *str, int *pi)
 
 void	miso_add_argument(t_shell *miso, char *str, int *pi, int (*f)(char))
 {
-	int		i;
 	int		len;
 	char	*temp;
 
 	miso->node->expand = 0;
 	len = 0;
-	while (str[len] && !miso_is_whitespace(str[len]) && !ft_strchr("<|>'\"", str[len]))
+	while (str[len] && !f(str[len]) && !ft_strchr("<|>'\"", str[len]))
 	{
 		if (str[len] == '$' && miso->node->expand == 0)
 			miso->node->expand = 1;
@@ -97,6 +96,7 @@ void	miso_add_argument(t_shell *miso, char *str, int *pi, int (*f)(char))
 	}
 	temp = miso_create_token_str(str, len);
 	miso_add_to_list(miso, temp, ARG);
+	*pi += len;
 }
 
 void	miso_add_to_list(t_shell *miso, char *str, t_token_type type)

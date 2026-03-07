@@ -102,11 +102,20 @@ int		miso_is_alnum(char c);
 void	misoverse_free(t_shell *miso);
 void	miso_free_token_list(t_shell *miso);
 
-/* delete_later.c */
-void	miso_print_token_list(t_shell *miso);
-
 //	 -- -- #	miso_launch.c
 int		miso_launch(t_shell *miso, t_token *head);
+
+//	 -- -- #	miso_signals.c
+void	miso_daddy_sigint(int sig);
+void	init_daddy_signals(void);
+void	setup_child_signals(void);
+
+//	 -- -- #	miso_handle_heredoc.c
+int		miso_handle_heredoc(t_shell *miso, t_token *node);
+
+//	 -- -- #	miso_handle_heredoc_utils.c
+char	*miso_hd_tmpfile(int *fd);
+void	miso_hd_cleanup(int fd, char *tmp);
 
 //	 -- -- #	miso_pathfinder.c
 char	**miso_argv(t_token *head, char **envp);

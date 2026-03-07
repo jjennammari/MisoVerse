@@ -15,10 +15,10 @@
 void	misoverse_free(t_shell *miso)
 {
 	if (miso->list.head != NULL)
-		free_token_list(miso);
+		miso_free_token_list(miso);
 }
 
-void	free_token_list(t_shell *miso)
+void	miso_free_token_list(t_shell *miso)
 {
 	t_token	*temp;
 
