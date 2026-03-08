@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 15:18:15 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/02 12:29:22 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/08 01:07:04 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ static void	miso_update_shlvl(char ***envp);
 void		miso_keyvariables_init(char ***envp);
 static void	miso_path_confirm(char ***envp, char *paths);
 
-void miso_keyvariables_init(char ***envp)
+void	miso_keyvariables_init(char ***envp)
 {
-	char    *cwd;
+	char	*cwd;
 
 	cwd = getcwd(NULL, 0);
 	miso_checknfree(cwd, NULL, NULL, *envp);
@@ -53,7 +53,7 @@ static void	miso_update_shlvl(char ***envp)
 {
 	char	*new_lvl;
 	int		crnt_lvl;
-	
+
 	if (!miso_find_envar(*envp, "SHLVL", NULL))
 	{
 		miso_add_envar(envp, "SHLVL=", "1");
@@ -65,9 +65,9 @@ static void	miso_update_shlvl(char ***envp)
 		miso_checknfree(NULL, NULL, new_lvl, *envp);
 	if (miso_envar_update(*envp, "SHLVL=", new_lvl) != 0)
 		miso_checknfree(NULL, NULL, new_lvl, *envp);
-	free(new_lvl) ;
+	free(new_lvl);
 	return ;
 }
 /* It will read the number stored in the SHLVL variable, to
 add 1 to it. If there isn't one, it creates it initializing
-its value to 1 */ 
+its value to 1 */

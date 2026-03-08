@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/02 09:58:03 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/03/08 01:00:23 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ FILE += $(BLTIN_DIR)miso_cd.c
 FILE += $(BLTIN_DIR)miso_pwd.c
 FILE += $(BLTIN_DIR)miso_env.c
 FILE += $(BLTIN_DIR)miso_echo.c
+FILE += $(BLTIN_DIR)miso_exit.c
 FILE += $(BLTIN_DIR)miso_unset.c
 FILE += $(BLTIN_DIR)miso_export.c
 

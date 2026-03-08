@@ -6,16 +6,16 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 21:08:32 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/02 12:39:51 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/08 01:04:15 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miso.h"
 
 static int	miso_exparse(char *arg);
-int         miso_export(t_shell *miso, char **argv);
-static int  miso_parsenexport(t_shell *m, char ***env, char **argv);
-static int  miso_exp_no_args(t_shell *miso, char **envp_clone, int envlen);
+int			miso_export(t_shell *miso, char **argv);
+static int	miso_parsenexport(t_shell *m, char ***env, char **argv);
+static int	miso_exp_no_args(t_shell *miso, char **envp_clone, int envlen);
 
 int	miso_export(t_shell *miso, char **argv)
 {
@@ -62,7 +62,7 @@ static int	miso_exp_no_args(t_shell *miso, char **envp_clone, int envlen)
 	return (1);
 }
 
-static int miso_parsenexport(t_shell *m, char ***env, char **argv)
+static int	miso_parsenexport(t_shell *m, char ***env, char **argv)
 {
 	int		guide;
 	int		exit_code;
@@ -101,7 +101,7 @@ static int	miso_exparse(char *arg)
 	if (ft_isalpha(arg[guide]) || arg[guide] == '_')
 	{
 		while (arg[guide] && arg[guide] != '=' && (ft_isalnum(arg[guide])
-			|| arg[guide] == '_'))
+				|| arg[guide] == '_'))
 			guide++;
 	}
 	if ((arg[guide] && arg[guide] != '=') || guide == 0)

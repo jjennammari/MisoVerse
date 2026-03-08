@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 21:17:01 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/05 22:44:30 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/07 19:19:33 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*nu_str;
 	size_t	guide;
-	
+
 	if (!s1 || !s2)
 		return (NULL);
 	nu_str = malloc(((ft_strlen(s1)) + (ft_strlen(s2)) + 1) * sizeof (char));
