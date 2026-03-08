@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 18:19:36 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/08 18:47:18 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/08 19:36:30 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ void	miso_daddy_sigint(int sig)
 	miso_fdshutdown();
 	return ;
 }
+/* Handles SIGINT for the parent process. Resetting readline, printing
+a newline, and setting the global signal accordingly. */
+
 
 void	miso_fdshutdown(void)
 {
