@@ -24,11 +24,14 @@ void	misoverse_loop(t_shell *miso)
 		if (!line)
 			misoverse_free(miso, 1);
 		add_history(line);
-		if (miso_tokenization(miso, line))
+		if (miso_tokenize(miso, line))
 			continue ;
 		miso_print_token_list(miso);
-		if (miso_parser(miso))
+		if (miso_parse(miso))
 			continue ;
+		if (miso->list.hd_count)
+			if (miso_heredoc(miso))
+				continue ;
 		if (miso->list.hd_count && miso_handle_heredoc(miso))
 			continue ;
 		miso->exit_code = miso_launch(miso, miso->list.head);

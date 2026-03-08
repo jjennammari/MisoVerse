@@ -12,7 +12,7 @@
 
 #include "../inc/miso.h"
 
-int	miso_parser(t_shell *miso)
+int	miso_parse(t_shell *miso)
 {
 	t_token	*temp;
 
@@ -28,7 +28,7 @@ int	miso_parser(t_shell *miso)
 					return (1);
 			}
 			else if (temp->expand == 1)
-				miso_expand(miso, temp->str, temp);
+				miso_expand(miso, temp->str);
 			temp = temp->next;
 		}
 		if (temp->type == PIPE)

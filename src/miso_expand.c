@@ -38,6 +38,7 @@ char	*miso_expand(t_shell *miso, char *str)
 			res = miso_add_to_str(res, &str[i]);
 		i++;
 	}
+	return (res);
 }
 
 char	*miso_get_exp_name(t_shell *miso, char *str, int *pi)
@@ -67,7 +68,7 @@ char	*miso_subtract_exp_name(char *str, int len)
 	int		i;
 
 	res = malloc(sizeof(char) * len + 1);
-	if (!name)
+	if (!res)
 	{
 		perror(BLOD"PROMPT"MINT);
 		//function to free and exit from mapache
@@ -89,7 +90,7 @@ char	*miso_add_to_str(char *s1, char *s2)
 	res = ft_strjoin(s1, s2);
 	if (!res)
 	{
-		perror(BLOOD"PROMPT"MINT);
+		perror(BLOD"PROMPT"MINT);
 		// function to free and exit from mapache
 	}
 	if (s1)

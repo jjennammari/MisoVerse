@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miso.h"
+#include "../inc/miso.h"
 
 void	miso_print_token_list(t_shell *miso)
 {

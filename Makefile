@@ -31,7 +31,14 @@ OBJ_DIR = obj/
 BLTIN_DIR = built-ins/
 
 MAIN_FILE = $(SRC_DIR)miso_main.c
-
+FILE += misoverse_loop.c
+FILE += miso_tokenize.c
+FILE += miso_tokenize_utils.c
+FILE += miso_tokenize_quotes.c
+FILE += miso_parse.c
+FILE += miso_parse_utils.c
+FILE += miso_heredoc.c
+FILE += miso_expand.c
 FILE = miso_launch.c
 FILE += miso_signals.c
 FILE += miso_pathfinder.c

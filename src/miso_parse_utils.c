@@ -14,19 +14,22 @@
 
 int	miso_is_builtin(char *word)
 {
-	if (ft_strcmp("echo", word))
+	int	len;
+
+	len = 0;
+	if (ft_strncmp("echo", word, len))
 		return (1);
-	else if (ft_strcmp("cd", word))
+	if (ft_strncmp("cd", word, len))
 		return (1);
-	if (ft_strcmp("pwd", word))
+	if (ft_strncmp("pwd", word, len))
 		return (1);
-	if (ft_strcmp("export", word))
+	if (ft_strncmp("export", word, len))
 		return (1);
-	if (ft_strcmp("unset", word))
+	if (ft_strncmp("unset", word, len))
 		return (1);
-	if (ft_strcmp("env", word))
+	if (ft_strncmp("env", word, len))
 		return (1);
-	if (ft_strcmp("exit", word))
+	if (ft_strncmp("exit", word, len))
 		return (1);
 	return (0);
 }
