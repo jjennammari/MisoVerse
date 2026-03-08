@@ -24,8 +24,6 @@ int	main(int argc, char **argv, char **envp)
 
 void	miso_init_variables(t_shell *miso, int argc, char **argv)
 {
-	(void)argc;
-	(void)argv;
 	miso->exit_code = 0;
 	miso->node = malloc(sizeof(t_token));
 	if (!miso->node)
@@ -33,8 +31,7 @@ void	miso_init_variables(t_shell *miso, int argc, char **argv)
 	miso->node->expand = 0;
 	miso->node->str = NULL;
 	miso->node->next = NULL;
-	miso->node->hd.is_quotet = 0;
-	miso->node->hd.delim = NULL;
+	miso->node->is_quotet = 0;
 	miso->list.cmd_found = 0;
 	miso->list.head = NULL;
 	miso->list.last_node = NULL;

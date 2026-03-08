@@ -12,7 +12,7 @@
 
 #include "../inc/miso.h"
 
-int	miso_tokenization(t_shell *miso, char *line)
+int	miso_tokenize(t_shell *miso, char *line)
 {
 	int		i;
 

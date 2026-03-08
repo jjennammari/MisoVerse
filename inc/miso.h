@@ -65,7 +65,7 @@ void	miso_init_variables(t_shell *miso, int argc, char **argv);//NOTE: exit_code
 void	misoverse_loop(t_shell *miso);//TODO: check continue actually skips all and starts the loop from beginning
 
 /* tokenization.c */
-int		miso_tokenization(t_shell *miso, char *line);
+int		miso_tokenize(t_shell *miso, char *line);
 void	miso_add_operator(t_shell *miso, char *line, int *pi);
 void	miso_add_redirection(t_shell *miso, char *line, int *pi);
 void	miso_add_argument(t_shell *miso, char *line, int *pi, int (*f)(char));//TODO: delete recieved function parameter
@@ -82,7 +82,7 @@ int		miso_is_whitespace(char c);
 char	*miso_create_token_str(char *str, int len);
 
 /* miso_parser.c */
-int		miso_parser(t_shell *miso);
+int		miso_parse(t_shell *miso);
 int		miso_parse_redirections(t_shell *miso, t_token *node);
 int		miso_parse_pipe(t_shell *miso, t_token *node);
 
@@ -93,14 +93,15 @@ void	miso_search_cmd(t_shell *miso, t_token *node);
 int		miso_is_redirection(t_token_type type);
 
 /* miso_heredoc.c */
-int	miso_handle_heredoc(t_shell *miso);
-int	miso_get_heredoc(t_shell *miso, t_token *hd, int file_nb);
+int		miso_heredoc(t_shell *miso);
+int		miso_get_heredoc(t_shell *miso, t_token *hd, int file_nb);
 void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
-int	miso_hd_open_file(char *file, int *fd);
+int		miso_hd_open_file(char *file, int *fd);
 char	*miso_hd_get_filename(int file_nb);
-int	miso_hd_collect(t_shell *miso, t_token *delim, int fd);
-int	miso_hd_found_delim(char *line, char *delim);
+int		miso_hd_collect(t_shell *miso, t_token *delim, int fd);
+int		miso_hd_found_delim(char *line, char *delim);
 char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line);
+int	miso_hd_write(char *line, int fd);
 
 /* miso_expand_.c */
 char	*miso_expand(t_shell *miso, char *str);

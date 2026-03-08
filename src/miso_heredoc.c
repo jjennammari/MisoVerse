@@ -12,7 +12,7 @@
 
 #include "../inc/miso.h"
 
-int	miso_handle_heredoc(t_shell *miso)
+int	miso_heredoc(t_shell *miso)
 {
 	t_token	*temp;
 	int		file_nb;
@@ -44,7 +44,7 @@ int	miso_get_heredoc(t_shell *miso, t_token *hd, int file_nb)
 		return (1);
 	if (miso_hd_open_file(file, &fd))
 		return (free(file), 1);
-	if (miso_collect_hd(miso, delim, fd))
+	if (miso_hd_collect(miso, delim, fd))
 		return (close(fd), free(file), 1);
 	close(fd);
 	miso_hd_update_nodes(hd, delim, file);
@@ -63,7 +63,7 @@ void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file)
 int	miso_hd_open_file(char *file, int *fd)
 {
 	*fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0600);
-	if (fd == -1)
+	if (*fd == -1)
 		return (1);
 	return (0);
 }
@@ -128,4 +128,13 @@ char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line)
 	res = miso_expand_line(miso, line);
 	free(line);
 	return (res);
+}
+
+int	miso_hd_write(char *line, int fd)
+{
+	if (write(fd, line, ft_strlen(line)) == -1)
+		return (1);
+	if (write(fd, "\n", 1) == -1)
+		return (1);
+	return (0);
 }

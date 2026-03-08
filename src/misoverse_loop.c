@@ -25,13 +25,13 @@ void	misoverse_loop(t_shell *miso)
 			// function that mapache makes to free and exit
 		}
 		add_history(line);
-		if (miso_tokenization(miso, line))
+		if (miso_tokenize(miso, line))
 			continue ;
 		miso_print_token_list(miso);
-		if (miso_parser(miso))
+		if (miso_parse(miso))
 			continue ;
 		if (miso->list.hd_count)
-			if (miso_handle_heredoc(miso))
+			if (miso_heredoc(miso))
 				continue ;
 	}
 }
