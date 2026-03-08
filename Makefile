@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/08 01:00:23 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/03/08 18:47:15 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ BLTIN_DIR = built-ins/
 MAIN_FILE = $(SRC_DIR)miso_main.c
 
 FILE = miso_launch.c
+FILE += miso_signals.c
 FILE += miso_pathfinder.c
 FILE += miso_redirection.c
 FILE += miso_exec_utils_beta.c
@@ -57,13 +58,13 @@ OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 .PRECIOUS: $(SRC) $(SRC_BONUS)
 
-COMPILE = cc -g -O0 -Wall -Werror -Wextra -I./inc
+COMPILE = cc -g -O0 -Wall -Werror -Wextra -I./inc -lreadline -lhistory
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(MISO_LIB) ./inc/miso_structs.h ./inc/miso.h
 	@printf "$(BABY)"
-	$(COMPILE) $(LIBFT) $(MISO_LIB) $(MAIN_FILE) -o $(NAME)
+	$(COMPILE) $(LIBFT) $(MAIN_FILE) $(MISO_LIB) -o $(NAME)
 	@printf "$(MINT)"
 	@ls -la
 	@printf "$(RSET)"

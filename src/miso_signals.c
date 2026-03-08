@@ -6,23 +6,39 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 18:19:36 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/08 01:11:00 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/08 18:47:18 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
+void    miso_fdshutdown(void);
+void    miso_daddy_sigint(int sig);
+void    miso_init_daddy_signals(void);
+void    miso_setup_child_signals(void);
+
 void	miso_daddy_sigint(int sig)
 {
 	g_signal = sig;
-	racc_print(1, PURP"^C"RSET"\n");
-	rl_on_new_line(void);
+	write(1, "\n", 28);
 	rl_replace_line("", 0);
-	rl_redisplay(void);
+	rl_on_new_line();
+	rl_redisplay();
+	miso_fdshutdown();
 	return ;
 }
 
-void	init_daddy_signals(void)
+void	miso_fdshutdown(void)
+{
+	int fd;
+
+	fd = 3;
+	while (fd <= 1024)
+		close(fd++);
+	return ;
+}
+
+void	miso_init_daddy_signals(void)
 {
 	t_sigact	miso_sigint;
 	t_sigact	miso_sigquit;
@@ -40,7 +56,7 @@ void	init_daddy_signals(void)
 	return ;
 }
 
-void	setup_child_signals(void)
+void	miso_setup_child_signals(void)
 {
 	t_sigact	miso_child_sigint;
 

@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/05 21:12:33 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/08 18:46:26 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,12 @@ char	**miso_argv(t_token *head, char **envp);
 
 //	 -- -- #	miso_redirection.c
 void	miso_channeling(int prev_read, t_token *head, int *p, int p_num);
+
+//   -- -- #    miso_signals.c
+void    miso_fdshutdown(void);
+void    miso_daddy_sigint(int sig);
+void    miso_init_daddy_signals(void);
+void    miso_setup_child_signals(void);
 
 //	 -- -- #	miso_exec_utils_alpha.c
 int		miso_waitroom(pid_t child, int *exit_status);
