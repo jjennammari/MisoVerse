@@ -6,13 +6,13 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/12 21:11:45 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/07 19:16:39 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/03/08 22:41:39 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
-COMPILE = cc -Wall -Werror -Wextra -I/includes.
+COMPILE = cc -Wall -Werror -Wextra -I/includes
 OBJ = $(FILE:%.c=%.o)
 OBJ_BONUS = $(FILE_BONUS:%.c=%.o)
 

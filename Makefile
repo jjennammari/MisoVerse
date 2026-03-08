@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/08 18:47:15 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/03/08 22:52:07 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,17 +29,18 @@ RSET	= \033[0m
 SRC_DIR = src/
 OBJ_DIR = obj/
 BLTIN_DIR = built-ins/
+INC = -I/inc/libft/includes -I/inc
 
-MAIN_FILE = $(SRC_DIR)miso_main.c
+FILE = miso_main.c
 FILE += misoverse_loop.c
 FILE += miso_tokenize.c
 FILE += miso_tokenize_utils.c
 FILE += miso_tokenize_quotes.c
-FILE += miso_parse.c
 FILE += miso_parse_utils.c
 FILE += miso_heredoc.c
+FILE += miso_parse.c
 FILE += miso_expand.c
-FILE = miso_launch.c
+FILE += miso_launch.c
 FILE += miso_signals.c
 FILE += miso_pathfinder.c
 FILE += miso_redirection.c
@@ -65,13 +66,13 @@ OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 .PRECIOUS: $(SRC) $(SRC_BONUS)
 
-COMPILE = cc -g -O0 -Wall -Werror -Wextra -I./inc -lreadline -lhistory
+COMPILE = cc -g -O0 -Wall -Werror -Wextra $(INC) -lreadline -lhistory
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(MISO_LIB) ./inc/miso_structs.h ./inc/miso.h
 	@printf "$(BABY)"
-	$(COMPILE) $(LIBFT) $(MAIN_FILE) $(MISO_LIB) -o $(NAME)
+	$(COMPILE) $(OBJ) $(MISO_LIB) $(LIBFT) -o $(NAME)
 	@printf "$(MINT)"
 	@ls -la
 	@printf "$(RSET)"

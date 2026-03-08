@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/07 18:59:11 by jemustaj         ###   ########.fr       */
+/*   Updated: 2026/03/08 22:31:38 by lde-san-         ###   ########.fr       */
 /*   Updated: 2026/03/08 18:46:26 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -59,7 +59,7 @@ typedef struct sigaction	t_sigact;
 
 /*  miso_main.c  */
 int		main(int argc, char **argv, char **envp);
-void	miso_init_variables(t_shell *miso, int argc, char **argv);//NOTE: exit_code init to 0 (= success) is correct?
+void	miso_init_variables(t_shell *miso, char **envp);//NOTE: exit_code init to 0 (= success) is correct?
 
 /* misoverse_loop.c */
 void	misoverse_loop(t_shell *miso);//TODO: check continue actually skips all and starts the loop from beginning
@@ -68,7 +68,7 @@ void	misoverse_loop(t_shell *miso);//TODO: check continue actually skips all and
 int		miso_tokenize(t_shell *miso, char *line);
 void	miso_add_operator(t_shell *miso, char *line, int *pi);
 void	miso_add_redirection(t_shell *miso, char *line, int *pi);
-void	miso_add_argument(t_shell *miso, char *line, int *pi, int (*f)(char));//TODO: delete recieved function parameter
+void	miso_add_argument(t_shell *miso, char *line);//TODO: delete recieved function parameter
 void	miso_add_to_list(t_shell *miso, char *str, t_token_type type);
 
 /* miso_tokenization_quotes */
@@ -101,7 +101,7 @@ char	*miso_hd_get_filename(int file_nb);
 int		miso_hd_collect(t_shell *miso, t_token *delim, int fd);
 int		miso_hd_found_delim(char *line, char *delim);
 char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line);
-int	miso_hd_write(char *line, int fd);
+int		miso_hd_write(char *line, int fd);
 
 /* miso_expand_.c */
 char	*miso_expand(t_shell *miso, char *str);
@@ -113,8 +113,9 @@ char	*miso_expand_line(t_shell *miso, char *line);
 int		miso_is_alnum(char c);
 
 /* miso_free.c */
-void	misoverse_free(t_shell *miso);
+void 	miso_reset(t_shell *miso);
 void	miso_free_token_list(t_shell *miso);
+void    misoverse_free(t_shell *miso, int print_err);
 
 /* delete_later.c */
 void	miso_print_token_list(t_shell *miso);

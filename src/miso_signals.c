@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 18:19:36 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/08 19:36:30 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/08 22:27:49 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void    miso_setup_child_signals(void);
 void	miso_daddy_sigint(int sig)
 {
 	g_signal = sig;
-	write(1, "\n", 28);
+	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();

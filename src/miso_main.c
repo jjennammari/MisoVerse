@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:47:52 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/08 22:00:50 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/08 22:31:42 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	miso;
 
-	void(argc);
-	void(argv);
+	(void)argc;
+	(void)argv;
 	miso_init_variables(&miso, envp);
 	misoverse_loop(&miso);
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 19:06:05 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/08 16:56:03 by jemustaj         ###   ########.fr       */
+/*   Updated: 2026/03/08 22:26:24 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char	*miso_get_exp_name(t_shell *miso, char *str, int *pi)
 {
 	char	*name;
 	int		len;
-	int		i;
 
 	if (str[*pi++] == '?')
 	{
