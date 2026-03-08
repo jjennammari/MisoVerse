@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:39:01 by lde-san-          #+#    #+#             */
-/*   Updated: 2025/06/07 09:05:31 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/01 12:55:05 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,6 @@ t_lst	*racc_lstnew(char c);
 size_t	racc_linesize(t_lst *lst);
 int		racc_findend(t_lst **lst);
 void	racc_delnode(t_lst **lst, int clear_all);
-int		racc_lstadd(t_lst **lst, t_lst *new);
+int		racc_lstadd(t_lst **lst, t_lst *neo);
 
 #endif
