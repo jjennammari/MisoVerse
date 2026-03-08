@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:07 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/02/24 21:14:23 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/04 19:23:46 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,17 @@ typedef enum s_token_type
 
 typedef struct s_token
 {
-	t_token_type	type;
-	int				expand;
+	bool			expand;
+	bool			is_quotet;
 	char			*str;
 	struct s_token	*next;
+	t_token_type	type;
 }	t_token;
 
 typedef struct s_line
 {
-	int		cmd_found;
+	bool	cmd_found;
+	int		hd_count;
 	t_token	*head;
 	t_token	*last_node;
 }	t_line;

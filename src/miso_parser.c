@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 22:48:03 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/02/24 20:18:36 by jemustaj         ###   ########.fr       */
+/*   Updated: 2026/03/04 19:23:12 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,13 @@ int	miso_parser(t_shell *miso)
 		miso_search_cmd(miso, temp);
 		while (temp && temp->type != PIPE)
 		{
-			if (temp->expand == 1)
-				miso_expand_variable(miso, temp->str, temp);
-			else if (miso_is_redirection(temp->type))
+			if (miso_is_redirection(temp->type))
+			{
 				if (miso_parse_redirections(miso, temp))
 					return (1);
+			}
+			else if (temp->expand == 1)
+				miso_expand(miso, temp->str, temp);
 			temp = temp->next;
 		}
 		if (temp->type == PIPE)
@@ -51,7 +53,9 @@ int	miso_parse_redirections(t_shell *miso, t_token *node)
 		racc_print(2, BLOD"PROMPT"MINT" Syntax error near redirection operator\n");
 		return (1);
 	}
-	else if (node->next->type == ARG && node->next->next == ARG)
+	if (node->type == HEREDOC)
+		node->next->expand = 0;
+	if (node->next->type == ARG && node->next->next->type == ARG)
 	{
 		if (miso->list.cmd_found == 0)
 		{

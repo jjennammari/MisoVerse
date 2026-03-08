@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:47:33 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/02/24 10:46:10 by jemustaj         ###   ########.fr       */
+/*   Updated: 2026/03/08 18:43:50 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	miso_add_operator(t_shell *miso, char *str, int *pi)
 {
 	int	i;
 
+	miso->node->is_quotet = 0;
 	i = 0;
 	if (str[i] == '|')
 	{
@@ -63,6 +64,7 @@ void	miso_add_redirection(t_shell *miso, char *str, int *pi)
 		if (str[i + 1] == '<')
 		{
 			miso_add_to_list(miso, "<<", HEREDOC);
+			miso->list.hd_count += 1;
 			*pi += 1;
 		}
 		else
@@ -88,6 +90,7 @@ void	miso_add_argument(t_shell *miso, char *str, int *pi, int (*f)(char))
 	char	*temp;
 
 	miso->node->expand = 0;
+	miso->node->is_quotet = 0;
 	len = 0;
 	while (str[len] && !miso_is_whitespace(str[len]) && !ft_strchr("<|>'\"", str[len]))
 	{
