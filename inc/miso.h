@@ -93,11 +93,13 @@ void	miso_search_cmd(t_shell *miso, t_token *node);
 int		miso_is_redirection(t_token_type type);
 
 /* miso_heredoc.c */
-int		miso_handle_heredoc(t_shell *miso);
-int		miso_get_heredoc(t_shell *miso, t_token *hd, int file_nb);
+int	miso_handle_heredoc(t_shell *miso);
+int	miso_get_heredoc(t_shell *miso, t_token *hd, int file_nb);
+void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
+int	miso_hd_open_file(char *file, int *fd);
 char	*miso_hd_get_filename(int file_nb);
-int		miso_hd_collect(t_shell *miso, t_token *delim, int fd);
-int		miso_hd_found_delim(char *line, char *delim);
+int	miso_hd_collect(t_shell *miso, t_token *delim, int fd);
+int	miso_hd_found_delim(char *line, char *delim);
 char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line);
 
 /* miso_expand_.c */
