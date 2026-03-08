@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:22 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/04 19:25:41 by jemustaj         ###   ########.fr       */
+/*   Updated: 2026/03/08 21:42:38 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,13 @@ void	misoverse_loop(t_shell *miso)
 {
 	char	*line;
 
+	miso_init_daddy_signals;
 	while (1)
 	{
+		miso_reset(miso);
 		line = readline(PROMPT);
 		if (!line)
-		{
-			perror(BLOD"PROMPT"MINT);
-			// function that mapache makes to free and exit
-		}
+			misoverse_free(miso, 1);
 		add_history(line);
 		if (miso_tokenize(miso, line))
 			continue ;
@@ -33,5 +32,9 @@ void	misoverse_loop(t_shell *miso)
 		if (miso->list.hd_count)
 			if (miso_heredoc(miso))
 				continue ;
+		if (miso->list.hd_count && miso_handle_heredoc(miso))
+			continue ;
+		miso->exit_code = miso_launch(miso, miso->list.head);
 	}
+	return ;
 }
