@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:47:52 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/08 21:10:32 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/08 22:00:50 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@ int	main(int argc, char **argv, char **envp)
 
 	void(argc);
 	void(argv);
-	miso_init_variables(&miso, argc, argv);
+	miso_init_variables(&miso, envp);
 	misoverse_loop(&miso);
-	misoverse_free(&miso);
-	return (0);
+	return (1);
 }
 
 void	miso_init_variables(t_shell *miso, char **envp)
@@ -43,10 +42,5 @@ void	miso_init_variables(t_shell *miso, char **envp)
 	miso->node->str = NULL;
 	miso->node->next = NULL;
 	miso->node->is_quotet = 0;
-	miso->list.cmd_found = 0;
-	miso->list.head = NULL;
-	miso->list.last_node = NULL;
-	miso->node->is_quotet = 0;
-	miso->node->delim = NULL;
 	return ;
 }

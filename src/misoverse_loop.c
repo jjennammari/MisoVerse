@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:22 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/08 21:42:38 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/08 21:58:24 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,6 @@ void	misoverse_loop(t_shell *miso)
 		miso_print_token_list(miso);
 		if (miso_parse(miso))
 			continue ;
-		if (miso->list.hd_count)
-			if (miso_heredoc(miso))
-				continue ;
 		if (miso->list.hd_count && miso_handle_heredoc(miso))
 			continue ;
 		miso->exit_code = miso_launch(miso, miso->list.head);
