@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:22 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/02/20 21:31:52 by jemustaj         ###   ########.fr       */
+/*   Updated: 2026/03/04 19:25:41 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,8 @@ void	misoverse_loop(t_shell *miso)
 		miso_print_token_list(miso);
 		if (miso_parser(miso))
 			continue ;
+		if (miso->list.hd_count)
+			if (miso_handle_heredoc(miso))
+				continue ;
 	}
 }

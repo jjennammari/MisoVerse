@@ -33,6 +33,8 @@ void	miso_init_variables(t_shell *miso, int argc, char **argv)
 	miso->node->expand = 0;
 	miso->node->str = NULL;
 	miso->node->next = NULL;
+	miso->node->hd.is_quotet = 0;
+	miso->node->hd.delim = NULL;
 	miso->list.cmd_found = 0;
 	miso->list.head = NULL;
 	miso->list.last_node = NULL;

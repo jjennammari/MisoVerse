@@ -6,6 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
+/*   Updated: 2026/03/07 18:59:11 by jemustaj         ###   ########.fr       */
 /*   Updated: 2026/03/08 18:46:26 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -67,7 +68,7 @@ void	misoverse_loop(t_shell *miso);//TODO: check continue actually skips all and
 int		miso_tokenization(t_shell *miso, char *line);
 void	miso_add_operator(t_shell *miso, char *line, int *pi);
 void	miso_add_redirection(t_shell *miso, char *line, int *pi);
-void	miso_add_argument(t_shell *miso, char *line, int *pi, int (*f)(char));
+void	miso_add_argument(t_shell *miso, char *line, int *pi, int (*f)(char));//TODO: delete recieved function parameter
 void	miso_add_to_list(t_shell *miso, char *str, t_token_type type);
 
 /* miso_tokenization_quotes */
@@ -91,11 +92,23 @@ void	miso_set_commandtype(t_shell *miso, t_token *node);
 void	miso_search_cmd(t_shell *miso, t_token *node);
 int		miso_is_redirection(t_token_type type);
 
-/* miso_expand_variable.c */
-void	miso_expand_variable(t_shell *miso, char *str, t_token *node);//TODO: function too long
-char	*miso_get_var_name(char *str, int *pi);
-char	*miso_add_to_string(char *s1, char *s2);
-void	miso_add_new_token_str(char *str, t_token *node);
+/* miso_heredoc.c */
+int	miso_handle_heredoc(t_shell *miso);
+int	miso_get_heredoc(t_shell *miso, t_token *hd, int file_nb);
+void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
+int	miso_hd_open_file(char *file, int *fd);
+char	*miso_hd_get_filename(int file_nb);
+int	miso_hd_collect(t_shell *miso, t_token *delim, int fd);
+int	miso_hd_found_delim(char *line, char *delim);
+char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line);
+
+/* miso_expand_.c */
+char	*miso_expand(t_shell *miso, char *str);
+char	*miso_get_exp_name(t_shell *miso, char *str, int *pi);
+char	*miso_subtract_exp_name(char *str, int len);
+char	*miso_add_to_str(char *s1, char *s2);
+void	miso_expand_node(t_shell *miso, t_token *node, char *str);
+char	*miso_expand_line(t_shell *miso, char *line);
 int		miso_is_alnum(char c);
 
 /* miso_free.c */

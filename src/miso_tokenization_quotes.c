@@ -18,6 +18,7 @@ int	miso_add_quotes(t_shell *miso, char *str, int *pi, int (*f)(char))
 	char	*temp;
 
 	miso->node->expand = 0;
+	miso->node->is_quotet = 1;
 	len = miso_validate_quotes(miso, str, f);
 	if (len == -1)
 		return (1);
