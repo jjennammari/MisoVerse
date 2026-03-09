@@ -86,3 +86,13 @@ int	miso_parse_pipe(t_shell *miso, t_token *node)
 	}
 	return (0);
 }
+
+void	miso_expand_node(t_shell *miso, t_token *node, char *str)
+{
+	char	*res;
+
+	res = miso_expand(miso, str);
+	free(node->str);
+	node->str = res;
+	node->expand = 0;
+}

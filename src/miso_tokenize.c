@@ -34,7 +34,7 @@ int	miso_tokenize(t_shell *miso, char *line)
 				return (1);
 		}
 		else if (line[i])
-			miso_add_argument(miso, &line[i], &i, miso_is_whitespace);
+			miso_add_argument(miso, &line[i]);
 	}
 	return (0);
 }
@@ -83,9 +83,8 @@ void	miso_add_redirection(t_shell *miso, char *str, int *pi)
 	*pi += 1;
 }
 
-void	miso_add_argument(t_shell *miso, char *str, int *pi, int (*f)(char))
+void	miso_add_argument(t_shell *miso, char *str)
 {
-	int		i;
 	int		len;
 	char	*temp;
 
