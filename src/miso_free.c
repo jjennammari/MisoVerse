@@ -6,11 +6,15 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:00 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/08 21:43:10 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/09 18:21:41 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
+
+void	miso_reset(t_shell *miso);
+void    free_token_list(t_shell *miso);
+void    misoverse_free(t_shell *miso, int print_err);
 
 void	misoverse_free(t_shell *miso, int print_err)
 {
@@ -23,7 +27,7 @@ void	misoverse_free(t_shell *miso, int print_err)
 	return ;
 }
 
-void miso_reset(t_shell *miso)
+void	miso_reset(t_shell *miso)
 {
 	if (miso->list.head != NULL)
 		free_token_list(miso);

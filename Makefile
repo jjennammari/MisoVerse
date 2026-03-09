@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/08 22:52:07 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/03/09 18:17:35 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,17 +31,19 @@ OBJ_DIR = obj/
 BLTIN_DIR = built-ins/
 INC = -I/inc/libft/includes -I/inc
 
-FILE = miso_main.c
-FILE += misoverse_loop.c
-FILE += miso_tokenize.c
-FILE += miso_tokenize_utils.c
-FILE += miso_tokenize_quotes.c
-FILE += miso_parse_utils.c
-FILE += miso_heredoc.c
+MAIN_FILE = $(SRC_DIR)miso_main.c
+
+FILE = miso_free.c
 FILE += miso_parse.c
+FILE += miso_parse_utils.c
 FILE += miso_expand.c
 FILE += miso_launch.c
+FILE += miso_heredoc.c
 FILE += miso_signals.c
+FILE += miso_tokenize.c
+FILE += misoverse_loop.c
+FILE += miso_tokenize_utils.c
+FILE += miso_tokenize_quotes.c
 FILE += miso_pathfinder.c
 FILE += miso_redirection.c
 FILE += miso_exec_utils_beta.c
@@ -72,7 +74,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(MISO_LIB) ./inc/miso_structs.h ./inc/miso.h
 	@printf "$(BABY)"
-	$(COMPILE) $(OBJ) $(MISO_LIB) $(LIBFT) -o $(NAME)
+	$(COMPILE) $(MAIN_FILE) $(MISO_LIB) $(LIBFT) -o $(NAME)
 	@printf "$(MINT)"
 	@ls -la
 	@printf "$(RSET)"
