@@ -12,6 +12,10 @@
 
 #include "../inc/miso.h"
 
+static char	*miso_get_exp_name(t_shell *miso, char *str, int *pi);
+static char	*miso_subtract_exp_name(char *str, int len);
+static char	*miso_add_to_str(char *s1, char *s2);
+
 char	*miso_expand(t_shell *miso, char *str)
 {
 	char	*res;
@@ -41,7 +45,7 @@ char	*miso_expand(t_shell *miso, char *str)
 	return (res);
 }
 
-char	*miso_get_exp_name(t_shell *miso, char *str, int *pi)
+static char	*miso_get_exp_name(t_shell *miso, char *str, int *pi)
 {
 	char	*name;
 	int		len;
@@ -52,7 +56,7 @@ char	*miso_get_exp_name(t_shell *miso, char *str, int *pi)
 		return (ft_itoa(miso->exit_code));
 	}
 	len = 1;
-	while (str[len] && (miso_is_alnum(str[len]) || str[len] == '-'))
+	while (str[len] && (ft_isalnum(str[len]) || str[len] == '-'))
 		len++;
 	if (len == 1)
 		return (NULL);
@@ -61,7 +65,7 @@ char	*miso_get_exp_name(t_shell *miso, char *str, int *pi)
 	return (name);
 }
 
-char	*miso_subtract_exp_name(char *str, int len)
+static char	*miso_subtract_exp_name(char *str, int len)
 {
 	char	*res;
 	int		i;
@@ -82,7 +86,7 @@ char	*miso_subtract_exp_name(char *str, int len)
 	return (res);
 }
 
-char	*miso_add_to_str(char *s1, char *s2)
+static char	*miso_add_to_str(char *s1, char *s2)
 {
 	char	*res;
 
@@ -95,31 +99,4 @@ char	*miso_add_to_str(char *s1, char *s2)
 	if (s1)
 		free(s1);
 	return (res);
-}
-
-void	miso_expand_node(t_shell *miso, t_token *node, char *str)
-{
-	char	*res;
-
-	res = miso_expand(miso, str);
-	free(node->str);
-	node->str = res;
-	node->expand = 0;
-}
-
-char	*miso_expand_line(t_shell *miso, char *line)
-{
-	char	*res;
-
-	res = miso_expand(miso, line);
-	if (!res)
-		return (NULL);
-	return (res);
-}
-
-int	miso_is_alnum(char c)
-{
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c >= 48 && c <= 57))
-		return (1);
-	return (0);
 }
