@@ -12,6 +12,10 @@
 
 #include "../inc/miso.h"
 
+static char	*miso_get_exp_name(t_shell *miso, char *str, int *pi);
+static char	*miso_subtract_exp_name(char *str, int len);
+static char	*miso_add_to_str(char *s1, char *s2);
+
 char	*miso_expand(t_shell *miso, char *str)
 {
 	char	*res;
@@ -41,7 +45,7 @@ char	*miso_expand(t_shell *miso, char *str)
 	return (res);
 }
 
-char	*miso_get_exp_name(t_shell *miso, char *str, int *pi)
+static char	*miso_get_exp_name(t_shell *miso, char *str, int *pi)
 {
 	char	*name;
 	int		len;
@@ -62,7 +66,7 @@ char	*miso_get_exp_name(t_shell *miso, char *str, int *pi)
 	return (name);
 }
 
-char	*miso_subtract_exp_name(char *str, int len)
+static char	*miso_subtract_exp_name(char *str, int len)
 {
 	char	*res;
 	int		i;
@@ -83,7 +87,7 @@ char	*miso_subtract_exp_name(char *str, int len)
 	return (res);
 }
 
-char	*miso_add_to_str(char *s1, char *s2)
+static char	*miso_add_to_str(char *s1, char *s2)
 {
 	char	*res;
 

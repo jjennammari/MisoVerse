@@ -108,15 +108,15 @@ char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line);
 void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
 
 /* miso_heredoc_signals.c */
-void	miso_hd_sigint(int sig);
-int		miso_hd_handle_signals(struct sigaction *old_int, struct sigaction *old_quit);
-int		miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_quit);
+int			miso_hd_handle_signals(struct sigaction *old_int, struct sigaction *old_quit);
+static void	miso_hd_sigint(int sig);
+int			miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_quit);
 
 /* miso_expand_.c */
-char	*miso_expand(t_shell *miso, char *str);
-char	*miso_get_exp_name(t_shell *miso, char *str, int *pi);
-char	*miso_subtract_exp_name(char *str, int len);
-char	*miso_add_to_str(char *s1, char *s2);
+char		*miso_expand(t_shell *miso, char *str);
+static char	*miso_get_exp_name(t_shell *miso, char *str, int *pi);
+static char	*miso_subtract_exp_name(char *str, int len);
+static char	*miso_add_to_str(char *s1, char *s2);
 
 /* miso_free.c */
 void	misoverse_free(t_shell *miso, int print_err);
