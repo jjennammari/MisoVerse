@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 20:18:31 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/08 01:13:50 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/08 22:29:09 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	miso_exit(t_shell *miso, char **argv)
 	if (!argv[1])
 	{
 		miso_free_matrix(argv);
-		misoverse_free(miso);
+		misoverse_free(miso, 0);
 		exit(miso->exit_code % 256);
 	}
 	if (miso_exit_yesnum(argv[1], &exit_cd))
@@ -37,7 +37,7 @@ int	miso_exit(t_shell *miso, char **argv)
 		}
 		racc_print(1, MINT"exit\n"RSET);
 		miso_free_matrix(argv);
-		misoverse_free(miso);
+		misoverse_free(miso, 0);
 		exit(exit_cd % 256);
 	}
 	miso_exit_notnum(miso, argv);
@@ -94,6 +94,6 @@ static void	miso_exit_notnum(t_shell *miso, char **argv)
 	racc_print(2, BLOD"PROMPT "MINT"exit: "BABY"%s"RSET, argv[1]);
 	racc_print(2, ": numeric argument required\n");
 	miso_free_matrix(argv);
-	misoverse_free(miso);
+	misoverse_free(miso, 0);
 	exit(2);
 }

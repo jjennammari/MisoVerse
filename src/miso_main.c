@@ -6,24 +6,28 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:47:52 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/08 22:00:50 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/09 20:02:46 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
+static void miso_init_variables(t_shell *miso, char **envp);
+
+int	g_signal = 0;
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	miso;
 
-	void(argc);
-	void(argv);
+	(void)argc;
+	(void)argv;
 	miso_init_variables(&miso, envp);
 	misoverse_loop(&miso);
 	return (1);
 }
 
-void	miso_init_variables(t_shell *miso, char **envp)
+static void	miso_init_variables(t_shell *miso, char **envp)
 {
 	miso->exit_code = 0;
 	miso->envp = miso_envinit(envp);
@@ -42,5 +46,6 @@ void	miso_init_variables(t_shell *miso, char **envp)
 	miso->node->str = NULL;
 	miso->node->next = NULL;
 	miso->node->is_quotet = 0;
+	miso_init_daddy_signals();
 	return ;
 }

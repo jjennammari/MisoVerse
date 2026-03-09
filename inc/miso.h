@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/07 18:59:11 by jemustaj         ###   ########.fr       */
+/*   Updated: 2026/03/09 19:13:15 by lde-san-         ###   ########.fr       */
 /*   Updated: 2026/03/08 18:46:26 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -45,7 +45,7 @@
 //			Self defined PROMPT
 // Compile with -DPROMPT="Whatever you'd like"
 # ifndef PROMPT
-#  define PROMPT "misoverse »"
+#  define PROMPT "\033[1;38;2;55;250;133m misoverse \033[1;38;2;174;5;252m» \033[0m"
 # endif
 
 // Global Variable:
@@ -58,8 +58,7 @@ typedef struct sigaction	t_sigact;
 //			Function Prototypes:
 
 /*  miso_main.c  */
-int		main(int argc, char **argv, char **envp);
-void	miso_init_variables(t_shell *miso, int argc, char **argv);//NOTE: exit_code init to 0 (= success) is correct?
+int		main(int argc, char **argv, char **envp); //NOTE: exit_code init to 0 (= success) is correct?
 
 /* misoverse_loop.c */
 void	misoverse_loop(t_shell *miso);//TODO: check continue actually skips all and starts the loop from beginning
@@ -119,8 +118,9 @@ static char	*miso_subtract_exp_name(char *str, int len);
 static char	*miso_add_to_str(char *s1, char *s2);
 
 /* miso_free.c */
-void	misoverse_free(t_shell *miso, int print_err);
+void 	miso_reset(t_shell *miso);
 void	miso_free_token_list(t_shell *miso);
+void    misoverse_free(t_shell *miso, int print_err);
 
 /* delete_later.c */
 void	miso_print_token_list(t_shell *miso);
