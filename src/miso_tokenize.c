@@ -112,13 +112,7 @@ void	miso_add_to_list(t_shell *miso, char *str, t_token_type type)
 		perror(BLOD"PROMPT"MINT);
 		// function that mapache makes to free and exit
 	}
-	if (miso->node->is_quotet == 1)
-		miso_mark_quotes(miso, new_node);
-	if (miso->node->expand == 1)
-		miso_mark_expansion(miso, new_node);
-	new_node->str = str;
-	new_node->type = type;
-	new_node->next = NULL;
+	miso_init_newnode(miso, new_node, str, type);
 	if (miso->list.last_node)
 	{
 		miso->list.last_node->next = new_node;

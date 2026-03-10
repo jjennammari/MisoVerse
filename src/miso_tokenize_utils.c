@@ -51,3 +51,16 @@ void	miso_mark_expansion(t_shell *miso, t_token *new_node)
 	new_node->expand = 1;
 	miso->node->expand = 0;
 }
+
+void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str, t_token_type type)
+{
+	new_node->str = str;
+	new_node->type = type;
+	new_node->is_quotet = 0;
+	new_node->expand = 0;
+	new_node->next = NULL;
+	if (miso->node->is_quotet == 1)
+		miso_mark_quotes(miso, new_node);
+	if (miso->node->expand == 1)
+		miso_mark_expansion(miso, new_node);
+}
