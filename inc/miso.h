@@ -67,7 +67,7 @@ void	misoverse_loop(t_shell *miso);//TODO: check continue actually skips all and
 int		miso_tokenize(t_shell *miso, char *line);
 void	miso_add_operator(t_shell *miso, char *line, int *pi);
 void	miso_add_redirection(t_shell *miso, char *line, int *pi);
-void	miso_add_argument(t_shell *miso, char *line);
+void	miso_add_argument(t_shell *miso, char *line, int *pi);
 void	miso_add_to_list(t_shell *miso, char *str, t_token_type type);
 
 /* miso_tokenize_quotes */
@@ -79,6 +79,8 @@ int		miso_is_dquote(char c);
 /* tokenize_utils.c */
 int		miso_is_whitespace(char c);
 char	*miso_create_token_str(char *str, int len);
+void	miso_mark_quotes(t_shell *miso, t_token *new_node);
+void	miso_mark_expansion(t_shell *miso, t_token *new_node);
 
 /* miso_parser.c */
 int		miso_parse(t_shell *miso);
@@ -107,15 +109,11 @@ char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line);
 void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
 
 /* miso_heredoc_signals.c */
-int			miso_hd_handle_signals(struct sigaction *old_int, struct sigaction *old_quit);
-static void	miso_hd_sigint(int sig);
-int			miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_quit);
+int		miso_hd_handle_signals(struct sigaction *old_int, struct sigaction *old_quit);
+int		miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_quit);
 
-/* miso_expand_.c */
-char		*miso_expand(t_shell *miso, char *str);
-static char	*miso_get_exp_name(t_shell *miso, char *str, int *pi);
-static char	*miso_subtract_exp_name(char *str, int len);
-static char	*miso_add_to_str(char *s1, char *s2);
+/* miso_expand.c */
+char	*miso_expand(t_shell *miso, char *str);
 
 /* miso_free.c */
 void 	miso_reset(t_shell *miso);

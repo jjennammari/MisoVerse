@@ -34,7 +34,7 @@ int	miso_tokenize(t_shell *miso, char *line)
 				return (1);
 		}
 		else if (line[i])
-			miso_add_argument(miso, &line[i]);
+			miso_add_argument(miso, &line[i], &i);
 	}
 	return (0);
 }
@@ -83,7 +83,7 @@ void	miso_add_redirection(t_shell *miso, char *str, int *pi)
 	*pi += 1;
 }
 
-void	miso_add_argument(t_shell *miso, char *str)
+void	miso_add_argument(t_shell *miso, char *str, int *pi)
 {
 	int		len;
 	char	*temp;
@@ -99,6 +99,7 @@ void	miso_add_argument(t_shell *miso, char *str)
 	}
 	temp = miso_create_token_str(str, len);
 	miso_add_to_list(miso, temp, ARG);
+	*pi += len;
 }
 
 void	miso_add_to_list(t_shell *miso, char *str, t_token_type type)
@@ -111,6 +112,10 @@ void	miso_add_to_list(t_shell *miso, char *str, t_token_type type)
 		perror(BLOD"PROMPT"MINT);
 		// function that mapache makes to free and exit
 	}
+	if (miso->node->is_quotet == 1)
+		miso_mark_quotes(miso, new_node);
+	if (miso->node->expand == 1)
+		miso_mark_expansion(miso, new_node);
 	new_node->str = str;
 	new_node->type = type;
 	new_node->next = NULL;
