@@ -39,3 +39,15 @@ char	*miso_create_token_str(char *str, int len)
 	temp[i] = '\0';
 	return (temp);
 }
+
+void	miso_mark_quotes(t_shell *miso, t_token *new_node)
+{
+	new_node->is_quotet = 1;
+	miso->node->is_quotet = 0;
+}
+
+void	miso_mark_expansion(t_shell *miso, t_token *new_node)
+{
+	new_node->expand = 1;
+	miso->node->expand = 0;
+}

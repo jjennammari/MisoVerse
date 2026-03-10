@@ -21,7 +21,7 @@ void	misoverse_loop(t_shell *miso)
 		miso_reset(miso);
 		line = readline(PROMPT);
 		if (!line)
-			misoverse_free(miso);
+			misoverse_free(miso, 1);
 		add_history(line);
 		if (miso_tokenize(miso, line))
 			continue ;
