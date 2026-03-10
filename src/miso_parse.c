@@ -45,26 +45,17 @@ int	miso_parse(t_shell *miso)
 
 int	miso_parse_redirections(t_shell *miso, t_token *node)
 {
-	if (miso_is_redirection(miso->list.last_node->type))
-	{
-		racc_print(2, BLOD"PROMPT"MINT" Syntax error near redirection operator\n");
-		return (1);
-	}
-	else if (node->next->type != ARG)
+	if (miso_is_redirection(miso->list.last_node->type) || node->next->type != ARG)
 	{
 		racc_print(2, BLOD"PROMPT"MINT" Syntax error near redirection operator\n");
 		return (1);
 	}
 	if (node->type == HEREDOC)
 		node->next->expand = 0;
-	if (node->next->type == ARG && node->next->next->type == ARG)
+	if (miso->list.cmd_found == 0 && node->next->next != NULL && node->next->next->type == ARG)
 	{
-		if (miso->list.cmd_found == 0)
-		{
-			miso_set_commandtype(miso, node->next->next);
-			miso->list.cmd_found = 1;
-		}
-		return (0);
+		miso_set_commandtype(node->next->next);
+		miso->list.cmd_found = 1;
 	}
 	return (0);
 }

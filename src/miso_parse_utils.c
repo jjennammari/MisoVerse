@@ -12,41 +12,41 @@
 
 #include "../inc/miso.h"
 
-int	miso_is_builtin(char *word)
+int	miso_is_builtin(char *arg)
 {
 	int	len;
 
-	len = 0;
-	if (len == 2 && ft_strncmp("cd", word, len))
+	len = ft_strlen(arg);
+	if (len == 2 && ft_strncmp("cd", arg, len))
 		return (1);
-	if (len == 3 && ft_strncmp("pwd", word, len))
+	if (len == 3 && ft_strncmp("pwd", arg, len))
 		return (1);
-	if (len == 3 && ft_strncmp("env", word, len))
+	if (len == 3 && ft_strncmp("env", arg, len))
 		return (1);
-	if (len == 4 && ft_strncmp("echo", word, len))
+	if (len == 4 && ft_strncmp("echo", arg, len))
 		return (1);
-	if (len == 4 && ft_strncmp("exit", word, len))
+	if (len == 4 && ft_strncmp("exit", arg, len))
 		return (1);
-	if (len == 5 && ft_strncmp("unset", word, len))
+	if (len == 5 && ft_strncmp("unset", arg, len))
 		return (1);
-	if (len == 6 && ft_strncmp("export", word, len))
+	if (len == 6 && ft_strncmp("export", arg, len))
 		return (1);
 	return (0);
 }
 
-void	miso_set_commandtype(t_shell *miso, t_token *node)
+void	miso_set_commandtype(t_token *node)
 {
 	if (miso_is_builtin(node->str))
-		miso->node->type = BLT_CMD;
+		node->type = BLT_CMD;
 	else
-		miso->node->type = SYS_CMD;
+		node->type = SYS_CMD;
 }
 
 void	miso_search_cmd(t_shell *miso, t_token *node)
 {
 	if (node->type == ARG)
 	{
-		miso_set_commandtype(miso, node);
+		miso_set_commandtype(node);
 		miso->list.cmd_found = 1;
 	}
 }
