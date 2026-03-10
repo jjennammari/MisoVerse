@@ -29,7 +29,7 @@ typedef enum s_token_type
 
 typedef struct s_token
 {
-	bool			expand;
+	int				expand;
 	bool			is_quotet;
 	char			*str;
 	struct s_token	*next;

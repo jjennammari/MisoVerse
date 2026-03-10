@@ -81,6 +81,7 @@ int		miso_is_whitespace(char c);
 char	*miso_create_token_str(char *str, int len);
 void	miso_mark_quotes(t_shell *miso, t_token *new_node);
 void	miso_mark_expansion(t_shell *miso, t_token *new_node);
+void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str, t_token_type type);
 
 /* miso_parser.c */
 int		miso_parse(t_shell *miso);
