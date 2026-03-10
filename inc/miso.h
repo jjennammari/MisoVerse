@@ -63,27 +63,30 @@ int		main(int argc, char **argv, char **envp); //NOTE: exit_code init to 0 (= su
 /* misoverse_loop.c */
 void	misoverse_loop(t_shell *miso);//TODO: check continue actually skips all and starts the loop from beginning
 
-/* tokenization.c */
+/* tokenize.c */
 int		miso_tokenize(t_shell *miso, char *line);
 void	miso_add_operator(t_shell *miso, char *line, int *pi);
 void	miso_add_redirection(t_shell *miso, char *line, int *pi);
-void	miso_add_argument(t_shell *miso, char *line);//TODO: delete recieved function parameter
+void	miso_add_argument(t_shell *miso, char *line, int *pi);
 void	miso_add_to_list(t_shell *miso, char *str, t_token_type type);
 
-/* miso_tokenization_quotes */
+/* miso_tokenize_quotes */
 int		miso_add_quotes(t_shell *miso, char *str, int *pi, int (*f)(char));
 int		miso_validate_quotes(t_shell *miso, const char *str, int (*f)(char));
 int		miso_is_squote(char c);
 int		miso_is_dquote(char c);
 
-/* tokenization_utils.c */
+/* tokenize_utils.c */
 int		miso_is_whitespace(char c);
 char	*miso_create_token_str(char *str, int len);
+void	miso_mark_quotes(t_shell *miso, t_token *new_node);
+void	miso_mark_expansion(t_shell *miso, t_token *new_node);
 
 /* miso_parser.c */
 int		miso_parse(t_shell *miso);
 int		miso_parse_redirections(t_shell *miso, t_token *node);
 int		miso_parse_pipe(t_shell *miso, t_token *node);
+void	miso_expand_node(t_shell *miso, t_token *node, char *str);
 
 /* miso_parser_utils.c */
 int		miso_is_builtin(char *word);
@@ -94,22 +97,23 @@ int		miso_is_redirection(t_token_type type);
 /* miso_heredoc.c */
 int		miso_heredoc(t_shell *miso);
 int		miso_get_heredoc(t_shell *miso, t_token *hd, int file_nb);
-void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
-int		miso_hd_open_file(char *file, int *fd);
-char	*miso_hd_get_filename(int file_nb);
 int		miso_hd_collect(t_shell *miso, t_token *delim, int fd);
+int		miso_hd_write(char *line, int fd);
+char	*miso_hd_expand(t_shell *miso, char *line);
+
+/* miso_heredoc_utils.c */
+char	*miso_hd_get_filename(int file_nb);
+int		miso_hd_open_file(char *file, int *fd);
 int		miso_hd_found_delim(char *line, char *delim);
 char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line);
-int		miso_hd_write(char *line, int fd);
+void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
 
-/* miso_expand_.c */
+/* miso_heredoc_signals.c */
+int		miso_hd_handle_signals(struct sigaction *old_int, struct sigaction *old_quit);
+int		miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_quit);
+
+/* miso_expand.c */
 char	*miso_expand(t_shell *miso, char *str);
-char	*miso_get_exp_name(t_shell *miso, char *str, int *pi);
-char	*miso_subtract_exp_name(char *str, int len);
-char	*miso_add_to_str(char *s1, char *s2);
-void	miso_expand_node(t_shell *miso, t_token *node, char *str);
-char	*miso_expand_line(t_shell *miso, char *line);
-int		miso_is_alnum(char c);
 
 /* miso_free.c */
 void 	miso_reset(t_shell *miso);

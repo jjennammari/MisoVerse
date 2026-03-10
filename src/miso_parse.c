@@ -28,9 +28,11 @@ int	miso_parse(t_shell *miso)
 					return (1);
 			}
 			else if (temp->expand == 1)
-				miso_expand(miso, temp->str);
+				miso_expand_node(miso, temp, temp->str);
 			temp = temp->next;
 		}
+		if (temp == NULL)
+			break ;
 		if (temp->type == PIPE)
 			if (miso_parse_pipe(miso, temp))
 				return (1);
@@ -85,4 +87,14 @@ int	miso_parse_pipe(t_shell *miso, t_token *node)
 		return (1);
 	}
 	return (0);
+}
+
+void	miso_expand_node(t_shell *miso, t_token *node, char *str)
+{
+	char	*res;
+
+	res = miso_expand(miso, str);
+	free(node->str);
+	node->str = res;
+	node->expand = 0;
 }
