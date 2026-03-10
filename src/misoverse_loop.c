@@ -12,6 +12,9 @@
 
 #include "../inc/miso.h"
 
+void		misoverse_loop(t_shell *miso);
+static int	miso_process_line(t_shell *miso, char *line);
+
 void	misoverse_loop(t_shell *miso)
 {
 	char	*line;
@@ -19,23 +22,27 @@ void	misoverse_loop(t_shell *miso)
 	while (1)
 	{
 		miso_reset(miso);
-		line = readline(PROMPT);
-		if (!line)
-			misoverse_free(miso, 1);
-		if (!(*line))
+		line = readline(MINT PROMPT PURP"» "RSET);
+		if (miso_process_line(miso, line))
 			continue ;
-		add_history(line);
-		if (miso_tokenize(miso, line))
-			continue ;
-		miso_print_token_list(miso);
-		if (miso_parse(miso))
-			continue ;
-		printf("Parsing passed\n");
-		if (miso->list.hd_count && miso_heredoc(miso))
-			continue ;
-		printf("Heredoc passed\n");
 		miso->exit_code = miso_launch(miso, miso->list.head);
-		printf("Execution passed\n");
 	}
 	return ;
+}
+
+static int	miso_process_line(t_shell *miso, char *line)
+{
+	if (!line)
+		miso_exit(miso, NULL);
+	if (!(*line))
+		return (1);
+	add_history(line);
+	if (miso_tokenize(miso, line))
+		return (1);
+	miso_print_token_list(miso); // Test function
+	if (miso_parse(miso))
+		return (1);
+	if (miso->list.hd_count && miso_heredoc(miso))
+		return (1);
+	return (0);
 }

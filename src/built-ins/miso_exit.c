@@ -21,10 +21,11 @@ int	miso_exit(t_shell *miso, char **argv)
 {
 	long long	exit_cd;
 
-	if (!argv[1])
+	if (!argv || !argv[1])
 	{
 		miso_free_matrix(argv);
 		misoverse_free(miso, 0);
+		racc_print(1, BABY"exit\n"RSET);
 		exit(miso->exit_code % 256);
 	}
 	if (miso_exit_yesnum(argv[1], &exit_cd))
