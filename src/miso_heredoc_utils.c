@@ -52,12 +52,22 @@ int	miso_hd_found_delim(char *line, char *delim)
 char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line)
 {
 	char	*res;
+	int		i;
 
 	if (delim->is_quotet == 1)
 		return (line);
-	res = miso_hd_expand(miso, line);
-	free(line);
-	return (res);
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '$')
+		{
+			res = miso_hd_expand(miso, line);
+			free(line);
+			return (res);
+		}
+		i++;
+	}
+	return (line);
 }
 
 void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file)

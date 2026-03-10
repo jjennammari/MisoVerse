@@ -89,8 +89,8 @@ int		miso_parse_pipe(t_shell *miso, t_token *node);
 void	miso_expand_node(t_shell *miso, t_token *node, char *str);
 
 /* miso_parser_utils.c */
-int		miso_is_builtin(char *word);
-void	miso_set_commandtype(t_shell *miso, t_token *node);
+int		miso_is_builtin(char *arg);
+void	miso_set_commandtype(t_token *node);
 void	miso_search_cmd(t_shell *miso, t_token *node);
 int		miso_is_redirection(t_token_type type);
 
