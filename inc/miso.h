@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/09 19:13:15 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/10 19:54:02 by lde-san-         ###   ########.fr       */
 /*   Updated: 2026/03/08 18:46:26 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -45,7 +45,7 @@
 //			Self defined PROMPT
 // Compile with -DPROMPT="Whatever you'd like"
 # ifndef PROMPT
-#  define PROMPT "\033[1;38;2;55;250;133m misoverse \033[1;38;2;174;5;252m» \033[0m"
+#  define PROMPT " misoverse "
 # endif
 
 // Global Variable:
@@ -116,9 +116,9 @@ int		miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_qu
 char	*miso_expand(t_shell *miso, char *str);
 
 /* miso_free.c */
-void 	miso_reset(t_shell *miso);
+void	miso_reset(t_shell *miso);
 void	miso_free_token_list(t_shell *miso);
-void    misoverse_free(t_shell *miso, int print_err);
+void	misoverse_free(t_shell *miso, int print_err);
 
 /* delete_later.c */
 void	miso_print_token_list(t_shell *miso);
@@ -133,41 +133,41 @@ char	**miso_argv(t_token *head, char **envp);
 void	miso_channeling(int prev_read, t_token *head, int *p, int p_num);
 
 //   -- -- #    miso_signals.c
-void    miso_fdshutdown(void);
-void    miso_daddy_sigint(int sig);
-void    miso_init_daddy_signals(void);
-void    miso_setup_child_signals(void);
+void	miso_fdshutdown(void);
+void	miso_daddy_sigint(int sig);
+void	miso_init_daddy_signals(void);
+void	miso_setup_child_signals(void);
 
 //	 -- -- #	miso_exec_utils_alpha.c
 int		miso_waitroom(pid_t child, int *exit_status);
 void	miso_call_program(t_shell *miso, char **cmd, t_token *head);
-int     (*miso_get_builtin(char *cmd))(t_shell *miso, char **cmd);
-int     miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **));
+int		(*miso_get_builtin(char *cmd))(t_shell *miso, char **cmd);
+int		miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **));
 
 //	 -- -- #	miso_exec_utils_beta.c
 int		miso_seg_count(t_token *head);
-char    **miso_matrixdup(char **matrix);
+char	**miso_matrixdup(char **matrix);
 t_token	*miso_next_segment(t_token *head);
 void	miso_daddy_pipe_manager(int *prev_read, int *p, int p_num);
 
 //   -- -- #    miso_exec_utils_charlie.c
 void	miso_free_matrix(char **matrix);
 int		miso_freenret(void *free1, void *free2, int p_err, int ret);
-void    miso_checknfree(void *check1, char **check2, void *free1, char **free2);
+void	miso_checknfree(void *check1, char **check2, void *free1, char **free2);
 
 //   -- -- #    miso_environment_utils_alpha.c
 char	**miso_envinit(char **envp);
-char    *miso_getenv(const char *key, char **envp);
+char	*miso_getenv(const char *key, char **envp);
 int		miso_add_envar(char ***envp, char *key, char *varlue);
 int		miso_envar_update(char **envp, char *key, char *new_value);
 char	*miso_find_envar(char **envp, const char *key, int *guide);
 
 //   -- -- #    miso_environment_utils_beta.c
-char    *miso_get_key(char *var);
-int     miso_envarcmp(const char *var, const char *key);
-char    *miso_remove_envar(char **envp, const char *key);
+char	*miso_get_key(char *var);
+int		miso_envarcmp(const char *var, const char *key);
+char	*miso_remove_envar(char **envp, const char *key);
 char	*miso_extract_variable(char **envp, const char *key);
-int     miso_env_addorupdate(char ***envp, char *key, char *varlue);
+int		miso_env_addorupdate(char ***envp, char *key, char *varlue);
 
 //   -- -- #    miso_environment_utils_charlie.c
 void	miso_keyvariables_init(char ***envp);
@@ -182,7 +182,7 @@ char	*miso_expcheck(char **exp, char *key, int *index);
 //   -- -- #    miso_export_utils_beta.c
 void	miso_exp_filter(char **exp, char **envp);
 int		miso_export_sort(t_shell *miso, char **envp, int envp_c);
-int     miso_exp_addorupdate(t_shell *m, char ***env, char *key, char *var);
+int		miso_exp_addorupdate(t_shell *m, char ***env, char *key, char *var);
 
 //    -- -- #	Built in Functions: miso_(builtin).c
 int		miso_cd(t_shell *miso, char **argv);
