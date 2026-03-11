@@ -119,7 +119,7 @@ char	*miso_expand(t_shell *miso, char *str);
 /* miso_free.c */
 void	miso_reset(t_shell *miso);
 void	miso_free_token_list(t_shell *miso);
-void	misoverse_free(t_shell *miso, int print_err);
+void	misoverse_free(t_shell *miso, int print_err, int exit_status);
 
 /* delete_later.c */
 void	miso_print_token_list(t_shell *miso);
