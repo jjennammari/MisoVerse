@@ -19,27 +19,6 @@ int	miso_is_whitespace(char c)
 	return (0);
 }
 
-char	*miso_create_token_str(char *str, int len)
-{
-	char	*temp;
-	int		i;
-
-	temp = malloc(sizeof(char) * len + 1);
-	if (!temp)
-	{
-		perror(BLOD"PROMPT"MINT);
-		// function that mapache makes to free and exit
-	}
-	i = 0;
-	while (i < len)
-	{
-		temp[i] = str[i];
-		i++;
-	}
-	temp[i] = '\0';
-	return (temp);
-}
-
 void	miso_mark_quotes(t_shell *miso, t_token *new_node)
 {
 	new_node->is_quotet = 1;

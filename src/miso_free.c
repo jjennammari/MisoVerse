@@ -19,7 +19,7 @@ void    misoverse_free(t_shell *miso, int print_err);
 void	misoverse_free(t_shell *miso, int print_err)
 {
 	if (print_err)
-		perror(BLOD"PROMPT"RSET);
+		perror(BLOD PROMPT RSET);
 	if (miso->list.head != NULL)
 		free_token_list(miso);
 	miso_free_matrix(miso->envp);
