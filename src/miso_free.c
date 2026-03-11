@@ -25,7 +25,7 @@ void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status)
 	miso_free_matrix(miso->envp);
 	miso_free_matrix(miso->exp);
 	rl_clear_history();
-	exit(exit_status % 256);
+	exit(exit_status & 0xFF);
 	return ;
 }
 

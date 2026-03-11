@@ -115,6 +115,14 @@ int	miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_qui
 
 /* miso_expand.c */
 char	*miso_expand(t_shell *miso, char *str);
+char	*miso_exp_exit_code(t_shell *miso, char *res, int *pi);
+char	*miso_exp_env(t_shell *miso, char *res, char *str, int *pi);//TODO: add if exp_part is null
+
+/* miso_expand_utils.c */
+char	*miso_allocate_str(t_shell *miso, size_t len);//TODO: probably issue with ft_strjoin allocationg 1 byte too much there from s1
+char	*miso_add_to_str(t_shell *miso, char *s1, char *s2);
+char	*miso_get_exp_name(t_shell *miso, char *str, int *pi);
+char	*miso_subtract_exp_name(t_shell *miso, char *str, int len);
 
 /* miso_free.c */
 void	miso_reset(t_shell *miso);

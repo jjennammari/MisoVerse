@@ -12,88 +12,62 @@
 
 #include "../inc/miso.h"
 
-static char	*miso_get_exp_name(t_shell *miso, char *str, int *pi);
-static char	*miso_subtract_exp_name(t_shell *miso, char *str, int len);
-static char	*miso_add_to_str(t_shell *miso, char *s1, char *s2);
-
 char	*miso_expand(t_shell *miso, char *str)
 {
 	char	*res;
-	char	*exp;
-	char	*exp_name;
 	int		i;
 
+	res = miso_allocate_str(miso, 1);
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$')
-		{
-			exp_name = miso_get_exp_name(miso, &str[i], &i);
-			if (!exp_name)
-				res = miso_add_to_str(miso, res, "$");
-			else
-			{
-				exp = miso_getenv(exp_name, miso->envp);
-				res = miso_add_to_str(miso, res, exp);
-				free(exp_name);
-			}
-		}
+		if (str[i + 1] == '?')
+			res = miso_exp_exit_code(miso, res, &i);
+		else if (str[i] == '$' && str[i + 1] != '?')
+			res = miso_exp_env(miso, res, &str[i], &i);
 		else
+		{
 			res = miso_add_to_str(miso, res, &str[i]);
+			i = ft_strlen(res) - 1;
+		}
 		i++;
 	}
 	return (res);
 }
 
-static char	*miso_get_exp_name(t_shell *miso, char *str, int *pi)
+char	*miso_exp_exit_code(t_shell *miso, char *res, int *pi)
 {
-	char	*name;
-	int		len;
+	char	*code;
+	char	*exp;
 
-	if (str[*pi++] == '?')
-	{
-		*pi += 1;
-		name = ft_itoa(miso->exit_code);
-		if (!name)
-			misoverse_free_exit(miso, 1, 2);
-		return (ft_itoa(miso->exit_code));
-	}
-	len = 1;
-	while (str[len] && (ft_isalnum(str[len]) || str[len] == '-'))
-		len++;
-	if (len == 1)
-		return (NULL);
-	name = miso_subtract_exp_name(miso, &str[1], len);
-	*pi += len - 1;
-	return (name);
+	code = ft_itoa(miso->exit_code);
+	if (!code)
+		misoverse_free_exit(miso, 1, 2);
+	exp = miso_add_to_str(miso, res, code);
+	free(code);
+	*pi += 1;
+	return (exp);
 }
 
-static char	*miso_subtract_exp_name(t_shell *miso, char *str, int len)
+char	*miso_exp_env(t_shell *miso, char *res, char *str, int *pi)
 {
-	char	*res;
-	int		i;
+	char	*exp;
+	char	*exp_part;
+	char	*exp_name;
 
-	res = malloc(sizeof(char) * len + 1);
-	if (!res)
-		misoverse_free_exit(miso, 1 ,2);
-	i = 0;
-	while (i < len)
+
+	exp_name = miso_get_exp_name(miso, &str[*pi], pi);
+	if (!exp_name)
 	{
-		res[i] = str[i];
-		i++;
+		free(exp_name);
+		exp = miso_add_to_str(miso, res, "$");
 	}
-	res[i] = '\0';
-	return (res);
-}
-
-static char	*miso_add_to_str(t_shell *miso, char *s1, char *s2)
-{
-	char	*res;
-
-	res = ft_strjoin(s1, s2);
-	if (!res)
-		misoverse_free_exit(miso, 1 ,2);
-	if (s1)
-		free(s1);
-	return (res);
+	else
+	{
+		exp_part = miso_getenv(exp_name, miso->envp);
+		//TODO: add if exp_part is null
+		exp = miso_add_to_str(miso, res, exp_part);
+	}
+	free(exp_name);
+	return (exp);
 }

@@ -25,7 +25,7 @@ int	miso_add_quotes(t_shell *miso, char *str, int *pi, int (*f)(char))
 	*pi += len + 1;
 	if (len == 0)
 		return (0);
-	temp = ft_strdup(str);
+	temp = ft_substr(str, 0, len);
 	miso_add_to_list(miso, temp, ARG);
 	return (0);
 }

@@ -38,6 +38,7 @@ FILE += miso_free.c
 FILE += miso_parse.c
 FILE += miso_parse_utils.c
 FILE += miso_expand.c
+FILE += miso_expand_utils.c
 FILE += miso_heredoc.c
 FILE += miso_heredoc_utils.c
 FILE += miso_heredoc_signals.c

@@ -97,7 +97,7 @@ void	miso_add_argument(t_shell *miso, char *str, int *pi)
 			miso->node->expand = 1;
 		i++;
 	}
-	temp = ft_strdup(str);
+	temp = ft_substr(str, 0, i);
 	miso_add_to_list(miso, temp, ARG);
 	*pi += i;
 }

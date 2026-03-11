@@ -17,19 +17,19 @@ int	miso_is_builtin(char *arg)
 	int	len;
 
 	len = ft_strlen(arg);
-	if (len == 2 && ft_strncmp("cd", arg, len))
+	if (ft_strncmp("cd", arg, len) == len)
 		return (1);
-	if (len == 3 && ft_strncmp("pwd", arg, len))
+	if (ft_strncmp("pwd", arg, len) == len)
 		return (1);
-	if (len == 3 && ft_strncmp("env", arg, len))
+	if (ft_strncmp("env", arg, len) == len)
 		return (1);
-	if (len == 4 && ft_strncmp("echo", arg, len))
+	if (ft_strncmp("echo", arg, len) == len)
 		return (1);
-	if (len == 4 && ft_strncmp("exit", arg, len))
+	if (ft_strncmp("exit", arg, len) == len)
 		return (1);
-	if (len == 5 && ft_strncmp("unset", arg, len))
+	if (ft_strncmp("unset", arg, len) == len)
 		return (1);
-	if (len == 6 && ft_strncmp("export", arg, len))
+	if (ft_strncmp("export", arg, len) == len)
 		return (1);
 	return (0);
 }

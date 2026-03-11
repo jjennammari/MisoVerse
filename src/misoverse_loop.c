@@ -26,6 +26,7 @@ void	misoverse_loop(t_shell *miso)
 		if (miso_process_line(miso, line))
 			continue ;
 		miso->exit_code = miso_launch(miso, miso->list.head);
+		printf("launch passed\n");
 	}
 	return ;
 }
@@ -39,10 +40,14 @@ static int	miso_process_line(t_shell *miso, char *line)
 	add_history(line);
 	if (miso_tokenize(miso, line))
 		return (1);
+	printf("tokenization passed\n");
 	miso_print_token_list(miso); // Test function
 	if (miso_parse(miso))
 		return (1);
+	printf("parsing passed\n");
+		miso_print_token_list(miso);
 	if (miso->list.hd_count && miso_heredoc(miso))
 		return (1);
+	printf("heredoc passed\n");
 	return (0);
 }
