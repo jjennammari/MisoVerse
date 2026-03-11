@@ -35,9 +35,9 @@ int	miso_heredoc(t_shell *miso)
 
 int	miso_get_heredoc(t_shell *miso, t_token *hd, int file_nb)
 {
-	t_token	*delim;
-	char	*file;
-	int		fd;
+	t_token		*delim;
+	char		*file;
+	int			fd;
 	t_sigact	old_int;
 	t_sigact	old_quit;
 
