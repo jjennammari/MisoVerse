@@ -64,20 +64,20 @@ int		main(int argc, char **argv, char **envp); //NOTE: exit_code init to 0 (= su
 void	misoverse_loop(t_shell *miso);//TODO: check continue actually skips all and starts the loop from beginning
 
 /* tokenize.c */
-int		miso_tokenize(t_shell *miso, char *line);
+int	miso_tokenize(t_shell *miso, char *line);
 void	miso_add_operator(t_shell *miso, char *line, int *pi);
 void	miso_add_redirection(t_shell *miso, char *line, int *pi);
 void	miso_add_argument(t_shell *miso, char *line, int *pi);
 void	miso_add_to_list(t_shell *miso, char *str, t_token_type type);
 
 /* miso_tokenize_quotes */
-int		miso_add_quotes(t_shell *miso, char *str, int *pi, int (*f)(char));
-int		miso_validate_quotes(t_shell *miso, const char *str, int (*f)(char));
-int		miso_is_squote(char c);
-int		miso_is_dquote(char c);
+int	miso_add_quotes(t_shell *miso, char *str, int *pi, int (*f)(char));
+int	miso_validate_quotes(t_shell *miso, const char *str, int (*f)(char));
+int	miso_is_squote(char c);
+int	miso_is_dquote(char c);
 
 /* tokenize_utils.c */
-int		miso_is_whitespace(char c);
+int	miso_is_whitespace(char c);
 char	*miso_create_token_str(char *str, int len);
 void	miso_mark_quotes(t_shell *miso, t_token *new_node);
 void	miso_mark_expansion(t_shell *miso, t_token *new_node);

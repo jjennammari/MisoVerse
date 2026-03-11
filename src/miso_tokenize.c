@@ -47,7 +47,7 @@ void	miso_add_operator(t_shell *miso, char *str, int *pi)
 	i = 0;
 	if (str[i] == '|')
 	{
-		miso_add_to_list(miso, "|", PIPE);
+		miso_add_to_list(miso, ft_strdup("|"), PIPE);
 		*pi += 1;
 	}
 	else
@@ -63,55 +63,54 @@ void	miso_add_redirection(t_shell *miso, char *str, int *pi)
 	{
 		if (str[i + 1] == '<')
 		{
-			miso_add_to_list(miso, "<<", HEREDOC);
+			miso_add_to_list(miso, ft_strdup("<<"), HEREDOC);
 			miso->list.hd_count += 1;
 			*pi += 1;
 		}
 		else
-			miso_add_to_list(miso, "<", RD_IN);
+			miso_add_to_list(miso, ft_strdup("<"), RD_IN);
 	}
 	else if (str[i] == '>')
 	{
 		if (str[i + 1] == '>')
 		{
-			miso_add_to_list(miso, ">>", APPEND);
+			miso_add_to_list(miso, ft_strdup(">>"), APPEND);
 			*pi += 1;
 		}
 		else
-			miso_add_to_list(miso, ">", RD_OUT);
+			miso_add_to_list(miso, ft_strdup(">"), RD_OUT);
 	}
 	*pi += 1;
 }
 
 void	miso_add_argument(t_shell *miso, char *str, int *pi)
 {
-	int		len;
 	char	*temp;
+	int		i;
 
 	miso->node->expand = 0;
 	miso->node->is_quotet = 0;
-	len = 0;
-	while (str[len] && !miso_is_whitespace(str[len]) && !ft_strchr("<|>'\"", str[len]))
+	i = 0;
+	while (str[i] && !miso_is_whitespace(str[i]) && !ft_strchr("<|>'\"", str[i]))
 	{
-		if (str[len] == '$' && miso->node->expand == 0)
+		if (str[i] == '$' && miso->node->expand == 0)
 			miso->node->expand = 1;
-		len++;
+		i++;
 	}
-	temp = miso_create_token_str(str, len);
+	temp = ft_strdup(str);
 	miso_add_to_list(miso, temp, ARG);
-	*pi += len;
+	*pi += i;
 }
 
 void	miso_add_to_list(t_shell *miso, char *str, t_token_type type)
 {
 	t_token	*new_node;
 
+	if (!str)
+		misoverse_free(miso, 1);//TODO: handle malloc error
 	new_node = malloc(sizeof(t_token));
 	if (!new_node)
-	{
-		perror(BLOD"PROMPT"MINT);
-		// function that mapache makes to free and exit
-	}
+		misoverse_free(miso, 1);//TODO: handle malloc error
 	miso_init_newnode(miso, new_node, str, type);
 	if (miso->list.last_node)
 	{
