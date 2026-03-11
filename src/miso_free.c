@@ -14,9 +14,9 @@
 
 void	miso_reset(t_shell *miso);
 void	free_token_list(t_shell *miso);
-void	misoverse_free(t_shell *miso, int print_err, int exit_status);
+void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status);
 
-void	misoverse_free(t_shell *miso, int print_err, int exit_status)
+void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status)
 {
 	if (print_err)
 		perror(BLOD PROMPT RSET);
@@ -25,8 +25,7 @@ void	misoverse_free(t_shell *miso, int print_err, int exit_status)
 	miso_free_matrix(miso->envp);
 	miso_free_matrix(miso->exp);
 	rl_clear_history();
-	if (exit_status != 0)
-		exit(exit_status);
+	exit(exit_status);
 	return ;
 }
 
@@ -41,7 +40,7 @@ void	miso_reset(t_shell *miso)
 	miso->node = malloc(sizeof(t_token));
 	if (!miso->node)
 	{
-		misoverse_free(miso, 1, 0);
+		misoverse_free_exit(miso, 1, 2);
 		exit(1);
 	}
 	miso->node->expand = 0;

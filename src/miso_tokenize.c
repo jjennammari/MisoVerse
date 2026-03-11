@@ -107,10 +107,10 @@ void	miso_add_to_list(t_shell *miso, char *str, t_token_type type)
 	t_token	*new_node;
 
 	if (!str)
-		misoverse_free(miso, 1);//TODO: handle malloc error
+		misoverse_free_exit(miso, 1 ,2);
 	new_node = malloc(sizeof(t_token));
 	if (!new_node)
-		misoverse_free(miso, 1);//TODO: handle malloc error
+		misoverse_free_exit(miso, 1, 2);
 	miso_init_newnode(miso, new_node, str, type);
 	if (miso->list.last_node)
 	{
