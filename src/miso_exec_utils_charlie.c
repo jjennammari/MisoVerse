@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 00:11:16 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/07 20:28:15 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/11 18:15:35 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	miso_checknfree(void *check1, char **check2, void *free1, char **free2)
 		free(free1);
 	if (free2)
 		miso_free_matrix(free2);
-	exit(1);
+	exit(2);
 }
 /* Mainly for checking memory allocations, this option takes either a * or
 ** pointer to check and one to free previous dependencies if necessary. The

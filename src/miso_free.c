@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:00 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/10 19:50:32 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/11 18:37:00 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status)
 	miso_free_matrix(miso->envp);
 	miso_free_matrix(miso->exp);
 	rl_clear_history();
-	exit(exit_status);
+	exit(exit_status % 256);
 	return ;
 }
 
@@ -39,10 +39,7 @@ void	miso_reset(t_shell *miso)
 	miso->list.last_node = NULL;
 	miso->node = malloc(sizeof(t_token));
 	if (!miso->node)
-	{
 		misoverse_free_exit(miso, 1, 2);
-		exit(1);
-	}
 	miso->node->expand = 0;
 	miso->node->str = NULL;
 	miso->node->next = NULL;
