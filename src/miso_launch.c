@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:28:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/08 22:27:12 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/11 18:25:33 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ int	miso_launch(t_shell *miso, t_token *head)
 	int		seg_num;
 	int		exit_status;
 	pid_t	last_child;
-
-	seg_num = 0;
+	
+	if (!head)
+		return (miso->exit_code);
 	exit_status = 0;
 	seg_num = miso_seg_count(head);
 	if (seg_num > 1)
