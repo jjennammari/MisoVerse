@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:47:52 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/09 20:02:46 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/11 18:13:25 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ static void	miso_init_variables(t_shell *miso, char **envp)
 	miso->list.last_node = NULL;
 	miso->node = malloc(sizeof(t_token));
 	if (!miso->node)
-	{
-		misoverse_free(miso, 1);
-		exit(1);
-	}
+		misoverse_free_exit(miso, 1, 2);
 	miso->node->expand = 0;
 	miso->node->str = NULL;
 	miso->node->next = NULL;
