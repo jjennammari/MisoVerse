@@ -6,46 +6,47 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:35:38 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/04 21:49:04 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/11 21:01:16 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
-char		**miso_argv(t_token *head, char **envp);
-static void	miso_pathfinder(char **cmd, char **envp);
-static void	miso_customs(char *program, int doesnt_exist);
-static char	*miso_pathmatch(char **dirs, char *temp_filename);
-static char	**miso_populate(char **argv, int argc, t_token *head);
+static char *miso_pathmatch(char **dirs, char *temp_filename);
+int			miso_argv(t_shell *miso, t_token *head, char **cmd);
+static int	miso_pathfinder(t_shell *miso, char **cmd, int *p_set);
+static void	miso_customs(char *program, int doesnt_exist, int *p_set);
+static int	miso_populate(t_shell *m, char **argv, int argc, t_token *head);
 
-char	**miso_argv(t_token *head, char **envp)
+int	miso_argv(t_shell *miso, t_token *head, char **cmd)
 {
 	t_token	*trav;
 	int		argc;
-	char	**argv;
+	int		path_set;
 
 	trav = head;
 	argc = 1;
+	path_set = 0;
 	while (trav && trav->type != SYS_CMD && trav->type != BLT_CMD)
 		trav = trav->next;
-	if (trav->type != BLT_CMD)
-		miso_pathfinder(&trav->str, envp);
+	if (trav->type != BLT_CMD && miso_pathfinder(miso, &trav->str, &path_set))
+		return (path_set);
 	while (trav && trav->type != PIPE)
 	{
 		if (trav->type == ARG)
 			argc++;
 		trav = trav->next;
 	}
-	argv = ft_calloc(argc + 1, sizeof(char *));
-	miso_checknfree(NULL, argv, NULL, NULL);
-	return (miso_populate(argv, argc, head));
+	cmd = ft_calloc(argc + 1, sizeof(char *));
+	miso_checknfree2d(miso, cmd, NULL, NULL);
+	return (miso_populate(miso, cmd, argc, head));
 }
 /*Advances until it finds the comand, and if is not a built-in, or has
 a literal path, it updates the str* with the path to the program. Then it 
 counts the arguments passed in order to allocate the argv 2D array and 
 populate it with the strings from the list. */
 
-static void	miso_pathfinder(char **cmd, char **envp)
+static int miso_pathfinder(t_shell *miso, char **cmd, int *p_set)
 {
 	char	**dirs;
 	char	*path_name;
@@ -53,20 +54,22 @@ static void	miso_pathfinder(char **cmd, char **envp)
 	char	*old_str;
 
 	if (ft_strchr(*cmd, '/'))
-		return ;
-	dirs = ft_split(miso_getenv("PATH=", envp), ':');
-	miso_checknfree(NULL, dirs, NULL, NULL);
+		return (0);
+	dirs = ft_split(miso_getenv("PATH=", miso->envp), ':');
+	miso_checknfree2d(miso, dirs, NULL, NULL);
 	temp = ft_strjoin("/", *cmd);
-	miso_checknfree(temp, NULL, NULL, dirs);
+	miso_checknfree1d(miso, temp, NULL, dirs);
 	path_name = miso_pathmatch(dirs, temp);
-	miso_checknfree(path_name, NULL, temp, dirs);
+	miso_checknfree1d(miso, path_name, temp, dirs);
 	free(temp);
 	miso_free_matrix(dirs);
-	miso_customs(path_name, access(path_name, F_OK));
+	miso_customs(path_name, access(path_name, F_OK), p_set);
+	if(*p_set)
+		return (1);
 	old_str = *cmd;
 	*cmd = path_name;
 	free(old_str);
-	return ;
+	return (0);
 }
 /*It splits the directories coming from the PATH variable, in order to
 create a strig that will contain the full path to the command passed. 
@@ -104,7 +107,7 @@ static char	*miso_pathmatch(char **dirs, char *temp_filename)
 passed exists. It will return the full path to the program or NULL if 
 it doesn't find it, assuming that the command passed is not built-in */
 
-static char	**miso_populate(char **argv, int argc, t_token *head)
+static int	miso_populate(t_shell *m, char **argv, int argc, t_token *head)
 {
 	t_token	*trav;
 	int		guide;
@@ -116,12 +119,13 @@ static char	**miso_populate(char **argv, int argc, t_token *head)
 	{
 		if (trav->type == SYS_CMD || trav->type == BLT_CMD || trav->type == ARG)
 		{
-			argv[guide] = trav->str;
+			argv[guide] = ft_strdup(trav->str);
+			miso_checknfree1d(m, argv[guide], NULL, argv);
 			guide++;
 		}
 		trav = trav->next;
 	}
-	return (argv);
+	return (0);
 }
 /* It traverses through the list as it iterates through the passed
 argv buffer, in order to set in order the commands and its arguments.
@@ -130,26 +134,26 @@ execve(). It assumes that there is only one comand of either type SYS_CMD
 or BLT_CMD, and that the conditions are optimally configured so all 
 arguments come after the comand. */
 
-static void	miso_customs(char *program, int doesnt_exist)
+static void	miso_customs(char *program, int doesnt_exist, int *p_set)
 {
 	t_stat	metadata;
 
 	if (doesnt_exist)
 	{
-		perror(BLOD"PROMPT"RSET);
+		perror(BLOD PROMPT RSET);
 		free(program);
-		exit(1);
+		*p_set = 1;
 	}
-	if (stat(program, &metadata) == -1)
+	else if (stat(program, &metadata) == -1)
 	{
-		perror(BLOD"PROMPT"RSET);
+		perror(BLOD PROMPT RSET);
 		free(program);
-		exit(127);
+		*p_set = 127;
 	}
 	else if (S_ISDIR(metadata.st_mode))
 	{
-		racc_print(2, BLOD"PROMPT: "MINT"%s"RSET": Is a directory\n", program);
-		exit(126);
+		racc_print(2, BLOD PROMPT": "MINT"%s"RSET": Is a directory\n", program);
+		*p_set = 126;
 	}
 	return ;
 }

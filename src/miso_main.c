@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:47:52 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/11 18:13:25 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/11 21:21:00 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@ int	main(int argc, char **argv, char **envp)
 static void	miso_init_variables(t_shell *miso, char **envp)
 {
 	miso->exit_code = 0;
-	miso->envp = miso_envinit(envp);
-	miso_exp_innit(miso, *envp);
 	miso->list.cmd_found = 0;
 	miso->list.head = NULL;
 	miso->list.hd_count = 0;
 	miso->list.last_node = NULL;
+	miso->envp = NULL;
+	miso->exp = NULL;
+	miso->envp = miso_envinit(miso, envp);
+	miso_exp_innit(miso, *envp);
 	miso->node = malloc(sizeof(t_token));
 	if (!miso->node)
 		misoverse_free_exit(miso, 1, 2);
