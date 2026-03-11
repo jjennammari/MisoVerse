@@ -58,7 +58,7 @@ typedef struct sigaction	t_sigact;
 //			Function Prototypes:
 
 /*  miso_main.c  */
-int		main(int argc, char **argv, char **envp); //NOTE: exit_code init to 0 (= success) is correct?
+int	main(int argc, char **argv, char **envp);
 
 /* misoverse_loop.c */
 void	misoverse_loop(t_shell *miso);//TODO: check continue actually skips all and starts the loop from beginning
@@ -84,34 +84,34 @@ void	miso_mark_expansion(t_shell *miso, t_token *new_node);
 void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str, t_token_type type);
 
 /* miso_parser.c */
-int		miso_parse(t_shell *miso);
-int		miso_parse_redirections(t_shell *miso, t_token *node);
-int		miso_parse_pipe(t_shell *miso, t_token *node);
+int	miso_parse(t_shell *miso);
+int	miso_parse_redirections(t_shell *miso, t_token *node);
+int	miso_parse_pipe(t_shell *miso, t_token *node);
 void	miso_expand_node(t_shell *miso, t_token *node, char *str);
 
 /* miso_parser_utils.c */
-int		miso_is_builtin(char *arg);
+int	miso_is_builtin(char *arg);
 void	miso_set_commandtype(t_token *node);
 void	miso_search_cmd(t_shell *miso, t_token *node);
-int		miso_is_redirection(t_token_type type);
+int	miso_is_redirection(t_token_type type);
 
 /* miso_heredoc.c */
-int		miso_heredoc(t_shell *miso);
-int		miso_get_heredoc(t_shell *miso, t_token *hd, int file_nb);
-int		miso_hd_collect(t_shell *miso, t_token *delim, int fd);
-int		miso_hd_write(char *line, int fd);
+int	miso_heredoc(t_shell *miso);
+int	miso_get_heredoc(t_shell *miso, t_token *hd, int file_nb);
+int	miso_hd_collect(t_shell *miso, t_token *delim, int fd);
+int	miso_hd_write(char *line, int fd);
 char	*miso_hd_expand(t_shell *miso, char *line);
 
 /* miso_heredoc_utils.c */
 char	*miso_hd_get_filename(int file_nb);
-int		miso_hd_open_file(char *file, int *fd);
-int		miso_hd_found_delim(char *line, char *delim);
+int	miso_hd_open_file(char *file, int *fd);
+int	miso_hd_found_delim(char *line, char *delim);
 char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line);
 void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
 
 /* miso_heredoc_signals.c */
-int		miso_hd_handle_signals(struct sigaction *old_int, struct sigaction *old_quit);
-int		miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_quit);
+int	miso_hd_handle_signals(struct sigaction *old_int, struct sigaction *old_quit);
+int	miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_quit);
 
 /* miso_expand.c */
 char	*miso_expand(t_shell *miso, char *str);
@@ -119,7 +119,7 @@ char	*miso_expand(t_shell *miso, char *str);
 /* miso_free.c */
 void	miso_reset(t_shell *miso);
 void	miso_free_token_list(t_shell *miso);
-void	misoverse_free(t_shell *miso, int print_err, int exit_status);
+void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status);
 
 /* delete_later.c */
 void	miso_print_token_list(t_shell *miso);

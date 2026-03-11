@@ -13,8 +13,8 @@
 #include "../inc/miso.h"
 
 static char	*miso_get_exp_name(t_shell *miso, char *str, int *pi);
-static char	*miso_subtract_exp_name(char *str, int len);
-static char	*miso_add_to_str(char *s1, char *s2);
+static char	*miso_subtract_exp_name(t_shell *miso, char *str, int len);
+static char	*miso_add_to_str(t_shell *miso, char *s1, char *s2);
 
 char	*miso_expand(t_shell *miso, char *str)
 {
@@ -30,16 +30,16 @@ char	*miso_expand(t_shell *miso, char *str)
 		{
 			exp_name = miso_get_exp_name(miso, &str[i], &i);
 			if (!exp_name)
-				res = miso_add_to_str(res, "$");
+				res = miso_add_to_str(miso, res, "$");
 			else
 			{
 				exp = miso_getenv(exp_name, miso->envp);
-				res = miso_add_to_str(res, exp);
+				res = miso_add_to_str(miso, res, exp);
 				free(exp_name);
 			}
 		}
 		else
-			res = miso_add_to_str(res, &str[i]);
+			res = miso_add_to_str(miso, res, &str[i]);
 		i++;
 	}
 	return (res);
@@ -53,6 +53,9 @@ static char	*miso_get_exp_name(t_shell *miso, char *str, int *pi)
 	if (str[*pi++] == '?')
 	{
 		*pi += 1;
+		name = ft_itoa(miso->exit_code);
+		if (!name)
+			misoverse_free_exit(miso, 1, 2);
 		return (ft_itoa(miso->exit_code));
 	}
 	len = 1;
@@ -60,22 +63,19 @@ static char	*miso_get_exp_name(t_shell *miso, char *str, int *pi)
 		len++;
 	if (len == 1)
 		return (NULL);
-	name = miso_subtract_exp_name(&str[1], len);
+	name = miso_subtract_exp_name(miso, &str[1], len);
 	*pi += len - 1;
 	return (name);
 }
 
-static char	*miso_subtract_exp_name(char *str, int len)
+static char	*miso_subtract_exp_name(t_shell *miso, char *str, int len)
 {
 	char	*res;
 	int		i;
 
 	res = malloc(sizeof(char) * len + 1);
 	if (!res)
-	{
-		perror(BLOD"PROMPT"MINT);
-		//function to free and exit from mapache
-	}
+		misoverse_free_exit(miso, 1 ,2);
 	i = 0;
 	while (i < len)
 	{
@@ -86,16 +86,13 @@ static char	*miso_subtract_exp_name(char *str, int len)
 	return (res);
 }
 
-static char	*miso_add_to_str(char *s1, char *s2)
+static char	*miso_add_to_str(t_shell *miso, char *s1, char *s2)
 {
 	char	*res;
 
 	res = ft_strjoin(s1, s2);
 	if (!res)
-	{
-		perror(BLOD"PROMPT"MINT);
-		// function to free and exit from mapache
-	}
+		misoverse_free_exit(miso, 1 ,2);
 	if (s1)
 		free(s1);
 	return (res);
