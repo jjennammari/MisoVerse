@@ -30,7 +30,10 @@ char	*miso_add_to_str(t_shell *miso, char *s1, char *s2)
 	i = 0;
 	while (s2[i] && s2[i] != '$')
 		i++;
-	res = ft_strjoin(s1, &s2[i]);
+	if (!s1 || !*s1)
+		res = ft_substr(s2, 0 , 1);
+	else
+		res = ft_strjoin(s1, &s2[i]);
 	if (!res)
 		misoverse_free_exit(miso, 1 ,2);
 	if (s1)
