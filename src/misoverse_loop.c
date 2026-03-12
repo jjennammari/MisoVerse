@@ -40,14 +40,15 @@ static int	miso_process_line(t_shell *miso, char *line)
 	add_history(line);
 	if (miso_tokenize(miso, line))
 		return (1);
-	printf("tokenization passed\n");
+	printf("\ntokenization passed\n");
 	miso_print_token_list(miso); // Test function
 	if (miso_parse(miso))
 		return (1);
 	printf("parsing passed\n");
-		miso_print_token_list(miso);
+	miso_print_token_list(miso);
 	if (miso->list.hd_count && miso_heredoc(miso))
 		return (1);
 	printf("heredoc passed\n");
+	miso_print_token_list(miso);
 	return (0);
 }
