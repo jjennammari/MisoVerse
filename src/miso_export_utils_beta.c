@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 21:35:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/02 11:28:14 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/12 23:26:27 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,20 @@ static void	miso_export_print_format(char *var)
 	if (*writer == '=')
 	{
 		writer = var;
-		racc_print(1, LIME"declare -x ");
+		racc_print(1, MINT"declare -x ");
+		racc_print(1, PURP);
 		while (*writer && *writer != '=')
-			racc_print(1, PURP"%c", writer++);
-		racc_print(1, BABY"%c", writer++);
-		racc_print(1, MINT"\"");
+			write(1, (writer)++, 1);
+		racc_print(1, ORNG);
+		write(1, (writer)++, 1);
+		racc_print(1, LIME"\""RSET);
+		racc_print(1, BABY);
 		while (*writer)
-			racc_print(1, ORNG"%c", writer++);
-		racc_print(1, MINT"\""RSET"\n");
+			write(1, (writer)++, 1);
+		racc_print(1, LIME"\""RSET"\n");
 	}
 	else
-		racc_print(1, LIME"declare -x "PURP"%s\n", var);
+		racc_print(1, LIME"declare -x "PURP"%s"RSET"\n", var);
 	return ;
 }
 /* Prints the variable "var" in the format that's expected
