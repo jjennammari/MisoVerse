@@ -16,10 +16,9 @@ char	*miso_allocate_str(t_shell *miso, size_t len)
 {
 	char	*res;
 
-	res = malloc(sizeof(char) * len);
+	res = ft_calloc(len, sizeof(char));
 	if (!res)
 		misoverse_free_exit(miso, 1, 2);
-	res[1] = '\0';
 	return (res);
 }
 
@@ -29,7 +28,7 @@ char	*miso_add_to_str(t_shell *miso, char *s1, char *s2)
 	int		i;
 
 	i = 0;
-	while (s2[i] || s2[i] != '$')
+	while (s2[i] && s2[i] != '$')
 		i++;
 	res = ft_strjoin(s1, &s2[i]);
 	if (!res)
