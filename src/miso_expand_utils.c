@@ -31,7 +31,7 @@ char	*miso_add_to_str(t_shell *miso, char *s1, char *s2)
 	while (s2[i] && s2[i] != '$')
 		i++;
 	if (!s1 || !*s1)
-		res = ft_substr(s2, 0 , 1);
+		res = ft_substr(s2, 0 , i);
 	else
 		res = ft_strjoin(s1, &s2[i]);
 	if (!res)
