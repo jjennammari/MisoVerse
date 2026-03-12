@@ -26,7 +26,7 @@ void	misoverse_loop(t_shell *miso)
 		if (miso_process_line(miso, line))
 			continue ;
 		miso->exit_code = miso_launch(miso, miso->list.head);
-		printf("launch passed\n");
+		printf("launch passed\n\n");
 	}
 	return ;
 }
