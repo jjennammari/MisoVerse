@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 16:23:11 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/22 20:14:21 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/11 21:23:44 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ void	miso_exp_innit(t_shell *miso, char *path_valid)
 	while ((miso->envp)[guide])
 		guide++;
 	miso->exp = ft_calloc(guide + 1, sizeof(char *));
-	miso_checknfree(NULL, miso->exp, NULL, miso->envp);
+	miso_checknfree2d(miso, miso->exp, NULL, miso->envp);
 	(miso->exp)[guide] = NULL;
 	while (guide-- > 0)
 	{
 		(miso->exp)[guide] = miso_get_key((miso->envp)[guide]);
 		if (!(miso->exp)[guide])
 		{
-			perror(BLOD"PROMPT"RSET);
+			perror(BLOD PROMPT RSET);
 			miso_free_matrix(miso->exp);
 			miso_free_matrix(miso->envp);
-			exit(1);
+			exit(2);
 		}
 	}
 	if (!path_valid)

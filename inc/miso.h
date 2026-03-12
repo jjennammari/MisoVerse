@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/10 19:54:02 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/11 21:30:30 by lde-san-         ###   ########.fr       */
 /*   Updated: 2026/03/08 18:46:26 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -64,7 +64,7 @@ int	main(int argc, char **argv, char **envp);
 void	misoverse_loop(t_shell *miso);//TODO: check continue actually skips all and starts the loop from beginning
 
 /* tokenize.c */
-int	miso_tokenize(t_shell *miso, char *line);
+int		miso_tokenize(t_shell *miso, char *line);
 void	miso_add_operator(t_shell *miso, char *line, int *pi);
 void	miso_add_redirection(t_shell *miso, char *line, int *pi);
 void	miso_add_argument(t_shell *miso, char *line, int *pi);
@@ -77,23 +77,23 @@ int	miso_is_squote(char c);
 int	miso_is_dquote(char c);
 
 /* tokenize_utils.c */
-int	miso_is_whitespace(char c);
+int		miso_is_whitespace(char c);
 char	*miso_create_token_str(char *str, int len);
 void	miso_mark_quotes(t_shell *miso, t_token *new_node);
 void	miso_mark_expansion(t_shell *miso, t_token *new_node);
 void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str, t_token_type type);
 
 /* miso_parser.c */
-int	miso_parse(t_shell *miso);
-int	miso_parse_redirections(t_shell *miso, t_token *node);
-int	miso_parse_pipe(t_shell *miso, t_token *node);
+int		miso_parse(t_shell *miso);
+int		miso_parse_redirections(t_shell *miso, t_token *node);
+int		miso_parse_pipe(t_shell *miso, t_token *node);
 void	miso_expand_node(t_shell *miso, t_token *node, char *str);
 
 /* miso_parser_utils.c */
-int	miso_is_builtin(char *arg);
+int		miso_is_builtin(char *arg);
 void	miso_set_commandtype(t_token *node);
 void	miso_search_cmd(t_shell *miso, t_token *node);
-int	miso_is_redirection(t_token_type type);
+int		miso_is_redirection(t_token_type type);
 
 /* miso_heredoc.c */
 int	miso_heredoc(t_shell *miso);
@@ -136,7 +136,7 @@ void	miso_print_token_list(t_shell *miso);
 int		miso_launch(t_shell *miso, t_token *head);
 
 //	 -- -- #	miso_pathfinder.c
-char	**miso_argv(t_token *head, char **envp);
+int		miso_argv(t_shell *miso, t_token *head, char **cmd);
 
 //	 -- -- #	miso_redirection.c
 void	miso_channeling(int prev_read, t_token *head, int *p, int p_num);
@@ -162,10 +162,12 @@ void	miso_daddy_pipe_manager(int *prev_read, int *p, int p_num);
 //   -- -- #    miso_exec_utils_charlie.c
 void	miso_free_matrix(char **matrix);
 int		miso_freenret(void *free1, void *free2, int p_err, int ret);
-void	miso_checknfree(void *check1, char **check2, void *free1, char **free2);
+void    miso_checknfree1d(t_shell *m, char *check, void *free1, char **free2);
+void    miso_checknfree2d(t_shell *m, char **check, void *free1, char **free2);
+void    miso_get_argv_nrun(t_shell *miso, t_token *head);
 
 //   -- -- #    miso_environment_utils_alpha.c
-char	**miso_envinit(char **envp);
+char	**miso_envinit(t_shell *miso, char **envp);
 char	*miso_getenv(const char *key, char **envp);
 int		miso_add_envar(char ***envp, char *key, char *varlue);
 int		miso_envar_update(char **envp, char *key, char *new_value);
@@ -179,7 +181,7 @@ char	*miso_extract_variable(char **envp, const char *key);
 int		miso_env_addorupdate(char ***envp, char *key, char *varlue);
 
 //   -- -- #    miso_environment_utils_charlie.c
-void	miso_keyvariables_init(char ***envp);
+void	miso_keyvariables_init(t_shell *miso, char ***envp);
 
 //   -- -- #    miso_export_utils_alpha.c
 int		miso_addexp(t_shell *miso, char *key);

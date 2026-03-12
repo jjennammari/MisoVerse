@@ -6,19 +6,19 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:42:57 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/02 11:31:39 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/11 21:28:59 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
-char	**miso_envinit(char **envp);
+char	**miso_envinit(t_shell *miso, char **envp);
 char	*miso_getenv(const char *key, char **envp);
 int		miso_add_envar(char ***envp, char *key, char *varlue);
 int		miso_envar_update(char **envp, char *key, char *new_value);
 char	*miso_find_envar(char **envp, const char *key, int *guide);
 
-char	**miso_envinit(char **envp)
+char	**miso_envinit(t_shell *miso, char **envp)
 {
 	int		guide;
 	char	**clone;
@@ -27,14 +27,14 @@ char	**miso_envinit(char **envp)
 	while (envp[guide])
 		guide++;
 	clone = ft_calloc(guide + 1, sizeof(char *));
-	miso_checknfree(NULL, clone, NULL, NULL);
+	miso_checknfree2d(miso, clone, NULL, NULL);
 	clone[guide] = NULL;
 	while (guide-- > 0)
 	{
 		clone[guide] = ft_strdup(envp[guide]);
-		miso_checknfree(clone[guide], NULL, NULL, clone);
+		miso_checknfree1d(miso, clone[guide], NULL, clone);
 	}
-	miso_keyvariables_init(&clone);
+	miso_keyvariables_init(miso, &clone);
 	return (clone);
 }
 /*Creates a heap-allocated replica of the **envp variable, to ensure
