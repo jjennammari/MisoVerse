@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:45:54 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/07 16:26:54 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/12 20:50:28 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int		miso_seg_count(t_token *head);
 char	**miso_matrixdup(char **matrix);
 t_token	*miso_next_segment(t_token *head);
 void	miso_daddy_pipe_manager(int *prev_read, int *p, int p_num);
+int		miso_path_err(t_shell *miso, char **dirs, char **cmd, int *p_set);
 
 t_token	*miso_next_segment(t_token *head)
 {
@@ -24,7 +25,7 @@ t_token	*miso_next_segment(t_token *head)
 		if (head->type == PIPE)
 		{
 			if (!head->next)
-				racc_print(2, BLOD"PROMPT"MINT"Error after `%s'\n", head->str);
+				racc_print(2, BLOD PROMPT MINT"Error after `%s'\n", head->str);
 			head = head->next;
 			break ;
 		}
@@ -85,7 +86,7 @@ char	**miso_matrixdup(char **matrix)
 	result = ft_calloc(guide + 1, sizeof(char *));
 	if (!result)
 	{
-		perror(BLOD"PROMPT"RSET);
+		perror(BLOD PROMPT RSET);
 		return (NULL);
 	}
 	result[guide] = NULL;
@@ -94,7 +95,7 @@ char	**miso_matrixdup(char **matrix)
 		result[guide] = ft_strdup(matrix[guide]);
 		if (!result[guide])
 		{
-			perror(BLOD"PROMPT"RSET);
+			perror(BLOD PROMPT RSET);
 			miso_free_matrix(result);
 			return (NULL);
 		}
@@ -103,3 +104,29 @@ char	**miso_matrixdup(char **matrix)
 }
 /* Duplicates the matrix passed as a parameter and returns a copy
 to the new matrix or NULL in case of allocation error. */
+
+int	miso_path_err(t_shell *miso, char **dirs, char **cmd, int *p_set)
+{
+	char    *temp;
+	char    *path_name;
+	char    *old_str;
+
+	temp = ft_strjoin("/", *cmd);
+	miso_checknfree1d(miso, temp, NULL, dirs);
+	path_name = miso_pathmatch(dirs, temp);
+	miso_checknfree1d(miso, path_name, temp, dirs);
+	if (path_name == temp)
+	{
+		free(temp);
+		*p_set = 127;
+		return (1);
+	}
+	free(temp);
+	miso_customs(path_name, access(path_name, F_OK), p_set);
+	if(*p_set)
+		return (1);
+	old_str = *cmd;
+	*cmd = path_name;
+	free(old_str);
+	return (0);
+}

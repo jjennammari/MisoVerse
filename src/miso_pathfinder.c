@@ -6,16 +6,16 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:35:38 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/12 18:41:13 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/12 20:56:31 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
-static char *miso_pathmatch(char **dirs, char *temp_filename);
+char		*miso_pathmatch(char **dirs, char *temp_filename);
 int			miso_argv(t_shell *miso, t_token *head, char ***cmd);
 static int	miso_pathfinder(t_shell *miso, char **cmd, int *p_set);
-static void	miso_customs(char *program, int doesnt_exist, int *p_set);
+void		miso_customs(char *program, int doesnt_exist, int *p_set);
 static int	miso_populate(t_shell *m, char **argv, int argc, t_token *head);
 
 int	miso_argv(t_shell *miso, t_token *head, char ***cmd)
@@ -49,26 +49,14 @@ populate it with the strings from the list. */
 static int miso_pathfinder(t_shell *miso, char **cmd, int *p_set)
 {
 	char	**dirs;
-	char	*path_name;
-	char	*temp;
-	char	*old_str;
 
 	if (ft_strchr(*cmd, '/'))
 		return (0);
 	dirs = ft_split(miso_getenv("PATH=", miso->envp), ':');
 	miso_checknfree2d(miso, dirs, NULL, NULL);
-	temp = ft_strjoin("/", *cmd);
-	miso_checknfree1d(miso, temp, NULL, dirs);
-	path_name = miso_pathmatch(dirs, temp);
-	miso_checknfree1d(miso, path_name, temp, dirs);
-	free(temp);
-	miso_free_matrix(dirs);
-	miso_customs(path_name, access(path_name, F_OK), p_set);
-	if(*p_set)
+	if (miso_path_err(miso, dirs, cmd, p_set))
 		return (1);
-	old_str = *cmd;
-	*cmd = path_name;
-	free(old_str);
+	miso_free_matrix(dirs);
 	return (0);
 }
 /*It splits the directories coming from the PATH variable, in order to
@@ -80,7 +68,7 @@ the memory of the previous string stored in the node, replacing it
 with the newly found path. It assumes that the command passed is not 
 built-in*/
 
-static char	*miso_pathmatch(char **dirs, char *temp_filename)
+char	*miso_pathmatch(char **dirs, char *temp_filename)
 {
 	int		guide;
 	char	*path_name;
@@ -91,15 +79,22 @@ static char	*miso_pathmatch(char **dirs, char *temp_filename)
 	path_name = ft_strjoin(dirs[guide], temp_filename);
 	if (!path_name)
 		return (NULL);
-	while (access(path_name, F_OK) && dirs[guide])
+	if (access(path_name, F_OK))
 	{
-		guide++;
-		if (!dirs[guide])
-			break ;
+		while (dirs[++guide] && access(path_name, F_OK))
+		{
+			free(path_name);
+			path_name = ft_strjoin(dirs[guide], temp_filename);
+			if (!path_name)
+				return (NULL);
+		}
+	}
+	if (!dirs[guide])
+	{
 		free(path_name);
-		path_name = ft_strjoin(dirs[guide], temp_filename);
-		if (!path_name)
-			return (NULL);
+		racc_print(2, BLOD PROMPT RSET": "MINT"%s"RSET, (temp_filename + 1));
+		racc_print(2, ": command not found\n");
+		return (temp_filename);
 	}
 	return (path_name);
 }
@@ -134,7 +129,7 @@ execve(). It assumes that there is only one comand of either type SYS_CMD
 or BLT_CMD, and that the conditions are optimally configured so all 
 arguments come after the comand. */
 
-static void	miso_customs(char *program, int doesnt_exist, int *p_set)
+void	miso_customs(char *program, int doesnt_exist, int *p_set)
 {
 	t_stat	metadata;
 
@@ -142,13 +137,13 @@ static void	miso_customs(char *program, int doesnt_exist, int *p_set)
 	{
 		perror(BLOD PROMPT RSET);
 		free(program);
-		*p_set = 1;
+		*p_set = 127;
 	}
 	else if (stat(program, &metadata) == -1)
 	{
 		perror(BLOD PROMPT RSET);
 		free(program);
-		*p_set = 127;
+		*p_set = 126;
 	}
 	else if (S_ISDIR(metadata.st_mode))
 	{
