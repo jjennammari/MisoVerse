@@ -6,19 +6,19 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:35:38 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/11 21:01:16 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:41:13 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
 static char *miso_pathmatch(char **dirs, char *temp_filename);
-int			miso_argv(t_shell *miso, t_token *head, char **cmd);
+int			miso_argv(t_shell *miso, t_token *head, char ***cmd);
 static int	miso_pathfinder(t_shell *miso, char **cmd, int *p_set);
 static void	miso_customs(char *program, int doesnt_exist, int *p_set);
 static int	miso_populate(t_shell *m, char **argv, int argc, t_token *head);
 
-int	miso_argv(t_shell *miso, t_token *head, char **cmd)
+int	miso_argv(t_shell *miso, t_token *head, char ***cmd)
 {
 	t_token	*trav;
 	int		argc;
@@ -37,9 +37,9 @@ int	miso_argv(t_shell *miso, t_token *head, char **cmd)
 			argc++;
 		trav = trav->next;
 	}
-	cmd = ft_calloc(argc + 1, sizeof(char *));
-	miso_checknfree2d(miso, cmd, NULL, NULL);
-	return (miso_populate(miso, cmd, argc, head));
+	*cmd = ft_calloc(argc + 1, sizeof(char *));
+	miso_checknfree2d(miso, *cmd, NULL, NULL);
+	return (miso_populate(miso, *cmd, argc, head));
 }
 /*Advances until it finds the comand, and if is not a built-in, or has
 a literal path, it updates the str* with the path to the program. Then it 
