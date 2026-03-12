@@ -12,6 +12,27 @@
 
 #include "../inc/miso.h"
 
+int	miso_handle_quotes(t_shell *miso, char *line, int *pi)
+{
+	char	*res;
+	int		i;
+
+	while (line[i] && !miso_is_whitespace(line[i]))
+	{
+		if (miso_is_squote(line[i]))
+		{
+			miso->node->s_quotes + 1;
+			while (line[i] && !miso_is_whitespace(line[i]) && !miso_is_squote(line[i]))
+			{
+				
+			}
+		}
+		else if (miso_is_dquote(line[i]))
+		{ expand already here}
+	}
+	return (0);
+}
+
 int	miso_add_quotes(t_shell *miso, char *str, int *pi, int (*f)(char))
 {
 	int		len;
