@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/11 21:30:30 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:41:06 by lde-san-         ###   ########.fr       */
 /*   Updated: 2026/03/08 18:46:26 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -136,7 +136,7 @@ void	miso_print_token_list(t_shell *miso);
 int		miso_launch(t_shell *miso, t_token *head);
 
 //	 -- -- #	miso_pathfinder.c
-int		miso_argv(t_shell *miso, t_token *head, char **cmd);
+int		miso_argv(t_shell *miso, t_token *head, char ***cmd);
 
 //	 -- -- #	miso_redirection.c
 void	miso_channeling(int prev_read, t_token *head, int *p, int p_num);

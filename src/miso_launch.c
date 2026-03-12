@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:28:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/11 20:54:03 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:40:08 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	miso_single_exec(t_shell *miso, t_token *head)
 
 	child = 0;
 	cmd = NULL;
-	exit_code = 127 + miso_argv(miso, head, cmd);
+	exit_code = 127 + miso_argv(miso, head, &cmd);
 	if (exit_code != 127)
 		return (exit_code - 127);
 	built_in = miso_get_builtin(cmd[0]);
