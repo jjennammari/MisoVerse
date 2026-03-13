@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 18:52:00 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/20 18:07:03 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/13 17:53:37 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,9 @@ static int	miso_unset_loop(t_shell *miso, char **argv)
 			miso_removexp(miso, key);
 			if (ex_envar)
 				free(ex_envar);
-			free(key);
 		}
+		free(key);
+		argv[index] = NULL;
 		index++;
 	}
 	return (0);

@@ -6,14 +6,14 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:00 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/11 18:37:00 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/13 20:04:27 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
-void	miso_reset(t_shell *miso);
 void	free_token_list(t_shell *miso);
+void	miso_reset(t_shell *miso, char **prompt);
 void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status);
 
 void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status)
@@ -29,8 +29,12 @@ void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status)
 	return ;
 }
 
-void	miso_reset(t_shell *miso)
+void	miso_reset(t_shell *miso, char **prompt)
 {
+	if (prompt && *prompt)
+		free(*prompt);
+	if (prompt)
+		*prompt = NULL;
 	if (miso->list.head != NULL)
 		free_token_list(miso);
 	miso->list.cmd_found = 0;

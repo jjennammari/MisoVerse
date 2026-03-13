@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/09 19:07:48 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/03/13 20:05:33 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ MAIN_FILE = $(SRC_DIR)miso_main.c
 FILE = delete_later.c
 FILE += miso_free.c
 FILE += miso_parse.c
+FILE += miso_prompt.c
 FILE += miso_parse_utils.c
 FILE += miso_expand.c
 FILE += miso_expand_utils.c

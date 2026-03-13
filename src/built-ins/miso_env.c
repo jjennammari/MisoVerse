@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 20:08:23 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/12 23:43:42 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/13 17:28:09 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	miso_print_env_format(char *writer)
 	racc_print(1, BABY);
 	if (*writer == '=')
 		write(1, (writer)++, 1);
-	racc_print(1, ORNG);
+	racc_print(1, NEOR);
 	while (*writer)
 		write(1, (writer)++, 1);
 	racc_print(1, RSET"\n");
