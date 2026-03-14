@@ -6,14 +6,14 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 15:18:15 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/11 21:44:16 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/14 18:08:36 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
 static void	miso_update_shlvl(t_shell *miso, char ***envp);
-void        miso_keyvariables_init(t_shell *miso, char ***envp);
+void		miso_keyvariables_init(t_shell *miso, char ***envp);
 static void	miso_path_confirm(t_shell *miso, char ***envp, char *paths);
 
 void	miso_keyvariables_init(t_shell *miso, char ***envp)

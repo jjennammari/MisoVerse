@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:47:52 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/11 21:21:00 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/14 16:59:08 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	miso_init_variables(t_shell *miso, char **envp)
 	miso->list.last_node = NULL;
 	miso->envp = NULL;
 	miso->exp = NULL;
+	miso->prompt = NULL;
 	miso->envp = miso_envinit(miso, envp);
 	miso_exp_innit(miso, *envp);
 	miso->node = malloc(sizeof(t_token));

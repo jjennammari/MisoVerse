@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:07 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/04 19:23:46 by jemustaj         ###   ########.fr       */
+/*   Updated: 2026/03/14 17:00:14 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_shell
 	int		exit_code;
 	char    **envp;
 	char    **exp;
+	char	*prompt;
 	t_token	*node;
 	t_line	list;
 }	t_shell;

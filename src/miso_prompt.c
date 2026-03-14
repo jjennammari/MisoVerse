@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 18:24:50 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/13 20:06:56 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/14 17:15:05 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void miso_get_prompt(t_shell *miso, char **prompt)
 	*prompt = miso_prompt_sufix(temp, cwd);
 	free(cwd);
 	miso_checknfree1d(miso, *prompt, temp, NULL);
+	free(temp);
 	return ;
 }
 

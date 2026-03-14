@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/13 20:09:49 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/14 17:05:39 by lde-san-         ###   ########.fr       */
 /*   Updated: 2026/03/08 18:46:26 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -127,8 +127,8 @@ char	*miso_get_exp_name(t_shell *miso, char *str, int *pi);
 char	*miso_subtract_exp_name(t_shell *miso, char *str, int len);
 
 /* miso_free.c */
+void    miso_reset(t_shell *miso);
 void	miso_free_token_list(t_shell *miso);
-void	miso_reset(t_shell *miso, char **prompt);
 void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status);
 
 /* delete_later.c */
