@@ -10,7 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/miso.h"
+#include "../../inc/miso.h"
+
+int		miso_parse(t_shell *miso);
+void	miso_search_cmd(t_shell *miso, t_token *node);
+int		miso_parse_redirections(t_shell *miso, t_token *node);
+int		miso_parse_pipe(t_shell *miso, t_token *node);
 
 int	miso_parse(t_shell *miso)
 {
@@ -22,13 +27,12 @@ int	miso_parse(t_shell *miso)
 		miso_search_cmd(miso, temp);
 		while (temp && temp->type != PIPE)
 		{
-			if (miso_is_redirection(temp->type))
-			{
-				if (miso_parse_redirections(miso, temp))
-					return (1);
-			}
-			else if (temp->expand == 1)
-				miso_expand_node(miso, temp, temp->str);
+			if (miso_parse_redirections(miso, temp))
+				return (1);
+			else if (miso_parse_quotes(miso, temp))//TODO: see if needs to be if instead of else if
+				return (1);
+			if (miso_expand_node(miso, temp, temp->str))
+				return (1);
 			temp = temp->next;
 		}
 		if (temp == NULL)
@@ -37,14 +41,24 @@ int	miso_parse(t_shell *miso)
 			if (miso_parse_pipe(miso, temp))
 				return (1);
 		miso->list.cmd_found = 0;
-		if (temp)
-			temp = temp->next;
+		temp = temp->next;
 	}
 	return (0);
 }
 
+void	miso_search_cmd(t_shell *miso, t_token *node)
+{
+	if (node->type == ARG)
+	{
+		miso_set_commandtype(node);
+		miso->list.cmd_found = 1;
+	}
+}
+
 int	miso_parse_redirections(t_shell *miso, t_token *node)
 {
+	if (!miso_is_redirection(node->type))
+		return (0);
 	if (miso_is_redirection(miso->list.last_node->type) || node->next->type != ARG)
 	{
 		racc_print(2, BLOD PROMPT MINT" Syntax error near redirection operator\n");
@@ -78,14 +92,4 @@ int	miso_parse_pipe(t_shell *miso, t_token *node)
 		return (1);
 	}
 	return (0);
-}
-
-void	miso_expand_node(t_shell *miso, t_token *node, char *str)
-{
-	char	*res;
-
-	res = miso_expand(miso, str);
-	free(node->str);
-	node->str = res;
-	node->expand = 0;
 }

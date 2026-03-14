@@ -38,8 +38,7 @@ static int	miso_process_line(t_shell *miso, char *line)
 	if (!(*line))
 		return (1);
 	add_history(line);
-	if (miso_tokenize(miso, line))
-		return (1);
+	miso_tokenize(miso, line);
 	printf("\ntokenization passed\n");
 	miso_print_token_list(miso); // Test function
 	if (miso_parse(miso))

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/miso.h"
+#include "../../inc/miso.h"
 
 static void	miso_hd_sigint(int sig);
 

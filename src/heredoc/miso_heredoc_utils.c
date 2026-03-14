@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/miso.h"
+#include "../../inc/miso.h"
 
 char	*miso_hd_get_filename(int file_nb)
 {
@@ -54,7 +54,7 @@ char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line)
 	char	*res;
 	int		i;
 
-	if (delim->is_quotet == 1)
+	if (delim->quotes == 1)
 		return (line);
 	i = 0;
 	while (line[i])
@@ -75,6 +75,6 @@ void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file)
 	free(delim->str);
 	hd->type = RD_IN;
 	delim->str = file;
-	delim->is_quotet = 0;
+	delim->quotes = 0;
 	delim->expand = 0;
 }

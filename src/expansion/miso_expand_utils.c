@@ -10,7 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/miso.h"
+#include "../../inc/miso.h"
+
+char	*miso_allocate_str(t_shell *miso, size_t len);
+void	miso_update_quotes(t_shell *miso, char c);
+char	*miso_str_to_str(t_shell *miso, char *s1, char *s2);
+char	*miso_get_exp_name(t_shell *miso, char *str, int *pi);
+char	*miso_subtract_exp_name(t_shell *miso, char *str, int len);
 
 char	*miso_allocate_str(t_shell *miso, size_t len)
 {
@@ -22,7 +28,25 @@ char	*miso_allocate_str(t_shell *miso, size_t len)
 	return (res);
 }
 
-char	*miso_add_to_str(t_shell *miso, char *s1, char *s2)
+void	miso_update_quotes(t_shell *miso, char c)
+{
+	if (ft_strchr("'", c))
+	{
+		if (miso->list.squote == 0)
+			miso->list.squote = 1;
+		else if (miso->list.squote == 1)
+			miso->list.squote = 0;
+	}
+	else if (ft_strchr("\"", c))
+	{
+		if (miso->list.dquote == 0)
+			miso->list.dquote = 1;
+		else if (miso->list.dquote == 1)
+			miso->list.dquote = 0;
+	}
+}
+
+char	*miso_str_to_str(t_shell *miso, char *s1, char *s2)
 {
 	char	*res;
 	int		i;

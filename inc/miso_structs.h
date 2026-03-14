@@ -30,9 +30,7 @@ typedef enum s_token_type
 typedef struct s_token
 {
 	bool			expand;
-	bool			is_quotet;
-	bool			d_quotes;
-	bool			s_quotes;
+	bool			quotes;
 	char			*str;
 	struct s_token	*next;
 	t_token_type	type;
@@ -40,6 +38,8 @@ typedef struct s_token
 
 typedef struct s_line
 {
+	bool	dquote;
+	bool	squote;
 	bool	cmd_found;
 	int		hd_count;
 	t_token	*head;

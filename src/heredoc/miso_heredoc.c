@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/miso.h"
+#include "../../inc/miso.h"
 
 int	miso_heredoc(t_shell *miso)
 {

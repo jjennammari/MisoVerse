@@ -43,7 +43,7 @@ void	miso_reset(t_shell *miso)
 	miso->node->expand = 0;
 	miso->node->str = NULL;
 	miso->node->next = NULL;
-	miso->node->is_quotet = 0;
+	miso->node->quotes = 0;
 	g_signal = 0;
 	return ;
 }
