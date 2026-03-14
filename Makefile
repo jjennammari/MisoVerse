@@ -29,25 +29,19 @@ RSET	= \033[0m
 SRC_DIR = src/
 OBJ_DIR = obj/
 BLTIN_DIR = built-ins/
+EXPANSION_DIR = expansion/
+HEREDOC_DIR = heredoc/
+PARSING_DIR = parsing/
+TOKENIZE_DIR = tokenize/
 INC = -I/inc/libft/includes -I/inc
 
 MAIN_FILE = $(SRC_DIR)miso_main.c
 
 FILE = delete_later.c
 FILE += miso_free.c
-FILE += miso_parse.c
-FILE += miso_parse_utils.c
-FILE += miso_expand.c
-FILE += miso_expand_utils.c
-FILE += miso_heredoc.c
-FILE += miso_heredoc_utils.c
-FILE += miso_heredoc_signals.c
 FILE += miso_launch.c
 FILE += miso_signals.c
-FILE += miso_tokenize.c
 FILE += misoverse_loop.c
-FILE += miso_tokenize_utils.c
-FILE += miso_tokenize_quotes.c
 FILE += miso_pathfinder.c
 FILE += miso_redirection.c
 FILE += miso_exec_utils_beta.c
@@ -65,6 +59,16 @@ FILE += $(BLTIN_DIR)miso_echo.c
 FILE += $(BLTIN_DIR)miso_exit.c
 FILE += $(BLTIN_DIR)miso_unset.c
 FILE += $(BLTIN_DIR)miso_export.c
+FILE += $(EXPANSION_DIR)miso_expand.c
+FILE += $(EXPANSION_DIR)miso_expand_utils.c
+FILE += $(HEREDOC_DIR)miso_heredoc.c
+FILE += $(HEREDOC_DIR)miso_heredoc_utils.c
+FILE += $(HEREDOC_DIR)miso_heredoc_signals.c
+FILE += $(PARSING_DIR)miso_parse.c
+FILE += $(PARSING_DIR)miso_parse_quotes.c
+FILE += $(PARSING_DIR)miso_parse_utils.c
+FILE += $(TOKENIZE_DIR)miso_tokenize.c
+FILE += $(TOKENIZE_DIR)miso_tokenize_utils.c
 
 SRC = $(addprefix $(SRC_DIR),$(FILE))
 
@@ -93,6 +97,26 @@ $(OBJ_DIR)$(BLTIN_DIR)%.o: $(SRC_DIR)$(BLTIN_DIR)%.c | $(BLTIN_DIR)
 	$(COMPILE) -c $< -o $@
 	@printf "$(RSET)\n"
 
+$(OBJ_DIR)$(EXPANSION_DIR)%.o: $(SRC_DIR)$(EXPANSION_DIR)%.c | $(EXPANSION_DIR)
+	@printf "$(PINK)"
+	$(COMPILE) -c $< -o $@
+	@printf "$(RSET)\n"
+
+$(OBJ_DIR)$(HEREDOC_DIR)%.o: $(SRC_DIR)$(HEREDOC_DIR)%.c | $(HEREDOC_DIR)
+	@printf "$(PINK)"
+	$(COMPILE) -c $< -o $@
+	@printf "$(RSET)\n"
+
+$(OBJ_DIR)$(PARSING_DIR)%.o: $(SRC_DIR)$(PARSING_DIR)%.c | $(PARSING_DIR)
+	@printf "$(PINK)"
+	$(COMPILE) -c $< -o $@
+	@printf "$(RSET)\n"
+
+$(OBJ_DIR)$(TOKENIZE_DIR)%.o: $(SRC_DIR)$(TOKENIZE_DIR)%.c | $(TOKENIZE_DIR)
+	@printf "$(PINK)"
+	$(COMPILE) -c $< -o $@
+	@printf "$(RSET)\n"
+
 $(OBJ_DIR):
 	@printf "$(MINT)"
 	mkdir -p $(OBJ_DIR)
@@ -100,6 +124,22 @@ $(OBJ_DIR):
 $(BLTIN_DIR):
 	@printf "$(LIME)"
 	mkdir -p $(OBJ_DIR)$(BLTIN_DIR)
+
+$(EXPANSION_DIR):
+	@printf "$(LIME)"
+	mkdir -p $(OBJ_DIR)$(EXPANSION_DIR)
+
+$(HEREDOC_DIR):
+	@printf "$(LIME)"
+	mkdir -p $(OBJ_DIR)$(HEREDOC_DIR)
+
+$(PARSING_DIR):
+	@printf "$(LIME)"
+	mkdir -p $(OBJ_DIR)$(PARSING_DIR)
+
+$(TOKENIZE_DIR):
+	@printf "$(LIME)"
+	mkdir -p $(OBJ_DIR)$(TOKENIZE_DIR)
 
 $(LIBFT):
 	@printf "$(NEOR)"

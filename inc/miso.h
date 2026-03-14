@@ -68,35 +68,35 @@ void	miso_tokenize(t_shell *miso, char *line);
 void	miso_tokenize_operators(t_shell *miso, char *str, int *pi);
 void	miso_tokenize_redirections(t_shell *miso, char *str, int *pi);
 void	miso_tokenize_quotes(t_shell *miso, char *str, int *pi);
-//void	miso_tokenize_arguments(t_shell *miso, char *str, int *pi);
+void	miso_tokenize_arguments(t_shell *miso, char *str, int *pi);
 
 /* tokenize_utils.c */
 void	miso_build_token_list(t_shell *miso, char *str, t_token_type type);
 void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str, t_token_type type);
 void	miso_mark_quotes(t_shell *miso, t_token *new_node);
 void	miso_mark_expansion(t_shell *miso, t_token *new_node);
-int		miso_is_whitespace(char c);
-int		miso_skip_empty_quotes(char *line, int *pi);//WARNING: six functions in a file
-char	*miso_char_to_str(t_shell *miso, char *str, char c);//WARNING: seven functions in a file
+int	miso_is_whitespace(char c);
+int	miso_skip_empty_quotes(t_shell *miso, char *line, int *pi);//WARNING: six functions in a file
+char	*miso_add_char_to_str(t_shell *miso, char *str, char c);//WARNING: seven functions in a file
+char	*miso_convert_char_as_str(t_shell *miso, char c);
 
 /* miso_parse.c */
-int		miso_parse(t_shell *miso);
+int	miso_parse(t_shell *miso);
 void	miso_search_cmd(t_shell *miso, t_token *node);
-int		miso_parse_redirections(t_shell *miso, t_token *node);
-int		miso_parse_pipe(t_shell *miso, t_token *node);
+int	miso_parse_redirections(t_shell *miso, t_token *node);
+int	miso_parse_pipe(t_shell *miso, t_token *node);
 
 /* miso_parse_utils.c */
 void	miso_set_commandtype(t_token *node);
-int		miso_is_builtin(char *arg);
-int		miso_is_redirection(t_token_type type);
-int		miso_expand_node(t_shell *miso, t_token *node, char *str);
+int	miso_is_builtin(char *arg);
+int	miso_is_redirection(t_token_type type);
 
 /* miso_parse_quotes.c */
 int	miso_parse_quotes(t_shell *miso, t_token *node);
-int	miso_validate_quotes(t_shell *miso, char *str, int *pi, int (*f)(char));
-int	miso_is_squote(char c);//TODO: change all these to ft_strchr
+int	miso_validate_quotes(char *str, int *pi, int (*f)(char));
+int	miso_is_squote(char c);
 int	miso_is_dquote(char c);
-int	miso_expand_quotes(t_shell *miso, t_token *node, char *str);//TODO: change to use expand_node function?
+void	miso_remove_extra_quotes(t_shell *miso);
 
 /* miso_heredoc.c */
 int	miso_heredoc(t_shell *miso);
@@ -120,6 +120,7 @@ int	miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_qui
 char	*miso_expand(t_shell *miso, char *str);
 char	*miso_exp_exit_code(t_shell *miso, char *res, int *pi);
 char	*miso_exp_env(t_shell *miso, char *res, char *str, int *pi);//TODO: add if exp_part is null
+int	miso_expand_node(t_shell *miso, t_token *node, char *str);
 
 /* miso_expand_utils.c */
 char	*miso_allocate_str(t_shell *miso, size_t len);//TODO: probably issue with ft_strjoin allocationg 1 byte too much there from s1

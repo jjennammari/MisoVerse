@@ -29,9 +29,7 @@ int	miso_parse(t_shell *miso)
 		{
 			if (miso_parse_redirections(miso, temp))
 				return (1);
-			else if (miso_parse_quotes(miso, temp))//TODO: see if needs to be if instead of else if
-				return (1);
-			if (miso_expand_node(miso, temp, temp->str))
+			else if (miso_parse_quotes(miso, temp))
 				return (1);
 			temp = temp->next;
 		}

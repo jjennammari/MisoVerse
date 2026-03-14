@@ -12,11 +12,11 @@
 
 #include "../../inc/miso.h"
 
-int	miso_parse_quotes(t_shell *miso, t_token *node);
-int	miso_validate_quotes(t_shell *miso, char *str, int *pi, int (*f)(char));
-int	miso_is_squote(char c);
-int	miso_is_dquote(char c);
-int	miso_expand_quotes(t_shell *miso, t_token *node, char *str);
+int		miso_parse_quotes(t_shell *miso, t_token *node);
+int		miso_validate_quotes(char *str, int *pi, int (*f)(char));
+int		miso_is_squote(char c);
+int		miso_is_dquote(char c);
+void	miso_remove_extra_quotes(t_shell *miso);
 
 int	miso_parse_quotes(t_shell *miso, t_token *node)
 {
@@ -29,24 +29,18 @@ int	miso_parse_quotes(t_shell *miso, t_token *node)
 		i = 0;
 		while (temp[i])
 		{
-			if (miso_is_squote(temp[i]) && miso_validate_quotes(miso, &temp[++i], &i, miso_is_squote))
+			if (miso_is_squote(temp[i]) && miso_validate_quotes(&temp[++i], &i, miso_is_squote))
 				return (1);
-			else if (miso_is_dquote(temp[i]) && miso_validate_quotes(miso, &temp[++i], &i, miso_is_dquote))
+			else if (miso_is_dquote(temp[i]) && miso_validate_quotes(&temp[++i], &i, miso_is_dquote))
 				return (1);
-			else
+			else if (temp[i])
 				i++;
-		}
-		if (node->expand == 1)
-		{
-			if (miso_expand_quotes(miso, node, node->str))
-				return (1);
-			node->expand = 0;
 		}
 	}
 	return (0);
 }
 
-int	miso_validate_quotes(t_shell *miso, char *str, int *pi, int (*f)(char))
+int	miso_validate_quotes(char *str, int *pi, int (*f)(char))
 {
 	int	len;
 
@@ -59,8 +53,8 @@ int	miso_validate_quotes(t_shell *miso, char *str, int *pi, int (*f)(char))
 		racc_print(2, BLOD PROMPT MINT" Syntax error: can't find matching quote\n");
 		return (1);
 	}
-	*pi = len;
-	return (len);
+	*pi += len;
+	return (0);
 }
 
 int	miso_is_squote(char c)
@@ -77,14 +71,13 @@ int	miso_is_dquote(char c)
 	return (0);
 }
 
-int	miso_expand_quotes(t_shell *miso, t_token *node, char *str)
+void	miso_remove_extra_quotes(t_shell *miso)
 {
-	char	*res;
-	int		i;
+	t_token	*temp;
 
-	res = miso_expand(miso, str);
-	free(node->str);
-	node->str = res;
-	return (0);
+	temp = miso->list.head;
+	while (temp)
+	{
+		
+	}
 }
-

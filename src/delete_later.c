@@ -25,7 +25,7 @@ void	miso_print_token_list(t_shell *miso)
 		printf("Token STR: %s\n", temp->str);
 		printf("Token TYPE: %d\n", temp->type);
 		printf("Expandable: %d\n", temp->expand);
-		printf("Is quotet: %d\n\n", temp->is_quotet);
+		printf("Is quotet: %d\n\n", temp->quotes);
 		temp = temp->next;
 		t_count += 1;
 	}

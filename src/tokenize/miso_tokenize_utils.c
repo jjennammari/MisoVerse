@@ -17,8 +17,9 @@ void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str, t_token_type
 void	miso_mark_quotes(t_shell *miso, t_token *new_node);
 void	miso_mark_expansion(t_shell *miso, t_token *new_node);
 int		miso_is_whitespace(char c);
-int		miso_skip_empty_quotes(char *line, int *pi);
-char	*miso_char_to_str(t_shell *miso, char *str, char c);
+int		miso_skip_empty_quotes(t_shell *miso, char *line, int *pi);
+char	*miso_add_char_to_str(t_shell *miso, char *str, char c);
+char	*miso_convert_char_as_str(t_shell *miso, char c);
 
 void	miso_build_token_list(t_shell *miso, char *str, t_token_type type)
 {
@@ -75,14 +76,14 @@ int	miso_is_whitespace(char c)
 	return (0);
 }
 
-int	miso_skip_empty_quotes(char *line, int *pi)
+int	miso_skip_empty_quotes(t_shell *miso, char *line, int *pi)
 {
-	if (miso_is_squote(line[0]) && miso_is_squote(line[1]))
+	if (miso_is_squote(line[0]) && miso_is_squote(line[1]) && miso->list.squote == 1)
 	{
 		*pi += 2;
 		return (1);
 	}
-	else if (miso_is_dquote(line[0]) && miso_is_dquote(line[1]))
+	else if (miso_is_dquote(line[0]) && miso_is_dquote(line[1]) && miso->list.dquote == 1)
 	{
 		*pi += 2;
 		return (1);
@@ -90,19 +91,30 @@ int	miso_skip_empty_quotes(char *line, int *pi)
 	return (0);
 }
 
-char	*miso_char_to_str(t_shell *miso, char *str, char c)
+char	*miso_add_char_to_str(t_shell *miso, char *str, char c)
 {
 	char	*res;
 	char	*temp;
 
 	res = miso_allocate_str(miso, (ft_strlen(str) + 2));
-	temp = ft_strdup(&c);
+	temp = miso_convert_char_as_str(miso, c);
 	if (!temp)
 		misoverse_free_exit(miso, 1, 2);
-	res = ft_strjoin(res, temp);
+	res = ft_strjoin(str, temp);
 	if (!res)
 		misoverse_free_exit(miso, 1, 2);
 	free(temp);
 	free(str);
+	return (res);
+}
+
+char	*miso_convert_char_as_str(t_shell *miso, char c)
+{
+	char	*res;
+	int		test_len;
+
+	res = miso_allocate_str(miso, 2);
+	test_len = ft_strlen(res);
+	res[0] = c;
 	return (res);
 }

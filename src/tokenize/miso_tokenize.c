@@ -92,13 +92,14 @@ void	miso_tokenize_quotes(t_shell *miso, char *line, int *pi)
 	i = 0;
 	while (line[i] && !miso_is_whitespace(line[i]))
 	{
+		miso_update_quotes(miso, line[i]);
 		if (miso->node->quotes == 0 && ft_strchr("<|>'\"", line[i]))
 			break ;
-		if (miso->node->quotes == 1 && ft_strchr("'\"", line[i]) && ft_strchr("'\"", line[++i]) && miso_skip_empty_quotes(&line[i], &i))
+		if (miso->node->quotes == 1 && ft_strchr("'\"", line[i]) && ft_strchr("'\"", line[i + 1]) && miso_skip_empty_quotes(miso, &line[i], &i))
 			continue ;
-		if (str[i] == '$' && miso->node->expand == 0)
+		if (line[i] == '$' && miso->node->expand == 0)
 			miso->node->expand = 1;
-		str = miso_char_to_str(miso, str, line[i]);
+		str = miso_add_char_to_str(miso, str, line[i]);
 		i++;
 	}
 	miso_build_token_list(miso, str, ARG);

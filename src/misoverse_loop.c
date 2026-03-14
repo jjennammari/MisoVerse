@@ -45,6 +45,8 @@ static int	miso_process_line(t_shell *miso, char *line)
 		return (1);
 	printf("parsing passed\n");
 	miso_print_token_list(miso);
+	if (miso_expansion(miso))
+		continue ;
 	if (miso->list.hd_count && miso_heredoc(miso))
 		return (1);
 	printf("heredoc passed\n");

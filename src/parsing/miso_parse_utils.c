@@ -15,7 +15,6 @@
 void	miso_set_commandtype(t_token *node);
 int		miso_is_builtin(char *arg);
 int		miso_is_redirection(t_token_type type);
-int		miso_expand_node(t_shell *miso, t_token *node, char *str);
 
 void	miso_set_commandtype(t_token *node)
 {
@@ -51,21 +50,5 @@ int	miso_is_redirection(t_token_type type)
 {
 	if (type == RD_IN || type == RD_OUT || type == APPEND || type == HEREDOC)
 		return (1);
-	return (0);
-}
-
-int	miso_expand_node(t_shell *miso, t_token *node, char *str)
-{
-	char	*res;
-
-	if (node->expand == 1)
-	{
-		res = miso_expand(miso, str);
-		if (!res)
-			return (1);
-		free(node->str);
-		node->str = res;
-		node->expand = 0;
-	}
 	return (0);
 }
