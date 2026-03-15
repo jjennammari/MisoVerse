@@ -29,9 +29,9 @@ int	miso_parse_quotes(t_shell *miso, t_token *node)
 		i = 0;
 		while (temp[i])
 		{
-			if (miso_is_squote(temp[i]) && miso_validate_quotes(&temp[++i], &i, miso_is_squote))
+			if (temp[i] == '\'' && miso_validate_quotes(&temp[++i], &i, miso_is_squote))
 				return (1);
-			else if (miso_is_dquote(temp[i]) && miso_validate_quotes(&temp[++i], &i, miso_is_dquote))
+			else if (temp[i] == '"' && miso_validate_quotes(&temp[++i], &i, miso_is_dquote))
 				return (1);
 			else if (temp[i])
 				i++;
@@ -69,15 +69,4 @@ int	miso_is_dquote(char c)
 	if (c == '"')
 		return (1);
 	return (0);
-}
-
-void	miso_remove_extra_quotes(t_shell *miso)
-{
-	t_token	*temp;
-
-	temp = miso->list.head;
-	while (temp)
-	{
-		
-	}
 }

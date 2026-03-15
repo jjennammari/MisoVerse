@@ -104,7 +104,8 @@ char	*miso_add_char_to_str(t_shell *miso, char *str, char c)
 	if (!res)
 		misoverse_free_exit(miso, 1, 2);
 	free(temp);
-	free(str);
+	if (str)
+		free(str);
 	return (res);
 }
 

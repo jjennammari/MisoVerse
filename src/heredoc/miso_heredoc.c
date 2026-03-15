@@ -100,7 +100,7 @@ char	*miso_hd_expand(t_shell *miso, char *line)
 {
 	char	*res;
 
-	res = miso_expand(miso, line);
+	res = miso_exp_without_quotes(miso, line);
 	if (!res)
 		return (NULL);
 	return (res);

@@ -12,13 +12,14 @@
 
 #include "../../inc/miso.h"
 
-void	miso_expansion(t_shell *miso);
+int	miso_expand(t_shell *miso);
 int		miso_expand_node(t_shell *miso, t_token *node, char *str);
-char	*miso_expand(t_shell *miso, char *str);
+char	*miso_exp_without_quotes(t_shell *miso, char *str);
 char	*miso_exp_exit_code(t_shell *miso, char *res, int *pi);
 char	*miso_exp_env(t_shell *miso, char *res, char *str, int *pi);
+int	miso_remove_empty_nodes(t_shell *miso);
 
-int	miso_expansion(t_shell *miso)
+int	miso_expand(t_shell *miso)
 {
 	t_token	*temp;
 
@@ -26,12 +27,44 @@ int	miso_expansion(t_shell *miso)
 	while (temp)
 	{
 		if (temp->expand == 1 && temp->quotes == 1)
+		{
 			miso_expand_quotes(miso, temp, temp->str);
+			miso->list.squote = 0;
+			miso->list.dquote = 0;
+		}
 		else if (temp->expand == 1 && temp->quotes == 0)
 			miso_expand_node(miso, temp, temp->str);
 	}
-	miso_remove_extra_quotes(miso);//NOTE: leave nodes with only "" or '' as args
 	if (miso_remove_empty_nodes(miso))
+		return (1);
+	miso_remove_surrounding_quotes(miso);//NOTE: leave nodes with only "" or '' as args
+	return (0);
+}
+
+int	miso_remove_empty_nodes(t_shell *miso)
+{
+	t_token	*temp;
+	t_token	*delete;
+
+	while (miso->list.head && miso->list.head->str == NULL)
+	{
+		delete = miso->list.head;
+		miso->list.head = delete->next;
+		free(delete);
+	}
+	temp = miso->list.head;
+	while (temp->next)
+	{
+		if (temp->next->str == NULL)
+		{
+			delete = temp->next;
+			temp->next = delete->next;
+			free(delete);
+		}
+		else
+			temp = temp->next;
+	}
+	if (miso->list.head == NULL)
 		return (1);
 	return (0);
 }
@@ -40,20 +73,14 @@ int	miso_expand_node(t_shell *miso, t_token *node, char *str)
 {
 	char	*res;
 
-	res = miso_expand(miso, str);
+	res = miso_exp_without_quotes(miso, str);
 	free(node->str);
 	node->str = res;
 	node->expand = 0;
 	return (0);
 }
 
-int	miso_expand_quotes(t_shell *miso, t_token *node, char *str)
-{
-	char	*res;
-	return (0);
-}
-
-char	*miso_expand(t_shell *miso, char *str)
+char	*miso_exp_without_quotes(t_shell *miso, char *str)
 {
 	char	*res;
 	int		i;

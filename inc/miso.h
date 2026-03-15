@@ -67,7 +67,7 @@ void	misoverse_loop(t_shell *miso);//TODO: check continue actually skips all and
 void	miso_tokenize(t_shell *miso, char *line);
 void	miso_tokenize_operators(t_shell *miso, char *str, int *pi);
 void	miso_tokenize_redirections(t_shell *miso, char *str, int *pi);
-void	miso_tokenize_quotes(t_shell *miso, char *str, int *pi);
+void	miso_tokenize_quotes(t_shell *miso, char *str, int *pi);//TODO: tokenze also empty quotes and kissa"  "
 void	miso_tokenize_arguments(t_shell *miso, char *str, int *pi);
 
 /* tokenize_utils.c */
@@ -78,7 +78,7 @@ void	miso_mark_expansion(t_shell *miso, t_token *new_node);
 int	miso_is_whitespace(char c);
 int	miso_skip_empty_quotes(t_shell *miso, char *line, int *pi);//WARNING: six functions in a file
 char	*miso_add_char_to_str(t_shell *miso, char *str, char c);//WARNING: seven functions in a file
-char	*miso_convert_char_as_str(t_shell *miso, char c);
+char	*miso_convert_char_as_str(t_shell *miso, char c);//WARNING: eight functions in a file
 
 /* miso_parse.c */
 int	miso_parse(t_shell *miso);
@@ -86,17 +86,40 @@ void	miso_search_cmd(t_shell *miso, t_token *node);
 int	miso_parse_redirections(t_shell *miso, t_token *node);
 int	miso_parse_pipe(t_shell *miso, t_token *node);
 
-/* miso_parse_utils.c */
-void	miso_set_commandtype(t_token *node);
-int	miso_is_builtin(char *arg);
-int	miso_is_redirection(t_token_type type);
-
 /* miso_parse_quotes.c */
 int	miso_parse_quotes(t_shell *miso, t_token *node);
 int	miso_validate_quotes(char *str, int *pi, int (*f)(char));
 int	miso_is_squote(char c);
 int	miso_is_dquote(char c);
-void	miso_remove_extra_quotes(t_shell *miso);
+
+/* miso_parse_utils.c */
+void	miso_set_commandtype(t_token *node);
+int	miso_is_builtin(char *arg);
+int	miso_is_redirection(t_token_type type);
+
+/* miso_expand.c */
+int	miso_expand(t_shell *miso);
+char	*miso_exp_without_quotes(t_shell *miso, char *str);
+char	*miso_exp_exit_code(t_shell *miso, char *res, int *pi);
+char	*miso_exp_env(t_shell *miso, char *res, char *str, int *pi);
+int	miso_expand_node(t_shell *miso, t_token *node, char *str);
+
+/* miso_expand_quotes.c */
+void	miso_expand_quotes(t_shell *miso, t_token *node, char *str);
+char	*miso_exp_with_quotes(t_shell *miso, t_token *node, char *str);
+void	miso_validate_expansion(t_shell *miso, t_token *node, char c);
+void	miso_update_quotes(t_shell *miso, char c);
+void	miso_remove_surrounding_quotes(t_shell *miso);
+char	*miso_remove_quotes(t_shell *miso, t_token *node, char *str);
+char	*miso_remove_squotes(t_shell *miso, char *res, char *str, int *pi);
+char	*miso_remove_dquotes(t_shell *miso, char *res, char *str, int *pi);
+char	*miso_add_str(t_shell *miso, char *s1, char *s2);
+
+/* miso_expand_utils.c */
+char	*miso_allocate_str(t_shell *miso, size_t len);
+char	*miso_str_to_str(t_shell *miso, char *s1, char *s2);
+char	*miso_get_exp_name(t_shell *miso, char *str, int *pi);
+char	*miso_subtract_exp_name(t_shell *miso, char *str, int len);
 
 /* miso_heredoc.c */
 int	miso_heredoc(t_shell *miso);
@@ -115,19 +138,6 @@ void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
 /* miso_heredoc_signals.c */
 int	miso_hd_handle_signals(struct sigaction *old_int, struct sigaction *old_quit);
 int	miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_quit);
-
-/* miso_expand.c */
-char	*miso_expand(t_shell *miso, char *str);
-char	*miso_exp_exit_code(t_shell *miso, char *res, int *pi);
-char	*miso_exp_env(t_shell *miso, char *res, char *str, int *pi);//TODO: add if exp_part is null
-int	miso_expand_node(t_shell *miso, t_token *node, char *str);
-
-/* miso_expand_utils.c */
-char	*miso_allocate_str(t_shell *miso, size_t len);//TODO: probably issue with ft_strjoin allocationg 1 byte too much there from s1
-void	miso_update_quotes(t_shell *miso, char c);//NOTE: do I need squote boolean or delete?
-char	*miso_str_to_str(t_shell *miso, char *s1, char *s2);
-char	*miso_get_exp_name(t_shell *miso, char *str, int *pi);
-char	*miso_subtract_exp_name(t_shell *miso, char *str, int len);
 
 /* miso_free.c */
 void	miso_reset(t_shell *miso);
