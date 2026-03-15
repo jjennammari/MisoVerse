@@ -59,7 +59,7 @@ char	*miso_get_exp_name(t_shell *miso, char *str, int *pi)
 	if (len == 1)
 		return (NULL);
 	name = miso_subtract_exp_name(miso, &str[1], len - 1);
-	*pi += len - 1;
+	*pi += len;
 	return (name);
 }
 

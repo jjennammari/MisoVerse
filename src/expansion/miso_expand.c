@@ -34,6 +34,7 @@ int	miso_expand(t_shell *miso)
 		}
 		else if (temp->expand == 1 && temp->quotes == 0)
 			miso_expand_node(miso, temp, temp->str);
+		temp = temp->next;
 	}
 	if (miso_remove_empty_nodes(miso))
 		return (1);
@@ -111,7 +112,7 @@ char	*miso_exp_exit_code(t_shell *miso, char *res, int *pi)
 	code = ft_itoa(miso->exit_code);
 	if (!code)
 		misoverse_free_exit(miso, 1, 2);
-	exp = miso_str_to_str(miso, res, code);
+	exp = miso_add_str(miso, res, code);
 	free(code);
 	*pi += 1;
 	return (exp);
@@ -122,15 +123,16 @@ char	*miso_exp_env(t_shell *miso, char *res, char *str, int *pi)
 	char	*exp;
 	char	*exp_part;
 	char	*exp_name;
+	int		i;
 
-
-	exp_name = miso_get_exp_name(miso, &str[*pi], pi);
+	i = 0;
+	exp_name = miso_get_exp_name(miso, &str[i], pi);
 	if (!exp_name)
-		exp = miso_str_to_str(miso, res, "$");
+		exp = miso_add_str(miso, res, "$");
 	else
 	{
 		exp_part = miso_getenv(exp_name, miso->envp);
-		exp = miso_str_to_str(miso, res, exp_part);
+		exp = miso_add_str(miso, res, exp_part);
 	}
 	free(exp_name);
 	return (exp);

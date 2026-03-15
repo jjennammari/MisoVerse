@@ -14,12 +14,10 @@
 
 void	miso_build_token_list(t_shell *miso, char *str, t_token_type type);
 void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str, t_token_type type);
-void	miso_mark_quotes(t_shell *miso, t_token *new_node);
-void	miso_mark_expansion(t_shell *miso, t_token *new_node);
 int		miso_is_whitespace(char c);
-int		miso_skip_empty_quotes(t_shell *miso, char *line, int *pi);
 char	*miso_add_char_to_str(t_shell *miso, char *str, char c);
 char	*miso_convert_char_as_str(t_shell *miso, char c);
+char	*miso_add_str(t_shell *miso, char *s1, char *s2);
 
 void	miso_build_token_list(t_shell *miso, char *str, t_token_type type)
 {
@@ -50,44 +48,17 @@ void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str, t_token_type
 	new_node->type = type;
 	new_node->next = NULL;
 	if (miso->node->quotes == 1)
-		miso_mark_quotes(miso, new_node);
+		new_node->quotes = 1;
 	if (miso->node->expand == 1)
-		miso_mark_expansion(miso, new_node);
+		new_node->expand = 1;
 	miso->node->expand = 0;
 	miso->node->quotes = 0;
-}
-
-void	miso_mark_quotes(t_shell *miso, t_token *new_node)
-{
-	new_node->quotes = 1;
-	miso->node->quotes = 0;
-}
-
-void	miso_mark_expansion(t_shell *miso, t_token *new_node)
-{
-	new_node->expand = 1;
-	miso->node->expand = 0;
 }
 
 int	miso_is_whitespace(char c)
 {
 	if (c == 32 || (c >= 9 && c <= 13))
 		return (1);
-	return (0);
-}
-
-int	miso_skip_empty_quotes(t_shell *miso, char *line, int *pi)
-{
-	if (miso_is_squote(line[0]) && miso_is_squote(line[1]) && miso->list.squote == 1)
-	{
-		*pi += 2;
-		return (1);
-	}
-	else if (miso_is_dquote(line[0]) && miso_is_dquote(line[1]) && miso->list.dquote == 1)
-	{
-		*pi += 2;
-		return (1);
-	}
 	return (0);
 }
 
@@ -112,10 +83,27 @@ char	*miso_add_char_to_str(t_shell *miso, char *str, char c)
 char	*miso_convert_char_as_str(t_shell *miso, char c)
 {
 	char	*res;
-	int		test_len;
 
 	res = miso_allocate_str(miso, 2);
-	test_len = ft_strlen(res);
 	res[0] = c;
+	return (res);
+}
+
+char	*miso_add_str(t_shell *miso, char *s1, char *s2)
+{
+	char	*res;
+	int		len;
+
+	if (!s2)
+		return (s1);
+	len = ft_strlen(s2);
+	if (!s1 || !*s1)
+		res = ft_substr(s2, 0 , len);
+	else
+		res = ft_strjoin(s1, s2);
+	if (!res)
+		misoverse_free_exit(miso, 1 ,2);
+	if (s1)
+		free(s1);
 	return (res);
 }

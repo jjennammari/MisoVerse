@@ -29,7 +29,7 @@ int	miso_parse(t_shell *miso)
 		{
 			if (miso_parse_redirections(miso, temp))
 				return (1);
-			else if (miso_parse_quotes(miso, temp))
+			else if (miso_parse_quotes(temp))
 				return (1);
 			temp = temp->next;
 		}

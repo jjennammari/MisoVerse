@@ -12,6 +12,12 @@
 
 #include "../../inc/miso.h"
 
+char	*miso_hd_get_filename(int file_nb);
+int	miso_hd_open_file(char *file, int *fd);
+int	miso_hd_found_delim(char *line, char *delim);
+char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line);
+void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
+
 char	*miso_hd_get_filename(int file_nb)
 {
 	char	*name;
@@ -26,7 +32,6 @@ char	*miso_hd_get_filename(int file_nb)
 	if (!temp)
 		return (NULL);
 	name = ft_strjoin(temp, ".tmp");
-	free(temp);
 	return (name);
 }
 

@@ -14,13 +14,12 @@
 
 void	miso_expand_quotes(t_shell *miso, t_token *node, char *str);
 char	*miso_exp_with_quotes(t_shell *miso, t_token *node, char *str);
-void	miso_validate_expansion(t_shell *miso, t_token *node, char c);
+void	miso_validate_expansion(t_shell *miso, t_token *node, char c, int *pi);
 void	miso_update_quotes(t_shell *miso, char c);
 void	miso_remove_surroundign_quotes(t_shell *miso);
-char	*miso_remove_quotes(t_shell *miso, t_token *node, char *str);
+char	*miso_remove_quotes(t_shell *miso, char *str);
 char	*miso_remove_squotes(t_shell *miso, char *res, char *str, int *pi);
 char	*miso_remove_dquotes(t_shell *miso, char *res, char *str, int *pi);
-char	*miso_add_str(t_shell *miso, char *s1, char *s2);
 
 void	miso_expand_quotes(t_shell *miso, t_token *node, char *str)
 {
@@ -42,7 +41,7 @@ char	*miso_exp_with_quotes(t_shell *miso, t_token *node, char *str)
 	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '"')
-			miso_validate_expansion(miso, node, str[i]);
+			miso_validate_expansion(miso, node, str[i], NULL);
 		if (str[i] == '$' && node->expand == 1)
 		{
 			if (str[i + 1] == '?')
@@ -50,18 +49,18 @@ char	*miso_exp_with_quotes(t_shell *miso, t_token *node, char *str)
 			else
 				res = miso_exp_env(miso, res, &str[i], &i);
 		}
-		while (str[i] && node->expand == 0)
+		while (str[i] && (node->expand == 0 || str[i] == '\''))
 		{
-			if (str[i] == '\'' || str[i] == '"')
-				miso_validate_expansion(miso, node, str[i]);
 			res = miso_add_char_to_str(miso, res, str[i]);
 			i++;
+			if (str[i] == '\'' || str[i] == '"')
+				miso_validate_expansion(miso, node, str[i], NULL);
 		}
 	}
 	return (res);
 }
 
-void	miso_validate_expansion(t_shell *miso, t_token *node, char c)
+void	miso_validate_expansion(t_shell *miso, t_token *node, char c, int *pi)
 {
 	if (c == '\'' && miso->list.dquote == 0)
 	{
@@ -83,6 +82,8 @@ void	miso_validate_expansion(t_shell *miso, t_token *node, char c)
 		node->expand = 0;
 		miso_update_quotes(miso, c);
 	}
+	if (pi)
+		*pi += 1;
 }
 
 void	miso_update_quotes(t_shell *miso, char c)
@@ -108,20 +109,21 @@ void	miso_remove_surrounding_quotes(t_shell *miso)
 	t_token	*temp;
 	char	*res;
 
+	temp = miso->list.head;
 	while (temp)
 	{
 		if (temp->quotes == 1)
 		{
-			res = miso_remove_quotes(miso, temp, temp->str);
+			res = miso_remove_quotes(miso, temp->str);
 			free(temp->str);
 			temp->str = res;
 		}
+		temp = temp->next;
 	}
 }
 
-char	*miso_remove_quotes(t_shell *miso, t_token *node, char *str)
+char	*miso_remove_quotes(t_shell *miso, char *str)
 {
-	char	*temp;
 	char	*res;
 	int		i;
 
@@ -151,10 +153,10 @@ char	*miso_remove_squotes(t_shell *miso, char *res, char *str, int *pi)
 	char	*temp;
 	int		len;
 
-	len = 0;
-	while (str[len] != '\'')
+	len = 1;
+	while (str[len] && str[len] != '\'')
 		len++;
-	if (len == 0)
+	if (len == 1)
 	{
 		res = ft_strdup("''");
 		if (!res)
@@ -162,7 +164,7 @@ char	*miso_remove_squotes(t_shell *miso, char *res, char *str, int *pi)
 		*pi += 1;
 		return (res);
 	}
-	temp = ft_substr(str, 0, len);
+	temp = ft_substr(str, 1, len - 1);
 	if (!temp)
 		misoverse_free_exit(miso, 1, 2);
 	res = miso_add_str(miso, res, temp);
@@ -175,10 +177,10 @@ char	*miso_remove_dquotes(t_shell *miso, char *res, char *str, int *pi)
 	char	*temp;
 	int		len;
 
-	len = 0;
+	len = 1;
 	while (str[len] != '"')
 		len++;
-	if (len == 0)
+	if (len == 1)
 	{
 		res = ft_strdup("\"\"");
 		if (!res)
@@ -186,29 +188,10 @@ char	*miso_remove_dquotes(t_shell *miso, char *res, char *str, int *pi)
 		*pi += 1;
 		return (res);
 	}
-	temp = ft_substr(str, 0, len);
+	temp = ft_substr(str, 1, len - 1);
 	if (!temp)
 		misoverse_free_exit(miso, 1, 2);
 	res = miso_add_str(miso, res, temp);
 	*pi += len + 1;
-	return (res);
-}
-
-char	*miso_add_str(t_shell *miso, char *s1, char *s2)
-{
-	char	*res;
-	int		len;
-
-	if (!s2)
-		return (s1);
-	len = ft_strlen(s2);
-	if (!s1 || !*s1)
-		res = ft_substr(s2, 0 , len);
-	else
-		res = ft_strjoin(s1, s2);
-	if (!res)
-		misoverse_free_exit(miso, 1 ,2);
-	if (s1)
-		free(s1);
 	return (res);
 }

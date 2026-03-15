@@ -60,6 +60,7 @@ FILE += $(BLTIN_DIR)miso_exit.c
 FILE += $(BLTIN_DIR)miso_unset.c
 FILE += $(BLTIN_DIR)miso_export.c
 FILE += $(EXPANSION_DIR)miso_expand.c
+FILE += $(EXPANSION_DIR)miso_expand_quotes.c
 FILE += $(EXPANSION_DIR)miso_expand_utils.c
 FILE += $(HEREDOC_DIR)miso_heredoc.c
 FILE += $(HEREDOC_DIR)miso_heredoc_utils.c

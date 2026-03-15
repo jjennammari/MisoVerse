@@ -12,13 +12,12 @@
 
 #include "../../inc/miso.h"
 
-int		miso_parse_quotes(t_shell *miso, t_token *node);
+int		miso_parse_quotes(t_token *node);
 int		miso_validate_quotes(char *str, int *pi, int (*f)(char));
 int		miso_is_squote(char c);
 int		miso_is_dquote(char c);
-void	miso_remove_extra_quotes(t_shell *miso);
 
-int	miso_parse_quotes(t_shell *miso, t_token *node)
+int	miso_parse_quotes(t_token *node)
 {
 	char	*temp;
 	int		i;
