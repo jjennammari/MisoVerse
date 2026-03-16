@@ -48,14 +48,10 @@ char	*miso_exp_with_quotes(t_shell *miso, t_token *node, char *str)
 				res = miso_exp_exit_code(miso, res, &i);
 			else
 				res = miso_exp_env(miso, res, &str[i], &i);
+			continue ;
 		}
-		while (str[i] && (node->expand == 0 || str[i] == '\''))
-		{
-			res = miso_add_char_to_str(miso, res, str[i]);
-			i++;
-			if (str[i] == '\'' || str[i] == '"')
-				miso_validate_expansion(miso, node, str[i], NULL);
-		}
+		res = miso_add_char_to_str(miso, res, str[i]);
+		i++;
 	}
 	return (res);
 }
@@ -137,7 +133,7 @@ char	*miso_remove_quotes(t_shell *miso, char *str)
 		}
 		else if (str[i] == '"')
 		{
-			res = miso_remove_dquotes(miso, res, &str[++i], &i);
+			res = miso_remove_dquotes(miso, res, &str[i], &i);
 		}
 		while (str[i] && !ft_strchr("'\"", str[i]))
 		{
@@ -178,7 +174,7 @@ char	*miso_remove_dquotes(t_shell *miso, char *res, char *str, int *pi)
 	int		len;
 
 	len = 1;
-	while (str[len] != '"')
+	while (str[len] && str[len] != '"')
 		len++;
 	if (len == 1)
 	{

@@ -64,7 +64,7 @@ int	main(int argc, char **argv, char **envp);
 void	misoverse_loop(t_shell *miso);
 
 /* tokenize.c */
-void	miso_tokenize(t_shell *miso, char *line);
+int	miso_tokenize(t_shell *miso, char *line);
 void	miso_tokenize_operators(t_shell *miso, char *str, int *pi);
 void	miso_tokenize_redirections(t_shell *miso, char *str, int *pi);
 void	miso_tokenize_arguments(t_shell *miso, char *str, int *pi);

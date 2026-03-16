@@ -12,14 +12,14 @@
 
 #include "../../inc/miso.h"
 
-void	miso_tokenize(t_shell *miso, char *line);
+int	miso_tokenize(t_shell *miso, char *line);
 void	miso_tokenize_operators(t_shell *miso, char *str, int *pi);
 void	miso_tokenize_redirections(t_shell *miso, char *str, int *pi);
 void	miso_tokenize_arguments(t_shell *miso, char *str, int *pi);
 char	*miso_tokenize_quotes(t_shell *miso, char *res, char *line, int *pi, int (*f)(char));
 char	*miso_tokenize_words(t_shell *miso, char *res, char *line, int *pi);
 
-void	miso_tokenize(t_shell *miso, char *line)
+int	miso_tokenize(t_shell *miso, char *line)
 {
 	int		i;
 
@@ -28,11 +28,14 @@ void	miso_tokenize(t_shell *miso, char *line)
 	{
 		while (line[i] && miso_is_whitespace(line[i]))
 			i++;
+		if (line[i] == '\0')
+			return (1);
 		if (ft_strchr("<|>", line[i]))
 			miso_tokenize_operators(miso, &line[i], &i);
 		else
 			miso_tokenize_arguments(miso, &line[i], &i);
 	}
+	return (0);
 }
 
 void	miso_tokenize_operators(t_shell *miso, char *line, int *pi)
