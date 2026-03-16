@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/14 19:10:59 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/03/15 17:50:55 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -208,7 +208,7 @@ env_clear:
 	@echo "unset XDG_CONFIG_DIRS _ DOCKER_HOST LIBVIRT_DEFAULT_URI XDG_SEAT_PATH GDM_LANG XDG_GREETER_DATA_DIR GPG_AGENT_INFO KRB5CCNAME FT_HOOK_PATHNAME FT_HOOK_NAME LANGUAGE GTK_IM_MODULE XDG_SESSION_PATH SSH_AGENT_LAUNCHER GNOME_SHELL_SESSION_MODE GNOME_TERMINAL_SCREEN GNOME_TERMINAL_SERVICE GSM_SKIP_SSH_AGENT_WORKAROUND GTK_MODULES CLUTTER_DISABLE_MIPMAPPED_TEXT COLORTERM DBUS_SESSION_BUS_ADDRESS DESKTOP_SESSION DISPLAY GDMSESSION GNOME_DESKTOP_SESSION_ID GNOME_SETUP_DISPLAY _ _backup_glob BASH BASH_ALIASES BASH_ARGC BASH_ARGV BASH_ARGV0 BASH_CMDS BASH_COMMAND BASH_COMPLETION_VERSINFO BASH_LINENO BASH_LOADABLES_PATH BASHOPTS BASHPID BASH_SOURCE BASH_SUBSHELL BASH_VERSINFO BASH_VERSION COLUMNS COMP_WORDBREAKS DIRSTACK EPOCHREALTIME EPOCHSECONDS EUID __git_printf_supports_v GNOME_SHELL_SESSION_MODE GNOME_TERMINAL_SCREEN GNOME_TERMINAL_SERVICE GROUPS GSM_SKIP_SSH_AGENT_WORKAROUND GTK_MODULES HISTCMD HISTCONTROL HISTFILE HISTFILESIZE HISTSIZE PIPESTATUS LINES COLUMNS HOME HOSTNAME HOSTTYPE IFS LANG LESS LESSCLOSE LESSOPEN LINENO LINES LOGNAME LS_COLORS LSCOLORS MACHTYPE MAIL MAILCHECK MEMORY_PRESSURE_WATCH MEMORY_PRESSURE_WRITE OLDPWD OPTERR OPTIND OSTYPE PAGER PIPESTATUS PPID PS1 PS2 PS4 PWD QT_ACCESSIBILITY QT_IM_MODULE RANDOM SECONDS SESSION_MANAGER SHELL SHELLOPTS SHLVL SRANDOM SSH_AUTH_SOCK SYSTEMD_EXEC_PID TERM UID USER USERNAME VTE_VERSION WAYLAND_DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP XDG_DATA_DIRS XDG_MENU_PREFIX XDG_RUNTIME_DIR XDG_SESSION_CLASS XDG_SESSION_DESKTOP XDG_SESSION_TYPE XMODIFIERS _xspecs ZSH"
 	@printf "$(RSET)"
 
-normloop.sh:
+normloop:
 	@printf "$(NEOR) Building normloop.sh... $(RESET)"
 	@sleep 0.5
 	@printf "$(MINT)🦝\n\n"
@@ -244,18 +244,16 @@ normloop.sh:
 	@printf "%s\n" ''>> normloop.sh
 	@printf "%s\n" '	while true'>> normloop.sh
 	@printf "%s\n" '	do'>> normloop.sh
-	@printf "%s\n" '		norminette -R CheckForbiddenSourceHeader '\"'$$FILE'\"' | grep Error | head -n 30 > tody.txt'>> normloop.sh
-	@printf "%s\n" '		clear'>> normloop.sh
-	@printf "%s\n" '		cat tody.txt'>> normloop.sh
+	@printf "%s\n" '		norminette -R CheckForbiddenSourceHeader '\"'$$FILE'\"' | grep Error | head -n 40 > tody.txt'>> normloop.sh
+	@printf "%s\n" '		clear && cat tody.txt'>> normloop.sh
 	@printf "%s\n" '		tput cup 0 0'>> normloop.sh
 	@printf "%s\n" '		sleep 1'>> normloop.sh
 	@printf "%s\n" '	done'>> normloop.sh
 	@printf "%s\n" 'else'>> normloop.sh
 	@printf "%s\n" '	while true'>> normloop.sh
 	@printf "%s\n" '	do'>> normloop.sh
-	@printf "%s\n" '		norminette -R CheckForbiddenSourceHeader *.c | grep Error | head -n 30 > tody.txt'>> normloop.sh
-	@printf "%s\n" '		clear'>> normloop.sh
-	@printf "%s\n" '		cat tody.txt'>> normloop.sh
+	@printf "%s\n" '		norminette -R CheckForbiddenSourceHeader *.c | grep Error | head -n 40 > tody.txt'>> normloop.sh
+	@printf "%s\n" '        clear && cat tody.txt'>> normloop.sh
 	@printf "%s\n" '		tput cup 0 0'>> normloop.sh
 	@printf "%s\n" '		sleep 1'>> normloop.sh
 	@printf "%s\n" '	done'>> normloop.sh

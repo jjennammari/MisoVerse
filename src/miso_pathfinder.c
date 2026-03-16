@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:35:38 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/14 18:54:17 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/15 18:09:59 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,27 +77,22 @@ char	*miso_pathmatch(char **dirs, char *temp_filename)
 	if (!temp_filename || !dirs)
 		return (NULL);
 	guide = 0;
-	path_name = ft_strjoin(dirs[guide], temp_filename);
-	if (!path_name)
-		return (NULL);
-	if (access(path_name, F_OK))
+	path_name = NULL;
+	while (dirs[guide])
 	{
-		while (dirs[++guide] && access(path_name, F_OK))
-		{
+		if (path_name)
 			free(path_name);
-			path_name = ft_strjoin(dirs[guide], temp_filename);
-			if (!path_name)
-				return (NULL);
-		}
+		path_name = ft_strjoin(dirs[guide], temp_filename);
+		if (!path_name)
+			return (NULL);
+		if (!access(path_name, F_OK))
+			return (path_name);
+		guide++;
 	}
-	if (!dirs[guide])
-	{
-		free(path_name);
-		racc_print(2, BLOD PROMPT RSET": "MINT"%s"RSET, (temp_filename + 1));
-		racc_print(2, ": command not found\n");
-		return (temp_filename);
-	}
-	return (path_name);
+	free(path_name);
+	racc_print(2, BLOD PROMPT RSET": "MINT"%s"RSET, (temp_filename + 1));
+	racc_print(2, ": command not found\n");
+	return (temp_filename);
 }
 /* Iterates through all the provided directories, checking if the file
 passed exists. It will return the full path to the program or NULL if 
