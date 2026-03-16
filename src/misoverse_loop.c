@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:22 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/09 20:34:56 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/14 17:06:45 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@ void	misoverse_loop(t_shell *miso)
 {
 	char	*line;
 
+	line = NULL;
 	while (1)
 	{
 		miso_reset(miso);
-		line = readline(MINT PROMPT PURP"» "RSET);
+		miso_get_prompt(miso, &(miso->prompt));
+		line = readline(miso->prompt);
 		if (miso_process_line(miso, line))
 			continue ;
 		miso->exit_code = miso_launch(miso, miso->list.head);

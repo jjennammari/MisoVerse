@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:35:38 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/12 20:56:31 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/14 18:54:17 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	miso_argv(t_shell *miso, t_token *head, char ***cmd)
 	trav = head;
 	argc = 1;
 	path_set = 0;
+	*cmd = NULL;
 	while (trav && trav->type != SYS_CMD && trav->type != BLT_CMD)
 		trav = trav->next;
 	if (trav->type != BLT_CMD && miso_pathfinder(miso, &trav->str, &path_set))
@@ -46,7 +47,7 @@ a literal path, it updates the str* with the path to the program. Then it
 counts the arguments passed in order to allocate the argv 2D array and 
 populate it with the strings from the list. */
 
-static int miso_pathfinder(t_shell *miso, char **cmd, int *p_set)
+static int	miso_pathfinder(t_shell *miso, char **cmd, int *p_set)
 {
 	char	**dirs;
 

@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 21:08:32 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/08 01:04:15 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/13 16:30:02 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	miso_parsenexport(t_shell *m, char ***env, char **argv)
 
 	if (!m->exp)
 		return (miso_freenret(NULL, NULL, 1, 1));
-	guide = 0;
+	guide = 1;
 	exit_code = 0;
 	while (argv[guide])
 	{

@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 00:11:16 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/12 18:40:35 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/14 18:30:00 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	miso_free_matrix(char **matrix);
 int		miso_freenret(void *free1, void *free2, int p_err, int ret);
-void    miso_checknfree1d(t_shell *m, char *check, void *free1, char **free2);
-void    miso_checknfree2d(t_shell *m, char **check, void *free1, char **free2);
-void    miso_get_argv_nrun(t_shell *miso, t_token *head);
+void	miso_checknfree1d(t_shell *m, char *check, void *free1, char **free2);
+void	miso_checknfree2d(t_shell *m, char **check, void *free1, char **free2);
+void	miso_get_argv_nrun(t_shell *miso, t_token *head);
 
 void	miso_checknfree1d(t_shell *m, char *check, void *free1, char **free2)
 {
@@ -82,7 +82,7 @@ are allocated or NULL, and that the array has a NULL pointer only at the end.*/
 
 void	miso_get_argv_nrun(t_shell *miso, t_token *head)
 {
-	char    **cmd;
+	char	**cmd;
 	int		command_status;
 
 	cmd = NULL;

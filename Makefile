@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/09 19:07:48 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/03/14 19:10:59 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,17 +14,17 @@ NAME = minishell
 LIBFT = ./inc/libft/libft.a
 MISO_LIB = ./obj/libmisoverse.a
 
-NEOR	= \033[3m\033[38;2;255;153;51m
-MINT    = \033[1;38;2;55;250;133m
-ORNG    = \033[1;38;2;255;153;51m
-PURP	= \033[1;38;2;174;5;252m
-PINK    = \033[1;38;2;255;0;251m
-BABY    = \033[1;38;2;0;255;247m
-BLOD	= \033[1;38;2;255;0;0m
-LIME    = \033[1;38;2;0;255;0m
-BLAK	= \033[1;38;2;0;0;0m
-B_WI    = \033[1;37m
-RSET	= \033[0m
+NEOR	= \001\033[3m\033[38;2;255;153;51m\002
+MINT    = \001\033[1;38;2;55;250;133m\002
+ORNG    = \001\033[1;38;2;255;153;51m\002
+PURP	= \001\033[1;38;2;174;5;252m\002
+PINK    = \001\033[1;38;2;255;0;251m\002
+BABY    = \001\033[1;38;2;0;255;247m\002
+BLOD	= \001\033[1;38;2;255;0;0m\002
+LIME    = \001\033[1;38;2;0;255;0m\002
+BLAK	= \001\033[1;38;2;0;0;0m\002
+B_WI    = \001\033[1;37m\002
+RSET	= \001\033[0m\002
 
 SRC_DIR = src/
 OBJ_DIR = obj/
@@ -34,11 +34,13 @@ HEREDOC_DIR = heredoc/
 PARSING_DIR = parsing/
 TOKENIZE_DIR = tokenize/
 INC = -I/inc/libft/includes -I/inc
+SUPRS = $(OBJ_DIR).valgrind_suppressions.txt
 
 MAIN_FILE = $(SRC_DIR)miso_main.c
 
 FILE = delete_later.c
 FILE += miso_free.c
+FILE += miso_prompt.c
 FILE += miso_launch.c
 FILE += miso_signals.c
 FILE += misoverse_loop.c
@@ -78,6 +80,7 @@ OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 .PRECIOUS: $(SRC) $(SRC_BONUS)
 
 COMPILE = cc -g -O0 -Wall -Werror -Wextra $(INC)
+VLGR_FLAGS = --leak-check=full --show-leak-kinds=all --track-origins=yes
 
 all: $(NAME)
 
@@ -93,7 +96,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c ./inc/miso_structs.h ./inc/miso.h | $(OBJ_DIR)
 	$(COMPILE) -c $< -o $@
 	@printf "$(RSET)\n"
 
-$(OBJ_DIR)$(BLTIN_DIR)%.o: $(SRC_DIR)$(BLTIN_DIR)%.c | $(BLTIN_DIR)
+$(OBJ_DIR)$(BLTIN_DIR)%.o: $(SRC_DIR)$(BLTIN_DIR)%.c | $(OBJ_DIR)$(BLTIN_DIR)
 	@printf "$(PINK)"
 	$(COMPILE) -c $< -o $@
 	@printf "$(RSET)\n"
@@ -122,7 +125,7 @@ $(OBJ_DIR):
 	@printf "$(MINT)"
 	mkdir -p $(OBJ_DIR)
 
-$(BLTIN_DIR):
+$(OBJ_DIR)$(BLTIN_DIR):
 	@printf "$(LIME)"
 	mkdir -p $(OBJ_DIR)$(BLTIN_DIR)
 
@@ -182,6 +185,54 @@ open:
 	find . -maxdepth 2 -name "*.h" -exec xdg-open {} \;
 	@printf "$(RSET)"
 
+leaks: $(NAME) $(SUPRS)
+	@printf "\n$(PINK)valgrind $(ORNG)$(VLGR_FLAGS) $(LIME)--suppressions=$(BABY)$(SUPRS) $(MINT)$(NAME)"
+	@printf "$(RSET)\n\n"
+	@sleep 0.3
+	@valgrind $(VLGR_FLAGS) --suppressions=$(SUPRS) ./$(NAME)
+
+$(SUPRS):
+	@printf "$(NEOR) Building obj/.valgrind_suppressions.txt... $(RESET)"
+	@sleep 0.5
+	@printf "$(MINT)🦝\n\n"
+	@> obj/.valgrind_suppressions.txt
+	@printf "$(BABY)'# ************************************************************************ #'\n"
+	@printf "$(BABY)'#                                                                          #'\n"
+	@printf "$(BABY)'#                                                       :::      ::::::::  #'\n"
+	@printf "$(BABY)'#  .valgrind_suppressions.txt                         :+:      :+:    :+:  #'\n"
+	@printf "$(BABY)'#                                                   +:+ +:+         +:+    #'\n"
+	@printf "$(BABY)'#  By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+       #'\n"
+	@printf "$(BABY)'#                                               +#+#+#+#+#+   +#+          #'\n"
+	@printf "$(BABY)'#  Created: 2026/03/14 16:33:57 by lde-san-          #+#    #+#            #'\n"
+	@printf "$(BABY)'#  Updated: 2026/03/14 16:36:22 by lde-san-         ###   ########.fr      #'\n"
+	@printf "$(BABY)'#                                                                          #'\n"
+	@printf "$(BABY)'# ************************************************************************ #'\n"
+	@printf "%s\n" '# **************************************************************************** #'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '#                                                                              #'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '#                                                         :::      ::::::::    #'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '#    .valgrind_suppressions.txt                         :+:      :+:    :+:    #'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '#                                                     +:+ +:+         +:+      #'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '#    By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+         #'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '#                                                 +#+#+#+#+#+   +#+            #'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '#    Created: 2026/03/14 16:33:57 by lde-san-          #+#    #+#              #'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '#    Updated: 2026/03/14 16:36:22 by lde-san-         ###   ########.fr        #'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '#                                                                              #'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '# **************************************************************************** #'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '{'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '	leak readline'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '	Memcheck:Leak'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '	...'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '	fun:readline'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '	}'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '{'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '	leak add_history'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '	Memcheck:Leak'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '	...'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '	fun:add_history'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" '}'>> obj/.valgrind_suppressions.txt
+	@printf "%s\n" ''>> obj/.valgrind_suppressions.txt
+	@printf "$(RESET)🦝"
+
 call_empty_envp_bash:
 	@printf "\n$(MINT)env -i $(ORNG)bash $(MINT)--noprofile --norc$(RSET)\n\n"
 	@env -i bash --noprofile --norc
@@ -197,5 +248,60 @@ env_clear:
 	@printf "$(BABY)"
 	@echo "unset XDG_CONFIG_DIRS _ DOCKER_HOST LIBVIRT_DEFAULT_URI XDG_SEAT_PATH GDM_LANG XDG_GREETER_DATA_DIR GPG_AGENT_INFO KRB5CCNAME FT_HOOK_PATHNAME FT_HOOK_NAME LANGUAGE GTK_IM_MODULE XDG_SESSION_PATH SSH_AGENT_LAUNCHER GNOME_SHELL_SESSION_MODE GNOME_TERMINAL_SCREEN GNOME_TERMINAL_SERVICE GSM_SKIP_SSH_AGENT_WORKAROUND GTK_MODULES CLUTTER_DISABLE_MIPMAPPED_TEXT COLORTERM DBUS_SESSION_BUS_ADDRESS DESKTOP_SESSION DISPLAY GDMSESSION GNOME_DESKTOP_SESSION_ID GNOME_SETUP_DISPLAY _ _backup_glob BASH BASH_ALIASES BASH_ARGC BASH_ARGV BASH_ARGV0 BASH_CMDS BASH_COMMAND BASH_COMPLETION_VERSINFO BASH_LINENO BASH_LOADABLES_PATH BASHOPTS BASHPID BASH_SOURCE BASH_SUBSHELL BASH_VERSINFO BASH_VERSION COLUMNS COMP_WORDBREAKS DIRSTACK EPOCHREALTIME EPOCHSECONDS EUID __git_printf_supports_v GNOME_SHELL_SESSION_MODE GNOME_TERMINAL_SCREEN GNOME_TERMINAL_SERVICE GROUPS GSM_SKIP_SSH_AGENT_WORKAROUND GTK_MODULES HISTCMD HISTCONTROL HISTFILE HISTFILESIZE HISTSIZE PIPESTATUS LINES COLUMNS HOME HOSTNAME HOSTTYPE IFS LANG LESS LESSCLOSE LESSOPEN LINENO LINES LOGNAME LS_COLORS LSCOLORS MACHTYPE MAIL MAILCHECK MEMORY_PRESSURE_WATCH MEMORY_PRESSURE_WRITE OLDPWD OPTERR OPTIND OSTYPE PAGER PIPESTATUS PPID PS1 PS2 PS4 PWD QT_ACCESSIBILITY QT_IM_MODULE RANDOM SECONDS SESSION_MANAGER SHELL SHELLOPTS SHLVL SRANDOM SSH_AUTH_SOCK SYSTEMD_EXEC_PID TERM UID USER USERNAME VTE_VERSION WAYLAND_DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP XDG_DATA_DIRS XDG_MENU_PREFIX XDG_RUNTIME_DIR XDG_SESSION_CLASS XDG_SESSION_DESKTOP XDG_SESSION_TYPE XMODIFIERS _xspecs ZSH"
 	@printf "$(RSET)"
+
+normloop.sh:
+	@printf "$(NEOR) Building normloop.sh... $(RESET)"
+	@sleep 0.5
+	@printf "$(MINT)🦝\n\n"
+	@printf "$(BABY)'# ************************************************************************ #'\n"
+	@printf "$(BABY)'#                                                                          #'\n"
+	@printf "$(BABY)'#                                                       :::      ::::::::  #'\n"
+	@printf "$(BABY)'#  normloop.sh                                        :+:      :+:    :+:  #'\n"
+	@printf "$(BABY)'#                                                   +:+ +:+         +:+    #'\n"
+	@printf "$(BABY)'#  By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+       #'\n"
+	@printf "$(BABY)'#                                               +#+#+#+#+#+   +#+          #'\n"
+	@printf "$(BABY)'#  Created: 2026/03/14 17:57:19 by lde-san-          #+#    #+#            #'\n"
+	@printf "$(BABY)'#  Updated: 2026/03/14 17:58:08 by lde-san-         ###   ########.fr      #'\n"
+	@printf "$(BABY)'#                                                                          #'\n"
+	@printf "$(BABY)'# ************************************************************************ #'\n"
+	@> normloop.sh
+	@printf "%s\n" '#!/bin/bash'>> normloop.sh
+	@printf "%s\n" '# **************************************************************************** #'>> normloop.sh
+	@printf "%s\n" '#                                                                              #'>> normloop.sh
+	@printf "%s\n" '#                                                         :::      ::::::::    #'>> normloop.sh
+	@printf "%s\n" '#    normloop.sh                                        :+:      :+:    :+:    #'>> normloop.sh
+	@printf "%s\n" '#                                                     +:+ +:+         +:+      #'>> normloop.sh
+	@printf "%s\n" '#    By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+         #'>> normloop.sh
+	@printf "%s\n" '#                                                 +#+#+#+#+#+   +#+            #'>> normloop.sh
+	@printf "%s\n" '#    Created: 2026/03/14 17:57:19 by lde-san-          #+#    #+#              #'>> normloop.sh
+	@printf "%s\n" '#    Updated: 2026/03/14 17:58:08 by lde-san-         ###   ########.fr        #'>> normloop.sh
+	@printf "%s\n" '#                                                                              #'>> normloop.sh
+	@printf "%s\n" '# **************************************************************************** #'>> normloop.sh
+	@printf "%s\n" ''>> normloop.sh
+	@printf "%s\n" 'trap '\''rm -f tody.txt; exit'\'' INT'>> normloop.sh
+	@printf "%s\n" ''>> normloop.sh
+	@printf "%s\n" 'if [ -n '\"'$$1'\"' ]; then'>> normloop.sh
+	@printf "%s\n" '	FILE='\"'$$1'\"''>> normloop.sh
+	@printf "%s\n" ''>> normloop.sh
+	@printf "%s\n" '	while true'>> normloop.sh
+	@printf "%s\n" '	do'>> normloop.sh
+	@printf "%s\n" '		norminette -R CheckForbiddenSourceHeader '\"'$$FILE'\"' | grep Error | head -n 30 > tody.txt'>> normloop.sh
+	@printf "%s\n" '		clear'>> normloop.sh
+	@printf "%s\n" '		cat tody.txt'>> normloop.sh
+	@printf "%s\n" '		tput cup 0 0'>> normloop.sh
+	@printf "%s\n" '		sleep 1'>> normloop.sh
+	@printf "%s\n" '	done'>> normloop.sh
+	@printf "%s\n" 'else'>> normloop.sh
+	@printf "%s\n" '	while true'>> normloop.sh
+	@printf "%s\n" '	do'>> normloop.sh
+	@printf "%s\n" '		norminette -R CheckForbiddenSourceHeader *.c | grep Error | head -n 30 > tody.txt'>> normloop.sh
+	@printf "%s\n" '		clear'>> normloop.sh
+	@printf "%s\n" '		cat tody.txt'>> normloop.sh
+	@printf "%s\n" '		tput cup 0 0'>> normloop.sh
+	@printf "%s\n" '		sleep 1'>> normloop.sh
+	@printf "%s\n" '	done'>> normloop.sh
+	@printf "%s\n" 'fi'>> normloop.sh
+	@chmod 777 normloop.sh
+	@printf "$(RESET)🦝"
 
 .PHONY: all clean fclean re bonus open env_clear

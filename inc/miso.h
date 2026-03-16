@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/12 20:55:21 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/14 17:05:39 by lde-san-         ###   ########.fr       */
 /*   Updated: 2026/03/08 18:46:26 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -32,15 +32,17 @@
 # include <errno.h>
 
 // Miso Colors:
-# define RSET	"\033[0m"
-# define B_WI	"\033[1;37m"
-# define LIME	"\033[38;2;0;255;0m"
-# define BABY	"\033[38;2;0;255;247m"
-# define BLOD	"\033[1;38;2;255;0;0m"
-# define ORNG	"\033[38;2;255;153;51m"
-# define PURP	"\033[1;38;2;174;5;252m"
-# define MINT	"\033[1;38;2;55;250;133m"
-# define NEOR	"\033[3m\033[38;2;255;153;51m"
+# define RSET	"\001\033[0m\002"
+# define B_WI	"\001\033[1;37m\002"
+# define LIME	"\001\033[1;38;2;0;255;0m\002"
+# define BABY	"\001\033[38;2;0;255;247m\002"
+# define BLOD	"\001\033[1;38;2;255;0;0m\002"
+# define ORNG	"\001\033[38;2;255;153;51m\002"
+# define PINK	"\001\033[1;38;2;255;0;251m\002"
+# define PURP	"\001\033[1;38;2;174;5;252m\002"
+# define GOLD   "\001\033[1;38;2;235;232;52m\002"
+# define MINT	"\001\033[1;38;2;55;250;133m\002"
+# define NEOR	"\001\033[3m\033[38;2;255;153;51m\002"
 
 //			Self defined PROMPT
 // Compile with -DPROMPT="Whatever you'd like"
@@ -139,12 +141,15 @@ int	miso_hd_handle_signals(struct sigaction *old_int, struct sigaction *old_quit
 int	miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_quit);
 
 /* miso_free.c */
-void	miso_reset(t_shell *miso);
+void    miso_reset(t_shell *miso);
 void	miso_free_token_list(t_shell *miso);
 void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status);
 
 /* delete_later.c */
 void	miso_print_token_list(t_shell *miso);
+
+//   -- -- #    miso_prompt.c
+void	miso_get_prompt(t_shell *miso, char **prompt);
 
 //	 -- -- #	miso_launch.c
 int		miso_launch(t_shell *miso, t_token *head);

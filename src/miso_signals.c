@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 18:19:36 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/09 20:01:30 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/14 17:30:59 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	miso_fdshutdown(void)
 	int fd;
 
 	fd = 3;
-	while (fd <= 1024)
+	while (fd <= 1000)
 		close(fd++);
 	return ;
 }
