@@ -48,7 +48,6 @@ int	miso_validate_quotes(char *str, int *pi, int (*f)(char))
 		len++;
 	if (!str[len])
 	{
-		free(str);
 		racc_print(2, BLOD PROMPT MINT" Syntax error: can't find matching quote\n");
 		return (1);
 	}

@@ -63,6 +63,7 @@ FILE += $(BLTIN_DIR)miso_unset.c
 FILE += $(BLTIN_DIR)miso_export.c
 FILE += $(EXPANSION_DIR)miso_expand.c
 FILE += $(EXPANSION_DIR)miso_expand_quotes.c
+FILE += $(EXPANSION_DIR)miso_expand_quotes_utils.c
 FILE += $(EXPANSION_DIR)miso_expand_utils.c
 FILE += $(HEREDOC_DIR)miso_heredoc.c
 FILE += $(HEREDOC_DIR)miso_heredoc_utils.c
@@ -71,7 +72,8 @@ FILE += $(PARSING_DIR)miso_parse.c
 FILE += $(PARSING_DIR)miso_parse_quotes.c
 FILE += $(PARSING_DIR)miso_parse_utils.c
 FILE += $(TOKENIZE_DIR)miso_tokenize.c
-FILE += $(TOKENIZE_DIR)miso_tokenize_utils.c
+FILE += $(TOKENIZE_DIR)miso_tokenize_utils_alpha.c
+FILE += $(TOKENIZE_DIR)miso_tokenize_utils_beta.c
 
 SRC = $(addprefix $(SRC_DIR),$(FILE))
 

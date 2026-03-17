@@ -13,7 +13,7 @@
 #include "../../inc/miso.h"
 
 int		miso_parse(t_shell *miso);
-void	miso_search_cmd(t_shell *miso, t_token *node);
+int		miso_search_cmd(t_shell *miso, t_token *node);
 int		miso_parse_redirections(t_shell *miso, t_token *node);
 int		miso_parse_pipe(t_shell *miso, t_token *node);
 
@@ -24,7 +24,8 @@ int	miso_parse(t_shell *miso)
 	temp = miso->list.head;
 	while (temp)
 	{
-		miso_search_cmd(miso, temp);
+		if (miso_search_cmd(miso, temp))
+			return (1);
 		while (temp && temp->type != PIPE)
 		{
 			if (miso_parse_redirections(miso, temp))
@@ -44,13 +45,24 @@ int	miso_parse(t_shell *miso)
 	return (0);
 }
 
-void	miso_search_cmd(t_shell *miso, t_token *node)
+int	miso_search_cmd(t_shell *miso, t_token *node)
 {
+	char	*new;
+
 	if (node->type == ARG)
 	{
+		if (node->quotes == 1)
+		{
+			if (miso_parse_quotes(node))
+				return (1);
+			new = miso_remove_quotes(miso, node->str);
+			free(node->str);
+			node->str = new;
+		}
 		miso_set_commandtype(node);
 		miso->list.cmd_found = 1;
 	}
+	return (0);
 }
 
 int	miso_parse_redirections(t_shell *miso, t_token *node)
@@ -66,7 +78,8 @@ int	miso_parse_redirections(t_shell *miso, t_token *node)
 		node->next->expand = 0;
 	if (miso->list.cmd_found == 0 && node->next->next != NULL && node->next->next->type == ARG)
 	{
-		miso_set_commandtype(node->next->next);
+		if (miso_search_cmd(miso, node->next->next))
+			return (1);
 		miso->list.cmd_found = 1;
 	}
 	return (0);

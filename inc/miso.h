@@ -65,25 +65,28 @@ int	main(int argc, char **argv, char **envp);
 /* misoverse_loop.c */
 void	misoverse_loop(t_shell *miso);
 
-/* tokenize.c */
-int	miso_tokenize(t_shell *miso, char *line);
+/* miso_tokenize.c */
+int		miso_tokenize(t_shell *miso, char *line);
 void	miso_tokenize_operators(t_shell *miso, char *str, int *pi);
-void	miso_tokenize_redirections(t_shell *miso, char *str, int *pi);
 void	miso_tokenize_arguments(t_shell *miso, char *str, int *pi);
 char	*miso_tokenize_quotes(t_shell *miso, char *res, char *line, int *pi, int (*f)(char));
 char	*miso_tokenize_words(t_shell *miso, char *res, char *line, int *pi);
 
-/* tokenize_utils.c */
+/* miso_tokenize_utils_alpha.c */
+void	miso_tokenize_redirections(t_shell *miso, char *str, int *pi);
 void	miso_build_token_list(t_shell *miso, char *str, t_token_type type);
 void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str, t_token_type type);
-int	miso_is_whitespace(char c);
-char	*miso_add_char_to_str(t_shell *miso, char *str, char c);
+
+/* miso_tokenize_utils_beta.c */
+int		miso_skip_whitespaces(char *line);
+int		miso_is_whitespace(char c);
+char	*miso_add_char_str(t_shell *miso, char *str, char c);
 char	*miso_convert_char_as_str(t_shell *miso, char c);
-char	*miso_add_str(t_shell *miso, char *s1, char *s2);
+char	*miso_add_str_str(t_shell *miso, char *s1, char *s2);
 
 /* miso_parse.c */
 int	miso_parse(t_shell *miso);
-void	miso_search_cmd(t_shell *miso, t_token *node);
+int	miso_search_cmd(t_shell *miso, t_token *node);
 int	miso_parse_redirections(t_shell *miso, t_token *node);
 int	miso_parse_pipe(t_shell *miso, t_token *node);
 
@@ -99,28 +102,29 @@ int	miso_is_builtin(char *arg);
 int	miso_is_redirection(t_token_type type);
 
 /* miso_expand.c */
-int	miso_expand(t_shell *miso);
-char	*miso_exp_without_quotes(t_shell *miso, char *str);//TODO: change to while loop, switch to miso_add_str?
+int		miso_expand(t_shell *miso);
+char	*miso_exp_without_quotes(t_shell *miso, char *str);
 char	*miso_exp_exit_code(t_shell *miso, char *res, int *pi);
 char	*miso_exp_env(t_shell *miso, char *res, char *str, int *pi);
-int	miso_expand_node(t_shell *miso, t_token *node, char *str);
+char	*miso_get_exp_name(t_shell *miso, char *str, int *pi);
 
 /* miso_expand_quotes.c */
-void	miso_expand_quotes(t_shell *miso, t_token *node, char *str);
+void	miso_expand_quotes(t_shell *miso, t_token *node);
 char	*miso_exp_with_quotes(t_shell *miso, t_token *node, char *str);
 void	miso_validate_expansion(t_shell *miso, t_token *node, char c, int *pi);
 void	miso_update_quotes(t_shell *miso, char c);
-void	miso_remove_surrounding_quotes(t_shell *miso);
+
+/* miso_expand_quotes_utils.c */
+void	miso_remove_extra_quotes(t_shell *miso);
 char	*miso_remove_quotes(t_shell *miso, char *str);
-char	*miso_remove_squotes(t_shell *miso, char *res, char *str, int *pi);
-char	*miso_remove_dquotes(t_shell *miso, char *res, char *str, int *pi);
-char	*miso_add_str(t_shell *miso, char *s1, char *s2);
+char	*miso_del_quotes(t_shell *miso, char *res, char *str, int *pi, int (*f)(char));
 
 /* miso_expand_utils.c */
+int		miso_expand_node(t_shell *miso, t_token *node);
+int		miso_remove_empty_nodes(t_shell *miso);
 char	*miso_allocate_str(t_shell *miso, size_t len);
-char	*miso_str_to_str(t_shell *miso, char *s1, char *s2);
-char	*miso_get_exp_name(t_shell *miso, char *str, int *pi);
-char	*miso_subtract_exp_name(t_shell *miso, char *str, int len);
+char	*miso_sub_add_str(t_shell *miso, char *s1, char *s2, int *pi);
+//char	*miso_subtract_exp_name(t_shell *miso, char *str, int len);
 
 /* miso_heredoc.c */
 int	miso_heredoc(t_shell *miso);

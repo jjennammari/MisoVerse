@@ -6,18 +6,44 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:35 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/08 22:25:38 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/17 00:06:07 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miso.h"
 
+void	miso_tokenize_redirections(t_shell *miso, char *str, int *pi);
 void	miso_build_token_list(t_shell *miso, char *str, t_token_type type);
 void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str, t_token_type type);
-int		miso_is_whitespace(char c);
-char	*miso_add_char_to_str(t_shell *miso, char *str, char c);
-char	*miso_convert_char_as_str(t_shell *miso, char c);
-char	*miso_add_str(t_shell *miso, char *s1, char *s2);
+
+void	miso_tokenize_redirections(t_shell *miso, char *line, int *pi)
+{
+	int	i;
+
+	i = 0;
+	if (line[i] == '<')
+	{
+		if (line[i + 1] == '<')
+		{
+			miso_build_token_list(miso, ft_strdup("<<"), HEREDOC);
+			miso->list.hd_count += 1;
+			*pi += 1;
+		}
+		else
+			miso_build_token_list(miso, ft_strdup("<"), RD_IN);
+	}
+	else if (line[i] == '>')
+	{
+		if (line[i + 1] == '>')
+		{
+			miso_build_token_list(miso, ft_strdup(">>"), APPEND);
+			*pi += 1;
+		}
+		else
+			miso_build_token_list(miso, ft_strdup(">"), RD_OUT);
+	}
+	*pi += 1;
+}
 
 void	miso_build_token_list(t_shell *miso, char *str, t_token_type type)
 {
@@ -53,57 +79,4 @@ void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str, t_token_type
 		new_node->expand = 1;
 	miso->node->expand = 0;
 	miso->node->quotes = 0;
-}
-
-int	miso_is_whitespace(char c)
-{
-	if (c == 32 || (c >= 9 && c <= 13))
-		return (1);
-	return (0);
-}
-
-char	*miso_add_char_to_str(t_shell *miso, char *str, char c)
-{
-	char	*res;
-	char	*temp;
-
-	res = miso_allocate_str(miso, (ft_strlen(str) + 2));
-	temp = miso_convert_char_as_str(miso, c);
-	if (!temp)
-		misoverse_free_exit(miso, 1, 2);
-	res = ft_strjoin(str, temp);
-	if (!res)
-		misoverse_free_exit(miso, 1, 2);
-	free(temp);
-	if (str)
-		free(str);
-	return (res);
-}
-
-char	*miso_convert_char_as_str(t_shell *miso, char c)
-{
-	char	*res;
-
-	res = miso_allocate_str(miso, 2);
-	res[0] = c;
-	return (res);
-}
-
-char	*miso_add_str(t_shell *miso, char *s1, char *s2)
-{
-	char	*res;
-	int		len;
-
-	if (!s2)
-		return (s1);
-	len = ft_strlen(s2);
-	if (!s1 || !*s1)
-		res = ft_substr(s2, 0 , len);
-	else
-		res = ft_strjoin(s1, s2);
-	if (!res)
-		misoverse_free_exit(miso, 1 ,2);
-	if (s1)
-		free(s1);
-	return (res);
 }
