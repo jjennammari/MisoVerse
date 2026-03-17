@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/15 17:50:55 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/03/17 19:28:21 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,22 +103,22 @@ $(OBJ_DIR)$(BLTIN_DIR)%.o: $(SRC_DIR)$(BLTIN_DIR)%.c | $(OBJ_DIR)$(BLTIN_DIR)
 	$(COMPILE) -c $< -o $@
 	@printf "$(RSET)\n"
 
-$(OBJ_DIR)$(EXPANSION_DIR)%.o: $(SRC_DIR)$(EXPANSION_DIR)%.c | $(EXPANSION_DIR)
+$(OBJ_DIR)$(EXPANSION_DIR)%.o: $(SRC_DIR)$(EXPANSION_DIR)%.c | $(OBJ_DIR)$(EXPANSION_DIR)
 	@printf "$(PINK)"
 	$(COMPILE) -c $< -o $@
 	@printf "$(RSET)\n"
 
-$(OBJ_DIR)$(HEREDOC_DIR)%.o: $(SRC_DIR)$(HEREDOC_DIR)%.c | $(HEREDOC_DIR)
+$(OBJ_DIR)$(HEREDOC_DIR)%.o: $(SRC_DIR)$(HEREDOC_DIR)%.c | $(OBJ_DIR)$(HEREDOC_DIR)
 	@printf "$(PINK)"
 	$(COMPILE) -c $< -o $@
 	@printf "$(RSET)\n"
 
-$(OBJ_DIR)$(PARSING_DIR)%.o: $(SRC_DIR)$(PARSING_DIR)%.c | $(PARSING_DIR)
+$(OBJ_DIR)$(PARSING_DIR)%.o: $(SRC_DIR)$(PARSING_DIR)%.c | $(OBJ_DIR)$(PARSING_DIR)
 	@printf "$(PINK)"
 	$(COMPILE) -c $< -o $@
 	@printf "$(RSET)\n"
 
-$(OBJ_DIR)$(TOKENIZE_DIR)%.o: $(SRC_DIR)$(TOKENIZE_DIR)%.c | $(TOKENIZE_DIR)
+$(OBJ_DIR)$(TOKENIZE_DIR)%.o: $(SRC_DIR)$(TOKENIZE_DIR)%.c | $(OBJ_DIR)$(TOKENIZE_DIR)
 	@printf "$(PINK)"
 	$(COMPILE) -c $< -o $@
 	@printf "$(RSET)\n"
@@ -131,19 +131,19 @@ $(OBJ_DIR)$(BLTIN_DIR):
 	@printf "$(LIME)"
 	mkdir -p $(OBJ_DIR)$(BLTIN_DIR)
 
-$(EXPANSION_DIR):
+$(OBJ_DIR)$(EXPANSION_DIR):
 	@printf "$(LIME)"
 	mkdir -p $(OBJ_DIR)$(EXPANSION_DIR)
 
-$(HEREDOC_DIR):
+$(OBJ_DIR)$(HEREDOC_DIR):
 	@printf "$(LIME)"
 	mkdir -p $(OBJ_DIR)$(HEREDOC_DIR)
 
-$(PARSING_DIR):
+$(OBJ_DIR)$(PARSING_DIR):
 	@printf "$(LIME)"
 	mkdir -p $(OBJ_DIR)$(PARSING_DIR)
 
-$(TOKENIZE_DIR):
+$(OBJ_DIR)$(TOKENIZE_DIR):
 	@printf "$(LIME)"
 	mkdir -p $(OBJ_DIR)$(TOKENIZE_DIR)
 

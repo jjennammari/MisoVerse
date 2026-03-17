@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:22 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/16 22:25:27 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/17 20:58:28 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ void	misoverse_loop(t_shell *miso)
 		line = readline(miso->prompt);
 		if (miso_process_line(miso, line))
 			continue ;
+		write(1, LIME">> "BABY, ft_strlen(LIME BABY) + 3); // Changing output color
 		miso->exit_code = miso_launch(miso, miso->list.head);
-		printf("launch passed\n\n");
+//		printf("launch passed\n\n");
 	}
 	return ;
 }
@@ -46,7 +47,7 @@ static int	miso_process_line(t_shell *miso, char *line)
 	miso_print_token_list(miso);
 	if (miso_parse(miso))
 		return (1);
-	printf("parsing passed\n");
+	printf("parsing passed\n");	
 	miso_print_token_list(miso);
 	if (miso_expand(miso))
 		return (1);
@@ -54,7 +55,7 @@ static int	miso_process_line(t_shell *miso, char *line)
 	miso_print_token_list(miso);
 	if (miso->list.hd_count && miso_heredoc(miso))
 		return (1);
-	printf("heredoc passed\n");
-	miso_print_token_list(miso);
+//	printf("heredoc passed\n");
+//	miso_print_token_list(miso);
 	return (0);
 }

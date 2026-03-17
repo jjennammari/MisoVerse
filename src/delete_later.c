@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:50:38 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/02/18 21:53:55 by jemustaj         ###   ########.fr       */
+/*   Updated: 2026/03/17 19:57:55 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	miso_print_token_list(t_shell *miso)
 	while (temp)
 	{
 		printf("Token %d\n", t_count);
-		printf("Token STR: %s\n", temp->str);
-		printf("Token TYPE: %d\n", temp->type);
-		printf("Expandable: %d\n", temp->expand);
-		printf("Is quotet: %d\n\n", temp->quotes);
+		printf("Token STR: "MINT"]"RSET"%s"MINT"["RSET"\n", temp->str);
+//		printf("Token TYPE: %d\n", temp->type);
+//		printf("Expandable: %d\n", temp->expand);
+//		printf("Is quotet: %d\n\n", temp->quotes);
 		temp = temp->next;
 		t_count += 1;
 	}
