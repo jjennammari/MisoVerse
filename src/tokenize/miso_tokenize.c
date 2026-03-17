@@ -29,6 +29,8 @@ int	miso_tokenize(t_shell *miso, char *line)
 	{
 		while (line[i] && miso_is_whitespace(line[i]))
 			i++;
+		if (line[i] == '\0')
+			break ;
 		if (ft_strchr("<|>", line[i]))
 			miso_tokenize_operators(miso, &line[i], &i);
 		else
