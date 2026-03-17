@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:22 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/14 17:06:45 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/16 22:25:27 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	miso_process_line(t_shell *miso, char *line)
 	if (miso_tokenize(miso, line))
 		return (1);
 	printf("\ntokenization passed\n");
-	miso_print_token_list(miso); // Test function
+	miso_print_token_list(miso);
 	if (miso_parse(miso))
 		return (1);
 	printf("parsing passed\n");

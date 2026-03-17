@@ -6,16 +6,16 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 18:19:36 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/14 17:30:59 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/16 19:49:57 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
-void    miso_fdshutdown(void);
-void    miso_daddy_sigint(int sig);
-void    miso_init_daddy_signals(void);
-void    miso_setup_child_signals(void);
+void	miso_fdshutdown(void);
+void	miso_daddy_sigint(int sig);
+void	miso_init_daddy_signals(void);
+void	miso_setup_child_signals(void);
 
 void	miso_daddy_sigint(int sig)
 {
@@ -30,10 +30,9 @@ void	miso_daddy_sigint(int sig)
 /* Handles SIGINT for the parent process. Resetting readline, printing
 a newline, and setting the global signal accordingly. */
 
-
 void	miso_fdshutdown(void)
 {
-	int fd;
+	int	fd;
 
 	fd = 3;
 	while (fd <= 1000)

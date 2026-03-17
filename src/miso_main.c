@@ -6,15 +6,15 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:47:52 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/14 16:59:08 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/15 18:11:25 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
-static void miso_init_variables(t_shell *miso, char **envp);
-
 int	g_signal = 0;
+
+static void	miso_init_variables(t_shell *miso, char **envp);
 
 int	main(int argc, char **argv, char **envp)
 {

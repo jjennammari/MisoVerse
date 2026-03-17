@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/14 17:05:39 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/15 19:19:29 by lde-san-         ###   ########.fr       */
 /*   Updated: 2026/03/08 18:46:26 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -47,7 +47,7 @@
 //			Self defined PROMPT
 // Compile with -DPROMPT="Whatever you'd like"
 # ifndef PROMPT
-#  define PROMPT " misoverse "
+#  define PROMPT "misoverse"
 # endif
 
 // Global Variable:
