@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 13:25:13 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/22 11:59:48 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/15 19:41:17 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ static int	miso_chdir(t_shell *miso, char **cmd, int arc)
 	{
 		home = miso_getenv("HOME", miso->envp);
 		if (!home || !(*home))
-			racc_print(2, BLOD"PROMPT "MINT"cd: "RSET"HOME not set\n");
+			racc_print(2, ORNG"cd: "BLOD PROMPT RSET": HOME not set\n");
 		else
 			return (miso_chdir_to_arg(miso, home, 0));
 		return (1);
 	}
-	racc_print(2, BLOD"PROMPT "MINT"cd: "RSET"too many arguments\n");
+	racc_print(2, ORNG"cd: "BLOD PROMPT RSET": too many arguments\n");
 	return (miso_freenret(NULL, NULL, 0, 1));
 }
 /* Changes the current working directory to the one specified by the
@@ -80,15 +80,15 @@ static int	miso_chdir_to_arg(t_shell *m, char *p, int p_len)
 	if (p_len == 1 && p[0] == '-')
 		return (miso_chdir_oldpwd(m));
 	if (chdir(p) == -1)
-		return (miso_freenret(NULL, NULL, 1, 1));
+		return (racc_print(2, ORNG"cd: "), miso_freenret(NULL, NULL, 1, 1));
 	pwd = miso_extract_variable(m->envp, "PWD=");
 	if (miso_env_addorupdate(&(m->envp), "OLDPWD=", pwd))
-		return (miso_freenret(pwd, NULL, 1, 1));
+		return (racc_print(2, ORNG"cd: "), miso_freenret(pwd, NULL, 1, 1));
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		return (miso_freenret(pwd, NULL, 1, 1));
+		return (racc_print(2, ORNG"cd: "), miso_freenret(pwd, NULL, 1, 1));
 	if (miso_env_addorupdate(&(m->envp), "PWD=", cwd))
-		return (miso_freenret(pwd, cwd, 1, 1));
+		return (racc_print(2, ORNG"cd: "), miso_freenret(pwd, cwd, 1, 1));
 	return (miso_freenret(pwd, cwd, 0, 0));
 }
 /* Changes the present working directory PWD, to the one specified
@@ -104,7 +104,7 @@ static int	miso_chdir_oldpwd(t_shell *m)
 	old_pwd = miso_getenv("OLDPWD=", m->envp);
 	if (!old_pwd)
 	{
-		racc_print(2, BLOD"PROMPT "MINT"cd: "RSET"OLDPWD not set\n");
+		racc_print(2, ORNG"cd: "BLOD PROMPT RSET": OLDPWD not set\n");
 		return (1);
 	}
 	if (miso_chdir_to_arg(m, old_pwd, 0))
