@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/15 19:19:29 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/17 21:50:18 by lde-san-         ###   ########.fr       */
 /*   Updated: 2026/03/08 18:46:26 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -145,6 +145,7 @@ int	miso_hd_handle_signals(struct sigaction *old_int, struct sigaction *old_quit
 int	miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_quit);
 
 /* miso_free.c */
+void    miso_fdshutdown(void);
 void    miso_reset(t_shell *miso);
 void	miso_free_token_list(t_shell *miso);
 void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status);
@@ -167,10 +168,9 @@ void    miso_customs(char *program, int doesnt_exist, int *p_set);
 void	miso_channeling(int prev_read, t_token *head, int *p, int p_num);
 
 //   -- -- #    miso_signals.c
-void	miso_fdshutdown(void);
-void	miso_daddy_sigint(int sig);
 void	miso_init_daddy_signals(void);
 void	miso_setup_child_signals(void);
+void    miso_setup_running_signals(void);
 
 //	 -- -- #	miso_exec_utils_alpha.c
 int		miso_waitroom(pid_t child, int *exit_status);

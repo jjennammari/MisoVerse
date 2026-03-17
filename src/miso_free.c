@@ -6,12 +6,13 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:00 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/15 18:39:38 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/17 21:58:15 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
+void    miso_fdshutdown(void);
 void	miso_reset(t_shell *miso);
 void	free_token_list(t_shell *miso);
 void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status);
@@ -49,6 +50,7 @@ void	miso_reset(t_shell *miso)
 	miso->node->next = NULL;
 	miso->node->quotes = 0;
 	g_signal = 0;
+	miso_init_daddy_signals();
 	return ;
 }
 
@@ -64,5 +66,15 @@ void	free_token_list(t_shell *miso)
 			free(temp->str);
 		free(temp);
 	}
+	return ;
+}
+
+void    miso_fdshutdown(void)
+{
+	int fd;
+
+	fd = 3;
+	while (fd <= 1000)
+		close(fd++);
 	return ;
 }
