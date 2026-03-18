@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 18:24:50 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/15 19:19:03 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/18 21:39:49 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	*miso_prompt_sufix(char *prefix, char *cwd)
 	char	*temp2;
 
 	temp2 = NULL;
-	temp1 = ft_strjoin(prefix, BABY" @ "PINK);
+	temp1 = ft_strjoin(prefix, PINK" @ "MINT);
 	if (!temp1)
 		return (NULL);
 	temp2 = ft_strjoin(temp1, cwd);
@@ -72,13 +72,13 @@ static char	*miso_prompt_prefix(t_shell *miso, char *cd)
 	temp1 = NULL;
 	temp2 = NULL;
 	if (miso->exit_code == 0)
-		temp1 = ft_strdup(GOLD"["LIME"0"GOLD"] "MINT PROMPT);
+		temp1 = ft_strdup(GOLD"["LIME"0"GOLD"] "BABY PROMPT);
 	else
 	{
 		temp1 = ft_strjoin(BLOD"["ORNG, cd);
 		if (!temp1)
 			return (NULL);
-		temp2 = ft_strjoin(temp1, BLOD"] "MINT PROMPT);
+		temp2 = ft_strjoin(temp1, BLOD"] "BABY PROMPT);
 		free(temp1);
 		if (!temp2)
 			return (NULL);

@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 19:09:14 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/07 16:23:12 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/18 22:07:33 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,26 @@
 int	miso_pwd(t_shell *miso, char **argv)
 {
 	char	*path_wd;
+	int		alloc;
 
-	(void)miso;
 	(void)argv;
-	path_wd = getcwd(NULL, 0);
+	alloc = 0;
+	path_wd = miso_getenv("PWD", miso->envp);
 	if (!path_wd)
 	{
-		perror(BLOD"PROMPT"RSET);
+		path_wd = getcwd(NULL, 0);
+		alloc++;
+	}
+	if (!path_wd)
+	{
+		racc_print(2, ORNG"pwd"RSET": "BLOD PROMPT RSET": ");
+		racc_print(2, "Can't resolve present working directory\n");
 		return (1);
 	}
 	else
 		racc_print(1, "%s\n", path_wd);
-	free(path_wd);
+	if (alloc)
+		free(path_wd);
 	return (0);
 }
 /* The function calls "getcwd(NULL, 0)" to have it allocate memory dynamically

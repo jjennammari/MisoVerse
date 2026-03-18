@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:35:38 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/15 18:09:59 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/18 12:28:36 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char		*miso_pathmatch(char **dirs, char *temp_filename);
 int			miso_argv(t_shell *miso, t_token *head, char ***cmd);
-static int	miso_pathfinder(t_shell *miso, char **cmd, int *p_set);
+static int	miso_pathfinder(t_shell *miso, char **c, int *p_set);
 void		miso_customs(char *program, int doesnt_exist, int *p_set);
 static int	miso_populate(t_shell *m, char **argv, int argc, t_token *head);
 
@@ -47,16 +47,28 @@ a literal path, it updates the str* with the path to the program. Then it
 counts the arguments passed in order to allocate the argv 2D array and 
 populate it with the strings from the list. */
 
-static int	miso_pathfinder(t_shell *miso, char **cmd, int *p_set)
+static int	miso_pathfinder(t_shell *miso, char **c, int *p_set)
 {
 	char	**dirs;
+	char	*path;
 
-	if (ft_strchr(*cmd, '/'))
+	if (ft_strchr(*c, '/'))
 		return (0);
-	dirs = ft_split(miso_getenv("PATH=", miso->envp), ':');
-	miso_checknfree2d(miso, dirs, NULL, NULL);
-	if (miso_path_err(miso, dirs, cmd, p_set))
+	path = miso_getenv("PATH=", miso->envp);
+	if (!path || !(*path) || !(*c) || !(*(*c)))
+	{
+		*p_set = 127;
+		racc_print(2, BLOD PROMPT RSET": "MINT"%s"RSET, *c);
+		racc_print(2, ":  No such file or directory\n");
 		return (1);
+	}
+	dirs = ft_split(path, ':');
+	miso_checknfree2d(miso, dirs, NULL, NULL);
+	if (miso_path_err(miso, dirs, c, p_set))
+	{
+		miso_free_matrix(dirs);
+		return (1);
+	}
 	miso_free_matrix(dirs);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:22 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/17 21:58:11 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/18 18:40:15 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,24 @@
 
 void		misoverse_loop(t_shell *miso);
 static int	miso_process_line(t_shell *miso, char *line);
+void print_envp(t_shell *miso);
 
 void	misoverse_loop(t_shell *miso)
 {
 	char	*line;
+	int		idle;
 
 	line = NULL;
+	idle = 1;
 	while (1)
 	{
-		miso_reset(miso);
+		miso_reset(miso, &idle);
 		miso_get_prompt(miso, &(miso->prompt));
 		line = readline(miso->prompt);
 		if (miso_process_line(miso, line))
 			continue ;
 		write(1, LIME">> "BABY, ft_strlen(LIME BABY) + 3); // Changing output color for visualizatio during testing
+		idle = 0;
 		miso->exit_code = miso_launch(miso, miso->list.head);
 //		printf("launch passed\n\n");
 	}

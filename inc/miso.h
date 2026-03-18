@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/17 21:50:18 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/18 19:54:56 by lde-san-         ###   ########.fr       */
 /*   Updated: 2026/03/08 18:46:26 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -146,7 +146,7 @@ int	miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_qui
 
 /* miso_free.c */
 void    miso_fdshutdown(void);
-void    miso_reset(t_shell *miso);
+void    miso_reset(t_shell *miso, int *idle);
 void	miso_free_token_list(t_shell *miso);
 void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status);
 
@@ -229,4 +229,5 @@ int		miso_echo(t_shell *miso, char **argv);
 int		miso_exit(t_shell *miso, char **argv);
 int		miso_unset(t_shell *miso, char **argv);
 int		miso_export(t_shell *miso, char **argv);
+int     miso_context(t_shell *miso, char **argv);
 #endif

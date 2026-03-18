@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:42:57 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/11 21:28:59 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/18 22:25:37 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	miso_add_envar(char ***envp, char *key, char *varlue)
 		}
 		free(*envp);
 	}
-	perror(BLOD"PROMPT"RSET);
+	perror(BLOD PROMPT RSET);
 	*envp = temp;
 	return (-1);
 }

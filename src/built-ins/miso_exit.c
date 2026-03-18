@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 20:18:31 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/11 18:38:17 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/18 13:06:24 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	miso_exit(t_shell *miso, char **argv)
 	{
 		if (argv[2])
 		{
-			racc_print(2, ORNG"exit\n"RSET);
-			racc_print(2, BLOD"PROMPT "MINT"exit: "RSET"too many arguments\n");
+			racc_print(2, ORNG"exit\n"BLOD PROMPT);
+			racc_print(2, RSET": "MINT"exit"RSET": too many arguments\n");
 			return (1);
 		}
 		racc_print(1, MINT"exit\n"RSET);
@@ -89,8 +89,8 @@ static int	miso_exit_iszero(char *arg, int *i)
 
 static void	miso_exit_notnum(t_shell *miso, char **argv)
 {
-	racc_print(2, ORNG"exit\n"RSET);
-	racc_print(2, BLOD"PROMPT "MINT"exit: "BABY"%s"RSET, argv[1]);
+	racc_print(2, ORNG"exit\n"BLOD PROMPT);
+	racc_print(2, RSET": "MINT"exit"RSET": "BABY"%s"RSET, argv[1]);
 	racc_print(2, ": numeric argument required\n");
 	miso_free_matrix(argv);
 	misoverse_free_exit(miso, 0, 2);

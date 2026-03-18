@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 13:25:13 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/15 19:41:17 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/18 17:55:31 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,14 @@ static int	miso_chdir_to_arg(t_shell *m, char *p, int p_len)
 	if (p_len == 1 && p[0] == '-')
 		return (miso_chdir_oldpwd(m));
 	if (chdir(p) == -1)
-		return (racc_print(2, ORNG"cd: "), miso_freenret(NULL, NULL, 1, 1));
+	{
+		racc_print(2, ORNG"cd"RSET": "NEOR"%s"RSET": ", p);
+		return (miso_freenret(NULL, NULL, 1, 1));
+	}
 	pwd = miso_extract_variable(m->envp, "PWD=");
+	if (!pwd)
+		if (miso_env_addorupdate(&(m->envp), "OLDPWD", ""))
+			return (racc_print(2, ORNG"cd: "), miso_freenret(pwd, NULL, 1, 1));
 	if (miso_env_addorupdate(&(m->envp), "OLDPWD=", pwd))
 		return (racc_print(2, ORNG"cd: "), miso_freenret(pwd, NULL, 1, 1));
 	cwd = getcwd(NULL, 0);

@@ -6,13 +6,14 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/17 19:28:21 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/03/18 22:19:05 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 LIBFT = ./inc/libft/libft.a
 MISO_LIB = ./obj/libmisoverse.a
+PROMPT ?= misoverse
 
 NEOR	= \001\033[3m\033[38;2;255;153;51m\002
 MINT    = \001\033[1;38;2;55;250;133m\002
@@ -61,6 +62,7 @@ FILE += $(BLTIN_DIR)miso_echo.c
 FILE += $(BLTIN_DIR)miso_exit.c
 FILE += $(BLTIN_DIR)miso_unset.c
 FILE += $(BLTIN_DIR)miso_export.c
+FILE += $(BLTIN_DIR)miso_context.c
 FILE += $(EXPANSION_DIR)miso_expand.c
 FILE += $(EXPANSION_DIR)miso_expand_quotes.c
 FILE += $(EXPANSION_DIR)miso_expand_quotes_utils.c
@@ -81,7 +83,7 @@ OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 .PRECIOUS: $(SRC) $(SRC_BONUS)
 
-COMPILE = cc -g -O0 -Wall -Werror -Wextra $(INC)
+COMPILE = cc -g -O0 -D PROMPT=\"$(PROMPT)\" -Wall -Werror -Wextra $(INC)
 VLGR_FLAGS = --leak-check=full --show-leak-kinds=all --track-origins=yes
 
 all: $(NAME)
@@ -241,7 +243,7 @@ call_empty_envp_bash:
 
 call_empty_envp_minishell: $(NAME)
 	@printf "\n$(MINT)env -i $(ORNG)$(NAME) $(MINT)--noprofile --norc$(RSET)\n\n"
-	@env -i $(NAME) --noprofile --norc
+	@env -i ./$(NAME) --noprofile --norc
 
 env_clear:
 	@printf "$(MINT)"

@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:28:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/17 21:45:26 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/18 12:38:12 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ static pid_t	miso_multi_exec(t_shell *miso, t_token *head, int p_num)
 	last_child = 0;
 	while (p_num)
 	{
-		if (!head)
-			racc_print(2, BLOD PROMPT MINT" Unexpected Syntax"RSET);
 		if (p_num - 1 != 0)
 			pipe(p);
 		last_child = fork();
