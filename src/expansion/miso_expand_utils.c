@@ -14,9 +14,9 @@
 
 int		miso_expand_node(t_shell *miso, t_token *node);
 int		miso_remove_empty_nodes(t_shell *miso);
+int		miso_check_lonely_node(t_shell *miso);
 char	*miso_allocate_str(t_shell *miso, size_t len);
 char	*miso_sub_add_str(t_shell *miso, char *s1, char *s2, int *pi);
-//char	*miso_subtract_exp_name(t_shell *miso, char *str, int len);
 
 int	miso_expand_node(t_shell *miso, t_token *node)
 {
@@ -52,7 +52,26 @@ int	miso_remove_empty_nodes(t_shell *miso)
 		else
 			temp = temp->next;
 	}
+	if (miso->list.head == NULL || miso_check_lonely_node(miso))
+		return (1);
+	return (0);
+}
+
+int	miso_check_lonely_node(t_shell *miso)
+{
+	t_token	*temp;
+	int		count;
+
 	if (miso->list.head == NULL)
+		return (1);
+	temp = miso->list.head;
+	count = 0;
+	while (temp)
+	{
+		count++;
+		temp = temp->next;
+	}
+	if (count == 1 && miso_delete_if_empty_node_str(miso))
 		return (1);
 	return (0);
 }
@@ -86,19 +105,3 @@ char	*miso_sub_add_str(t_shell *miso, char *s1, char *s2, int *pi)
 	free(temp);
 	return (new);
 }
-/*
-char	*miso_subtract_exp_name(t_shell *miso, char *str, int len)
-{
-	char	*res;
-	int		i;
-
-	res = miso_allocate_str(miso, len + 1);
-	i = 0;
-	while (i < len)
-	{
-		res[i] = str[i];
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
-}*/

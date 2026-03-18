@@ -15,6 +15,7 @@
 void	miso_reset(t_shell *miso);
 void	free_token_list(t_shell *miso);
 void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status);
+int		miso_delete_if_empty_node_str(t_shell *miso);
 
 void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status)
 {
@@ -54,15 +55,30 @@ void	miso_reset(t_shell *miso)
 
 void	free_token_list(t_shell *miso)
 {
-	t_token	*temp;
+	t_token	*delete;
 
 	while (miso->list.head != NULL)
 	{
-		temp = miso->list.head;
+		delete = miso->list.head;
 		miso->list.head = miso->list.head->next;
-		if (temp->str)
-			free(temp->str);
-		free(temp);
+		if (delete->str)
+			free(delete->str);
+		free(delete);
 	}
+	miso->list.head = NULL;
+	miso->list.last_node = NULL;
 	return ;
+}
+
+int	miso_delete_if_empty_node_str(t_shell *miso)
+{
+	char	*temp;
+
+	temp = miso->list.head->str;
+	if (temp[0] == '\0')
+	{
+		free_token_list(miso);
+		return (1);
+	}
+	return (0);
 }
