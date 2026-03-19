@@ -120,11 +120,11 @@ char	*miso_remove_quotes(t_shell *miso, char *str);
 char	*miso_del_quotes(t_shell *miso, char *res, char *str, int *pi, int (*f)(char));
 
 /* miso_expand_utils.c */
-int		miso_expand_node(t_shell *miso, t_token *node);
-int		miso_remove_empty_nodes(t_shell *miso);
+int	miso_expand_node(t_shell *miso, t_token *node);
+int	miso_handle_empty_str(t_shell *miso);
 char	*miso_allocate_str(t_shell *miso, size_t len);
 char	*miso_sub_add_str(t_shell *miso, char *s1, char *s2, int *pi);
-int		miso_check_lonely_node(t_shell *miso);
+int	miso_check_lonely_node(t_shell *miso);
 
 /* miso_heredoc.c */
 int	miso_heredoc(t_shell *miso);
@@ -148,6 +148,7 @@ int	miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_qui
 void    miso_fdshutdown(void);
 void    miso_reset(t_shell *miso, int *idle);
 void	miso_free_token_list(t_shell *miso);
+int	miso_delete_node(t_token **node);
 void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status);
 int		miso_delete_if_empty_node_str(t_shell *miso);
 

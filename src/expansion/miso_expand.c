@@ -35,7 +35,7 @@ int	miso_expand(t_shell *miso)
 			miso_expand_node(miso, temp);
 		temp = temp->next;
 	}
-	if (miso_remove_empty_nodes(miso))
+	if (miso_handle_empty_str(miso))
 		return (1);
 	miso_remove_extra_quotes(miso);
 	return (0);
