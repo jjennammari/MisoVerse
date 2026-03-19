@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:35:38 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/18 12:28:36 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/19 19:48:11 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ static int	miso_pathfinder(t_shell *miso, char **c, int *p_set)
 	char	*path;
 
 	if (ft_strchr(*c, '/'))
-		return (0);
+		return (miso_customs(*c, access(*c, F_OK), p_set), *p_set);
 	path = miso_getenv("PATH=", miso->envp);
 	if (!path || !(*path) || !(*c) || !(*(*c)))
 	{
 		*p_set = 127;
 		racc_print(2, BLOD PROMPT RSET": "MINT"%s"RSET, *c);
-		racc_print(2, ":  No such file or directory\n");
+		racc_print(2, ": Command not found, you could install it though...\n");
 		return (1);
 	}
 	dirs = ft_split(path, ':');

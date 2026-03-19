@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/18 22:19:05 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/03/19 15:14:45 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ FILE += miso_exec_utils_alpha.c
 FILE += miso_exec_utils_charlie.c
 FILE += miso_export_utils_beta.c
 FILE += miso_export_utils_alpha.c
+FILE += miso_export_utils_charlie.c
 FILE += miso_environment_utils_beta.c
 FILE += miso_environment_utils_alpha.c
 FILE += miso_environment_utils_charlie.c
