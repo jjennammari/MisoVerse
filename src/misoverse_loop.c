@@ -25,6 +25,8 @@ void	misoverse_loop(t_shell *miso)
 	idle = 1;
 	while (1)
 	{
+		if (line)
+			free(line);
 		miso_reset(miso, &idle);
 		miso_get_prompt(miso, &(miso->prompt));
 		line = readline(miso->prompt);

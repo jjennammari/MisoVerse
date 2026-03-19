@@ -32,6 +32,7 @@ char	*miso_hd_get_filename(int file_nb)
 	if (!temp)
 		return (NULL);
 	name = ft_strjoin(temp, ".tmp");
+	free(temp);
 	return (name);
 }
 

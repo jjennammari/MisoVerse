@@ -24,6 +24,7 @@ void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status)
 		perror(BLOD PROMPT RSET);
 	if (miso->list.head != NULL)
 		free_token_list(miso);
+	free(miso->node);
 	miso_free_matrix(miso->envp);
 	miso_free_matrix(miso->exp);
 	free(miso->prompt);
@@ -63,14 +64,11 @@ void	free_token_list(t_shell *miso)
 {
 	t_token	*delete;
 
-	if (miso->list.head == NULL)
-		return ;
 	while (miso->list.head != NULL)
 	{
 		delete = miso->list.head;
 		miso->list.head = miso->list.head->next;
-		if (delete->str)
-			free(delete->str);
+		free(delete->str);
 		free(delete);
 	}
 	miso->list.head = NULL;

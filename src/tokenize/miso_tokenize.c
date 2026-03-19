@@ -91,9 +91,10 @@ char	*miso_tokenize_quotes(t_shell *miso, char *res, char *line, int *pi, int (*
 	}
 	len++;
 	temp = ft_substr(line, 0, len);
-	if (!res)
+	if (!temp)
 		misoverse_free_exit(miso, 1, 2);
 	t_str = miso_add_str_str(miso, res, temp);
+	free(temp);
 	miso->node->quotes = 1;
 	*pi += len;
 	return (t_str);
@@ -117,6 +118,7 @@ char	*miso_tokenize_words(t_shell *miso, char *res, char *line, int *pi)
 	if (!temp)
 		misoverse_free_exit(miso, 1, 2);
 	t_str = miso_add_str_str(miso, res, temp);
+	free(temp);
 	*pi += len;
 	return (t_str);
 }

@@ -75,5 +75,6 @@ char	*miso_del_quotes(t_shell *miso, char *res, char *str, int *pi, int (*f)(cha
 	if (!temp)
 		misoverse_free_exit(miso, 1, 2);
 	res = miso_add_str_str(miso, res, temp);
+	free(temp);
 	return (res);
 }
