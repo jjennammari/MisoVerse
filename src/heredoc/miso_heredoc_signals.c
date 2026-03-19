@@ -14,7 +14,8 @@
 
 static void	miso_hd_sigint(int sig);
 
-int	miso_hd_handle_signals(struct sigaction *old_int, struct sigaction *old_quit)
+int	miso_hd_handle_signals(struct sigaction *old_int,
+		struct sigaction *old_quit)
 {
 	t_sigact	act;
 
@@ -36,7 +37,8 @@ static void	miso_hd_sigint(int sig)
 	write(1, "\n", 1);
 }
 
-int	miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_quit)
+int	miso_hd_restore_signals(struct sigaction *old_int,
+		struct sigaction *old_quit)
 {
 	if (sigaction(SIGINT, old_int, NULL) == -1)
 		return (1);

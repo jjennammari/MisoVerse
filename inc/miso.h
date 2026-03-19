@@ -66,7 +66,7 @@ int	main(int argc, char **argv, char **envp);
 void	misoverse_loop(t_shell *miso);
 
 /* miso_tokenize.c */
-int		miso_tokenize(t_shell *miso, char *line);
+int	miso_tokenize(t_shell *miso, char *line);
 void	miso_tokenize_operators(t_shell *miso, char *str, int *pi);
 void	miso_tokenize_arguments(t_shell *miso, char *str, int *pi);
 char	*miso_tokenize_quotes(t_shell *miso, char *res, char *line, int *pi, int (*f)(char));
@@ -78,8 +78,8 @@ void	miso_build_token_list(t_shell *miso, char *str, t_token_type type);
 void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str, t_token_type type);
 
 /* miso_tokenize_utils_beta.c */
-int		miso_skip_whitespaces(char *line);
-int		miso_is_whitespace(char c);
+int	miso_skip_whitespaces(char *line);
+int	miso_is_whitespace(char c);
 char	*miso_add_char_str(t_shell *miso, char *str, char c);
 char	*miso_convert_char_as_str(t_shell *miso, char c);
 char	*miso_add_str_str(t_shell *miso, char *s1, char *s2);
@@ -124,7 +124,6 @@ int	miso_expand_node(t_shell *miso, t_token *node);
 int	miso_handle_empty_str(t_shell *miso);
 char	*miso_allocate_str(t_shell *miso, size_t len);
 char	*miso_sub_add_str(t_shell *miso, char *s1, char *s2, int *pi);
-int	miso_check_lonely_node(t_shell *miso);
 
 /* miso_heredoc.c */
 int	miso_heredoc(t_shell *miso);
@@ -150,7 +149,7 @@ void    miso_reset(t_shell *miso, int *idle);
 void	miso_free_token_list(t_shell *miso);
 int	miso_delete_node(t_token **node);
 void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status);
-int		miso_delete_if_empty_node_str(t_shell *miso);
+int	miso_delete_if_empty_node_str(t_shell *miso);
 
 /* delete_later.c */
 void	miso_print_token_list(t_shell *miso);

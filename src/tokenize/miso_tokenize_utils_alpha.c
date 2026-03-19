@@ -14,7 +14,8 @@
 
 void	miso_tokenize_redirections(t_shell *miso, char *str, int *pi);
 void	miso_build_token_list(t_shell *miso, char *str, t_token_type type);
-void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str, t_token_type type);
+void	miso_init_newnode(t_shell *miso, t_token *new_node,\
+					char *str, t_token_type type);
 
 void	miso_tokenize_redirections(t_shell *miso, char *line, int *pi)
 {
@@ -50,7 +51,7 @@ void	miso_build_token_list(t_shell *miso, char *str, t_token_type type)
 	t_token	*new_node;
 
 	if (!str)
-		misoverse_free_exit(miso, 1 ,2);
+		misoverse_free_exit(miso, 1, 2);
 	new_node = malloc(sizeof(t_token));
 	if (!new_node)
 		misoverse_free_exit(miso, 1, 2);
@@ -66,7 +67,8 @@ void	miso_build_token_list(t_shell *miso, char *str, t_token_type type)
 		miso->list.head = new_node;
 }
 
-void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str, t_token_type type)
+void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str,\
+					t_token_type type)
 {
 	new_node->expand = 0;
 	new_node->quotes = 0;

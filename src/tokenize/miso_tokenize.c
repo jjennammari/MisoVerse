@@ -60,12 +60,15 @@ void	miso_tokenize_arguments(t_shell *miso, char *line, int *pi)
 
 	t_str = miso_allocate_str(miso, 1);
 	i = 0;
-	while (line[i] && !miso_is_whitespace(line[i]) && !ft_strchr("<|>", line[i]))
+	while (line[i] && !miso_is_whitespace(line[i])
+		&& !ft_strchr("<|>", line[i]))
 	{
 		if (line[i] == '\'')
-			t_str = miso_tokenize_quotes(miso, t_str, &line[i], &i, miso_is_squote);
+			t_str = miso_tokenize_quotes(miso, t_str, &line[i],
+					&i, miso_is_squote);
 		else if (line[i] == '"')
-			t_str = miso_tokenize_quotes(miso, t_str, &line[i], &i, miso_is_dquote);
+			t_str = miso_tokenize_quotes(miso, t_str, &line[i],
+					&i, miso_is_dquote);
 		else
 			t_str = miso_tokenize_words(miso, t_str, &line[i], &i);
 	}
@@ -103,7 +106,8 @@ char	*miso_tokenize_words(t_shell *miso, char *res, char *line, int *pi)
 	int		len;
 
 	len = 0;
-	while (line[len] && !miso_is_whitespace(line[len]) && !ft_strchr("<|>'\"", line[len]))
+	while (line[len] && !miso_is_whitespace(line[len])
+		&& !ft_strchr("<|>'\"", line[len]))
 	{
 		if (line[len] == '$' && miso->node->expand == 0)
 			miso->node->expand = 1;

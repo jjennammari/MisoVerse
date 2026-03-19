@@ -28,9 +28,11 @@ int	miso_parse_quotes(t_token *node)
 		i = 0;
 		while (temp[i])
 		{
-			if (temp[i] == '\'' && miso_validate_quotes(&temp[++i], &i, miso_is_squote))
+			if (temp[i] == '\''
+				&& miso_validate_quotes(&temp[++i], &i, miso_is_squote))
 				return (1);
-			else if (temp[i] == '"' && miso_validate_quotes(&temp[++i], &i, miso_is_dquote))
+			else if (temp[i] == '"'
+				&& miso_validate_quotes(&temp[++i], &i, miso_is_dquote))
 				return (1);
 			else if (temp[i])
 				i++;
@@ -48,7 +50,8 @@ int	miso_validate_quotes(char *str, int *pi, int (*f)(char))
 		len++;
 	if (!str[len])
 	{
-		racc_print(2, BLOD PROMPT MINT" Syntax error: can't find matching quote\n");
+		racc_print(2, BLOD PROMPT MINT
+			" Syntax error: can't find matching quote\n");
 		return (1);
 	}
 	*pi += len;
