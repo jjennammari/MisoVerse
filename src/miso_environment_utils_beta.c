@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 22:11:44 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/02 11:20:06 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/18 18:09:58 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ char	*miso_extract_variable(char **envp, const char *key)
 	envar = miso_remove_envar(envp, key);
 	guide = 0;
 	key_len = 0;
-	while (envar[key_len] && envar[key_len] != '=')
+	while (envar && envar[key_len] && envar[key_len] != '=')
 		key_len++;
-	if (envar[key_len] == '=')
+	if (envar && envar[key_len] == '=')
 	{
 		key_len++;
 		while (envar[key_len + guide])
@@ -61,7 +61,8 @@ char	*miso_extract_variable(char **envp, const char *key)
 			guide++;
 		}
 	}
-	envar[guide] = '\0';
+	if (envar)
+		envar[guide] = '\0';
 	return (envar);
 }
 /* Looks for the envirornment variable passed on *key. If it finds it, it

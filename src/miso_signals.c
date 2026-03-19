@@ -6,18 +6,19 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 18:19:36 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/16 19:49:57 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/17 21:54:47 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
-void	miso_fdshutdown(void);
-void	miso_daddy_sigint(int sig);
-void	miso_init_daddy_signals(void);
-void	miso_setup_child_signals(void);
+static void	miso_daddy_sigint(int sig);
+static void	miso_running_sigint(int sig);
+void		miso_init_daddy_signals(void);
+void		miso_setup_child_signals(void);
+void		miso_setup_running_signals(void);
 
-void	miso_daddy_sigint(int sig)
+static void	miso_daddy_sigint(int sig)
 {
 	g_signal = sig;
 	write(1, "\n", 1);
@@ -30,16 +31,15 @@ void	miso_daddy_sigint(int sig)
 /* Handles SIGINT for the parent process. Resetting readline, printing
 a newline, and setting the global signal accordingly. */
 
-void	miso_fdshutdown(void)
+static void	miso_running_sigint(int sig)
 {
-	int	fd;
-
-	fd = 3;
-	while (fd <= 1000)
-		close(fd++);
+	g_signal = sig;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	miso_fdshutdown();
 	return ;
 }
-
 void	miso_init_daddy_signals(void)
 {
 	t_sigact	miso_sigint;
@@ -55,6 +55,18 @@ void	miso_init_daddy_signals(void)
 	sigemptyset(&miso_sigquit.sa_mask);
 	sigaction(SIGINT, &miso_sigint, NULL);
 	sigaction(SIGQUIT, &miso_sigquit, NULL);
+	return ;
+}
+
+void	miso_setup_running_signals(void)
+{
+	t_sigact    miso_run_sigint;
+
+	ft_memset(&miso_run_sigint, 0, sizeof(miso_run_sigint));
+	miso_run_sigint.sa_handler = miso_running_sigint;
+	miso_run_sigint.sa_flags = SA_RESTART;
+	sigemptyset(&miso_run_sigint.sa_mask);
+	sigaction(SIGINT, &miso_run_sigint, NULL);
 	return ;
 }
 

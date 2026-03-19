@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miso_parser_utils.c                                :+:      :+:    :+:   */
+/*   miso_parse_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 12:44:36 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/02/24 15:12:14 by jemustaj         ###   ########.fr       */
+/*   Updated: 2026/03/18 18:49:45 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	miso_is_builtin(char *arg)
 	if (len == 5 && !ft_strncmp("unset", arg, len))
 		return (1);
 	if (len == 6 && !ft_strncmp("export", arg, len))
+		return (1);
+	if (len == 7 && !ft_strncmp("context", arg, len))
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:41:47 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/02 09:39:53 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/18 18:51:22 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int	(*miso_get_builtin(char *cmd))(t_shell *miso, char **cmd)
 		return (&miso_env);
 	if ((len == 4) && !ft_strncmp("exit", cmd, len))
 		return (&miso_exit);
+	if ((len == 7) && !ft_strncmp("context", cmd, len))
+		return (&miso_context);
 	return (NULL);
 }
 /* Uses ft_strncmp and the lenght of the incoming string "cmd" to analyze

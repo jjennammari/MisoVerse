@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:47:52 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/15 18:11:25 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/17 21:57:18 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,5 @@ static void	miso_init_variables(t_shell *miso, char **envp)
 	miso->node->str = NULL;
 	miso->node->next = NULL;
 	miso->node->quotes = 0;
-	miso_init_daddy_signals();
 	return ;
 }
