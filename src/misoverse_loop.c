@@ -14,7 +14,7 @@
 
 void		misoverse_loop(t_shell *miso);
 static void	miso_process_signal(int *exit_code);
-static int  miso_process_line(t_shell *miso, char *line);
+static int	miso_process_line(t_shell *miso, char *line);
 
 void	misoverse_loop(t_shell *miso)
 {
@@ -28,7 +28,7 @@ void	misoverse_loop(t_shell *miso)
 		miso_reset(miso);
 		miso_get_prompt(miso, &(miso->prompt));
 		line = readline(miso->prompt);
-		if (miso_process_line(miso, line))
+		if (miso_process_line(miso))
 			continue ;
 		write(1, LIME">> "BABY, ft_strlen(LIME BABY) + 3); // Changing output color for visualizatio during testing
 		miso->exit_code = miso_launch(miso, miso->list.head);
