@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 18:56:42 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/18 21:37:09 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/19 18:00:13 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,17 @@ int	miso_context(t_shell *miso, char **argv)
 	while (miso->exp[i])
 	{
 		guide = 0;
+		if (!ft_strchr(miso->exp[i], '='))
+		{
+			printf(BLOD" >> "ORNG"%s\n"RSET, miso->exp[i++]);
+			continue;
+		}
 		while (miso->envp[guide])
 		{
 			if (miso_print_context(miso->exp[i], miso->envp[guide], argv[1], b))
 				break ;
 			guide++;
 		}
-		if (!miso->envp[guide])
-			printf(BLOD">> "NEOR"%s\n"RSET, miso->exp[i]);
 		i++;
 	}
 	racc_print(1, MINT"\nNon Exported: \n"RSET);
@@ -70,7 +73,8 @@ static void	miso_print_out_of_context(t_shell *m, char *b)
 	guide = 0;
 	while (m->envp[guide])
 	{
-		if (miso_isvarinexp(m->exp, m->envp[guide]))
+		if (miso_isvarinexp(m->exp, m->envp[guide])
+			&& ft_strchr(m->envp[guide], '='))
 		{
 			miso_load_buff(b, m->envp[guide]);
 			racc_print(1, GOLD" >> "PINK"%s", b);
@@ -87,15 +91,17 @@ static void	miso_print_out_of_context(t_shell *m, char *b)
 static int	miso_print_context(char *exp, char *env, char *high, char *b)
 {
 	int	varlen;
+	int	explen;
 
 	varlen = ft_strlen(env);
-	if (ft_strnstr(env, exp, varlen))
+	explen = ft_strlen(exp);
+	if (!miso_envarcmp(env, exp))
 	{
 		miso_load_buff(b, env);
 		if (high && ft_strnstr(env, high, varlen))
-			racc_print(1, MINT"  >> "BABY"%s", b);
+			racc_print(1, LIME"   >> "BABY"%s "MINT"%s", exp, (b + explen));
 		else
-			racc_print(1, PURP"  >> "RSET"%s", b);
+			racc_print(1, PURP"  >> "B_WI"%s "RSET"%s", exp, (b + explen));
 		if (varlen > 69)
 			racc_print(1, GOLD"...\n"RSET);
 		else

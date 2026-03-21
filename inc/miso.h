@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/18 19:54:56 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/19 15:14:16 by lde-san-         ###   ########.fr       */
 /*   Updated: 2026/03/08 18:46:26 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -145,7 +145,7 @@ int	miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_qui
 
 /* miso_free.c */
 void    miso_fdshutdown(void);
-void    miso_reset(t_shell *miso, int *idle);
+void    miso_reset(t_shell *miso);
 void	miso_free_token_list(t_shell *miso);
 int	miso_delete_node(t_token **node);
 void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status);
@@ -221,6 +221,9 @@ char	*miso_expcheck(char **exp, char *key, int *index);
 void	miso_exp_filter(char **exp, char **envp);
 int		miso_export_sort(t_shell *miso, char **envp, int envp_c);
 int		miso_exp_addorupdate(t_shell *m, char ***env, char *key, char *var);
+
+//   -- -- #    miso_export_utils_charlie.c
+void	miso_rectify_exp(t_shell *miso);
 
 //    -- -- #	Built in Functions: miso_(builtin).c
 int		miso_cd(t_shell *miso, char **argv);

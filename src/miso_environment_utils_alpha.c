@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:42:57 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/18 22:25:37 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/19 15:15:21 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int	miso_add_envar(char ***envp, char *key, char *varlue)
 /* It looks for the *key passed inside of **envp. If it finds it it'll
 return 1, otherwise, it will allocate space for a new array and for the
 new variable, moving all of the pointers to the new array and appending 
-the  new  variable at the end.  That said, if *varlue is setto NULL, it 
+the  new  variable at the end.  That said, if *varlue is set to NULL, it 
 won't append anything, as it assumes that appending NULL means that the
 variable is supposed to be unset, which already is if it can't be found 
 of course. It will return -1 on allocation error and 0 on success. */
