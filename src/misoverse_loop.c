@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:22 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/19 19:22:06 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/21 21:36:44 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	misoverse_loop(t_shell *miso)
 		miso_reset(miso);
 		miso_get_prompt(miso, &(miso->prompt));
 		line = readline(miso->prompt);
-		if (miso_process_line(miso))
+		miso_process_signal(&miso->exit_code);
+		if (miso_process_line(miso, line))
 			continue ;
 		write(1, LIME">> "BABY, ft_strlen(LIME BABY) + 3); // Changing output color for visualizatio during testing
 		miso->exit_code = miso_launch(miso, miso->list.head);
