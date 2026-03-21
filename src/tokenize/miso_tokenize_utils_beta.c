@@ -74,11 +74,11 @@ char	*miso_add_str_str(t_shell *miso, char *s1, char *s2)
 		return (s1);
 	len = ft_strlen(s2);
 	if (!s1 || !*s1)
-		res = ft_substr(s2, 0 , len);
+		res = ft_substr(s2, 0, len);
 	else
 		res = ft_strjoin(s1, s2);
 	if (!res)
-		misoverse_free_exit(miso, 1 ,2);
+		misoverse_free_exit(miso, 1, 2);
 	if (s1)
 		free(s1);
 	return (res);

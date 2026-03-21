@@ -49,8 +49,8 @@ typedef struct s_line
 typedef struct s_shell
 {
 	int		exit_code;
-	char    **envp;
-	char    **exp;
+	char	**envp;
+	char	**exp;
 	char	*prompt;
 	t_token	*node;
 	t_line	list;

@@ -22,10 +22,10 @@ void	miso_print_token_list(t_shell *miso)
 	while (temp)
 	{
 		printf("Token %d\n", t_count);
-		printf("Token STR: "MINT"]"RSET"%s"MINT"["RSET"\n", temp->str);
-//		printf("Token TYPE: %d\n", temp->type);
-//		printf("Expandable: %d\n", temp->expand);
-//		printf("Is quotet: %d\n\n", temp->quotes);
+		printf("Token STR: %s\n", temp->str);
+		printf("Token TYPE: %d\n", temp->type);
+		printf("Expandable: %d\n", temp->expand);
+		printf("Is quotet: %d\n\n", temp->quotes);
 		temp = temp->next;
 		t_count += 1;
 	}

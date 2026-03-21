@@ -12,10 +12,10 @@
 
 #include "../../inc/miso.h"
 
-int	miso_heredoc(t_shell *miso);
-int	miso_get_heredoc(t_shell *miso, t_token *hd, int file_nb);
-int	miso_hd_collect(t_shell *miso, t_token *delim, int fd);
-int	miso_hd_write(char *line, int fd);
+int		miso_heredoc(t_shell *miso);
+int		miso_get_heredoc(t_shell *miso, t_token *hd, int file_nb);
+int		miso_hd_collect(t_shell *miso, t_token *delim, int fd);
+int		miso_hd_write(char *line, int fd);
 char	*miso_hd_expand(t_shell *miso, char *line);
 
 int	miso_heredoc(t_shell *miso)

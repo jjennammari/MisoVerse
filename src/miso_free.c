@@ -16,6 +16,7 @@ void    miso_fdshutdown(void);
 void	miso_reset(t_shell *miso);
 void	free_token_list(t_shell *miso);
 void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status);
+int		miso_delete_node(t_token **node);
 
 void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status)
 {
@@ -23,6 +24,7 @@ void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status)
 		perror(BLOD PROMPT RSET);
 	if (miso->list.head != NULL)
 		free_token_list(miso);
+	free(miso->node);
 	miso_free_matrix(miso->envp);
 	miso_free_matrix(miso->exp);
 	free(miso->prompt);
@@ -55,17 +57,31 @@ void	miso_reset(t_shell *miso)
 
 void	free_token_list(t_shell *miso)
 {
-	t_token	*temp;
+	t_token	*delete;
 
 	while (miso->list.head != NULL)
 	{
-		temp = miso->list.head;
+		delete = miso->list.head;
 		miso->list.head = miso->list.head->next;
-		if (temp->str)
-			free(temp->str);
-		free(temp);
+		free(delete->str);
+		free(delete);
 	}
+	miso->list.head = NULL;
+	miso->list.last_node = NULL;
 	return ;
+}
+
+int	miso_delete_node(t_token **node)
+{
+	t_token	*delete;
+
+	if (!node || !*node)
+		return (1);
+	delete = *node;
+	*node = delete->next;
+	free(delete->str);
+	free(delete);
+	return (0);
 }
 
 void    miso_fdshutdown(void)

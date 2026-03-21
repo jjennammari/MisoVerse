@@ -23,16 +23,29 @@ void	misoverse_loop(t_shell *miso)
 	line = NULL;
 	while (1)
 	{
+<<<<<<< HEAD
 		miso_reset(miso);
+=======
+		if (line)
+			free(line);
+		miso_reset(miso, &idle);
+>>>>>>> main
 		miso_get_prompt(miso, &(miso->prompt));
 		line = readline(miso->prompt);
 		miso_process_signal(&miso->exit_code);
 		if (miso_process_line(miso, line))
 			continue ;
+<<<<<<< HEAD
 		write(1, LIME">> "BABY, ft_strlen(LIME BABY) + 3); // Changing output color for visualizatio during testing
 		miso->exit_code = miso_launch(miso, miso->list.head);
 		miso_rectify_exp(miso);
 //		printf("launch passed\n\n");
+=======
+//		write(1, LIME">> "BABY, ft_strlen(LIME BABY) + 3); // Changing output color for visualizatio during testing
+		idle = 0;
+		miso->exit_code = miso_launch(miso, miso->list.head);
+		printf("LAUNCH passed\n\n");
+>>>>>>> main
 	}
 	return ;
 }
@@ -54,19 +67,19 @@ static int	miso_process_line(t_shell *miso, char *line)
 	add_history(line);
 	if (miso_tokenize(miso, line))
 		return (1);
-	printf("\ntokenization passed\n");
+	printf("\nTOKENIZATION passed\n");
 	miso_print_token_list(miso);
 	if (miso_parse(miso))
 		return (1);
-	printf("parsing passed\n");	
+	printf("PARSING passed\n");	
 	miso_print_token_list(miso);
 	if (miso_expand(miso))
 		return (1);
-	printf("expansion passed\n");
+	printf("EXPANSION passed\n");
 	miso_print_token_list(miso);
 	if (miso->list.hd_count && miso_heredoc(miso))
 		return (1);
-//	printf("heredoc passed\n");
-//	miso_print_token_list(miso);
+	printf("HEREDOC passed\n");
+	miso_print_token_list(miso);
 	return (0);
 }
