@@ -6,18 +6,18 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:41:47 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/19 18:28:43 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/22 23:06:00 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
 int		miso_waitroom(pid_t child, int *exit_status);
-void	miso_call_program(t_shell *miso, char **cmd, t_token *head);
+void	miso_call_program(t_shell *miso, char **cmd);
 int		(*miso_get_builtin(char *cmd))(t_shell *miso, char **cmd);
 int		miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **));
 
-void	miso_call_program(t_shell *miso, char **cmd, t_token *head)
+void	miso_call_program(t_shell *miso, char **cmd)
 {
 	int	exit_code;
 	int	(*built_in)(t_shell *, char **);
@@ -25,7 +25,7 @@ void	miso_call_program(t_shell *miso, char **cmd, t_token *head)
 	exit_code = 127;
 	built_in = miso_get_builtin(cmd[0]);
 	if (built_in)
-		exit_code = miso_rn(miso, cmd, head, built_in);
+		exit_code = built_in(miso, cmd);
 	else
 	{
 		miso_exp_filter(miso->exp, miso->envp);
@@ -104,9 +104,11 @@ int	miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **))
 		perror(BLOD PROMPT RSET);
 		return (1);
 	}
-	miso_channeling(0, h, NULL, -1);
-	if (f)
+	exit_code = miso_set_channel_dad(h);
+	if (f && !exit_code)
 		exit_code = f(m, c);
+	else if (!f)
+		exit_code = 127;
 	dup2(std_cpy[0], 0);
 	dup2(std_cpy[1], 1);
 	close(std_cpy[0]);
