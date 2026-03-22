@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 00:11:16 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/14 18:30:00 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/22 17:53:25 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,6 @@ void	miso_get_argv_nrun(t_shell *miso, t_token *head)
 	command_status = miso_argv(miso, head, &cmd);
 	if (command_status)
 		misoverse_free_exit(miso, 0, command_status);
-	miso_call_program(miso, cmd, head);
+	miso_call_program(miso, cmd);
 	return ;
 }

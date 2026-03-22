@@ -1,89 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miso_redirection.c                                 :+:      :+:    :+:   */
+/*   miso_redirection_dad.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:17:12 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/02/02 19:06:45 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/22 20:25:06 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
-static void	miso_redir(int new_fd, int def_fd);
+int			miso_set_channel_dad(t_token *head);
 static int	miso_scan_redin(t_token *head, int *fd);
 static int	miso_scan_redout(t_token *lst, int *fd);
-static void	miso_set_channel(t_token *head, int in, int out, int *pipe);
-void		miso_channeling(int prev_read, t_token *head, int *p, int p_num);
 
-static void	miso_redir(int new_fd, int def_fd)
-{
-	if (new_fd != def_fd)
-	{
-		dup2(new_fd, def_fd);
-		close(new_fd);
-	}
-	return ;
-}
-/* If the new fd that's being set up, is not the default one,
-it will dup2()-it in order to redirect the data to or from the
-correct place. Closing the new_fd in the process in order to
-avoid leaks. It assumes that new_fd will no longer be needed
-after this call*/
-
-void	miso_channeling(int prev_read, t_token *head, int *p, int p_num)
-{
-	if (p_num == -1)
-	{
-		miso_set_channel(head, 0, 1, NULL);
-		return ;
-	}
-	if (prev_read == -1)
-		miso_set_channel(head, 0, p[1], p);
-	else
-	{
-		if (p_num - 1 == 0)
-			miso_set_channel(head, prev_read, 1, p);
-		else
-			miso_set_channel(head, prev_read, p[1], NULL);
-	}
-	return ;
-}
-/* It ensures tha the correct input and output stream is being sent to the
-set_channel evaluation, corresponding to which stage of the loop the function
-gets called. It's based on three basic stages, the begining of the line,
-the middle sections, and the end. If if is called at the end, it sends NULL
-instead of the pipe, because the function assumes no further pipes were 
-created. The p_num == -1 case, is for the special condition of there being
-only one segment and no pipes. */
-
-static void	miso_set_channel(t_token *head, int in, int out, int *pipe)
+int	miso_set_channel_dad(t_token *head)
 {
 	int	tmp_fd;
+	int	file_exit;
 
 	tmp_fd = 0;
-	if (pipe)
-		close(pipe[0]);
-	if (!miso_scan_redin(head, &tmp_fd))
-		miso_redir(in, 0);
-	else
+	file_exit = miso_scan_redin(head, &tmp_fd);
+	if (file_exit)
+		return (file_exit);
+	if (tmp_fd)
 	{
-		miso_redir(tmp_fd, 0);
-		close(in);
+		dup2(tmp_fd, 0);
+		close(tmp_fd);
 	}
 	tmp_fd = 0;
-	if (!miso_scan_redout(head, &tmp_fd))
-		miso_redir(out, 1);
-	else
+	file_exit = miso_scan_redout(head, &tmp_fd);
+	if (file_exit)
+		return (file_exit);
+	if (tmp_fd)
 	{
-		miso_redir(tmp_fd, 1);
-		close(out);
-	}
-	if (pipe)
-		close(pipe[1]);
-	return ;
+		dup2(tmp_fd, 1);
+		close(tmp_fd);
+	}	
+	return (0);
 }
 /* Are there are pipes in the line? Are there redirections? it will
 validate these scenarios, set the corresponding fds, and close all
@@ -101,19 +57,20 @@ static int	miso_scan_redin(t_token *head, int *fd)
 				close(*fd);
 			if (!head->next)
 			{
-				racc_print(2, BLOD"PROMPT"MINT"Error after `%s'\n", head->str);
-				exit(2);
+				racc_print(2, BLOD PROMPT B_WI": Error after ");
+				racc_print(2, ORNG"`%s'\n", head->str);
+				return (2);
 			}
 			*fd = open(head->next->str, O_RDONLY);
 			if (*fd == -1)
 			{
-				perror(BLOD"PROMPT"RSET);
-				exit(126);
+				perror(BLOD PROMPT RSET);
+				return (126);
 			}
 		}
 		head = head->next;
 	}
-	return (*fd);
+	return (0);
 }
 /*Scans the line segment for input redirections, if it finds any, it returns
 the file descriptor it stores in the *fd buffer passed */
@@ -128,8 +85,9 @@ static int	miso_scan_redout(t_token *lst, int *fd)
 				close(*fd);
 			if (!lst->next)
 			{
-				racc_print(2, BLOD"PROMPT"MINT"Error after `%s'\n", lst->str);
-				exit(2);
+				racc_print(2, BLOD PROMPT B_WI": Error after ");
+				racc_print(2, ORNG"`%s'\n", lst->str);
+				return (2);
 			}
 			if (lst->type == RD_OUT)
 				*fd = open(lst->next->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -137,13 +95,13 @@ static int	miso_scan_redout(t_token *lst, int *fd)
 				*fd = open(lst->next->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (*fd == -1)
 			{
-				perror(BLOD"PROMPT"RSET);
-				exit(126);
+				perror(BLOD PROMPT RSET);
+				return (126);
 			}
 		}
 		lst = lst->next;
 	}
-	return (*fd);
+	return (0);
 }
 /*Scans the line segment for output redirections, if it finds any, it returns
 the file descriptor it stores in the *fd buffer passed */
