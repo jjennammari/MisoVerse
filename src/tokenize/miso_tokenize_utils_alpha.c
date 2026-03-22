@@ -14,8 +14,8 @@
 
 void	miso_tokenize_redirections(t_shell *miso, char *str, int *pi);
 void	miso_build_token_list(t_shell *miso, char *str, t_token_type type);
-void	miso_init_newnode(t_shell *miso, t_token *new_node,\
-					char *str, t_token_type type);
+void	miso_init_newnode(t_shell *miso, t_token *new_node,
+			char *str, t_token_type type);
 
 void	miso_tokenize_redirections(t_shell *miso, char *line, int *pi)
 {
@@ -44,6 +44,29 @@ void	miso_tokenize_redirections(t_shell *miso, char *line, int *pi)
 			miso_build_token_list(miso, ft_strdup(">"), RD_OUT);
 	}
 	*pi += 1;
+}
+
+char	*miso_tokenize_words(t_shell *miso, char *res, char *line, int *pi)
+{
+	char	*temp;
+	char	*t_str;
+	int		len;
+
+	len = 0;
+	while (line[len] && !miso_is_whitespace(line[len])
+		&& !ft_strchr("<|>'\"", line[len]))
+	{
+		if (line[len] == '$' && miso->node->expand == 0)
+			miso->node->expand = 1;
+		len++;
+	}
+	temp = ft_substr(line, 0, len);
+	if (!temp)
+		misoverse_free_exit(miso, 1, 2);
+	t_str = miso_add_str_str(miso, res, temp);
+	free(temp);
+	*pi += len;
+	return (t_str);
 }
 
 void	miso_build_token_list(t_shell *miso, char *str, t_token_type type)

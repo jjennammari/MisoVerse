@@ -22,6 +22,8 @@ void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status)
 {
 	if (print_err)
 		perror(BLOD PROMPT RSET);
+	if (miso->hd_files != 0)
+		miso_hd_unlink(miso, 0);
 	if (miso->list.head != NULL)
 		free_token_list(miso);
 	free(miso->node);

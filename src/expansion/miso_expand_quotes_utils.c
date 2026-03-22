@@ -14,7 +14,8 @@
 
 void	miso_remove_extra_quotes(t_shell *miso);
 char	*miso_remove_quotes(t_shell *miso, char *str);
-char	*miso_del_quotes(t_shell *miso, char *res, char *str, int *pi, int (*f)(char));
+char	*miso_del_squotes(t_shell *miso, char *res, char *str, int *pi);
+char	*miso_del_dquotes(t_shell *miso, char *res, char *str, int *pi);
 
 void	miso_remove_extra_quotes(t_shell *miso)
 {
@@ -48,9 +49,9 @@ char	*miso_remove_quotes(t_shell *miso, char *str)
 	while (str[i])
 	{
 		if (str[i] == '\'')
-			res = miso_del_quotes(miso, res, &str[i], &i, miso_is_squote);
+			res = miso_del_squotes(miso, res, &str[i], &i);
 		else if (str[i] == '"')
-			res = miso_del_quotes(miso, res, &str[i], &i, miso_is_dquote);
+			res = miso_del_dquotes(miso, res, &str[i], &i);
 		while (str[i] && !ft_strchr("'\"", str[i]))
 		{
 			res = miso_add_char_str(miso, res, str[i]);
@@ -60,13 +61,32 @@ char	*miso_remove_quotes(t_shell *miso, char *str)
 	return (res);
 }
 
-char	*miso_del_quotes(t_shell *miso, char *res, char *str, int *pi, int (*f)(char))
+char	*miso_del_squotes(t_shell *miso, char *res, char *str, int *pi)
 {
 	char	*temp;
 	int		len;
 
 	len = 1;
-	while (str[len] && !(*f)(str[len]))
+	while (str[len] && str[len] != '\'')
+		len++;
+	*pi += len + 1;
+	if (len == 1)
+		return (miso_add_str_str(miso, res, NULL));
+	temp = ft_substr(str, 1, len - 1);
+	if (!temp)
+		misoverse_free_exit(miso, 1, 2);
+	res = miso_add_str_str(miso, res, temp);
+	free(temp);
+	return (res);
+}
+
+char	*miso_del_dquotes(t_shell *miso, char *res, char *str, int *pi)
+{
+	char	*temp;
+	int		len;
+
+	len = 1;
+	while (str[len] && str[len] != '"')
 		len++;
 	*pi += len + 1;
 	if (len == 1)

@@ -15,8 +15,8 @@
 int		miso_tokenize(t_shell *miso, char *line);
 void	miso_tokenize_operators(t_shell *miso, char *str, int *pi);
 void	miso_tokenize_arguments(t_shell *miso, char *str, int *pi);
-char	*miso_tokenize_quotes(t_shell *miso, char *res, char *line, int *pi, int (*f)(char));
-char	*miso_tokenize_words(t_shell *miso, char *res, char *line, int *pi);
+char	*miso_tokenize_squotes(t_shell *miso, char *res, char *line, int *pi);
+char	*miso_tokenize_squotes(t_shell *miso, char *res, char *line, int *pi);
 
 int	miso_tokenize(t_shell *miso, char *line)
 {
@@ -64,11 +64,11 @@ void	miso_tokenize_arguments(t_shell *miso, char *line, int *pi)
 		&& !ft_strchr("<|>", line[i]))
 	{
 		if (line[i] == '\'')
-			t_str = miso_tokenize_quotes(miso, t_str, &line[i],
-					&i, miso_is_squote);
+			t_str = miso_tokenize_squotes(miso, t_str, &line[i],
+					&i);
 		else if (line[i] == '"')
-			t_str = miso_tokenize_quotes(miso, t_str, &line[i],
-					&i, miso_is_dquote);
+			t_str = miso_tokenize_dquotes(miso, t_str, &line[i],
+					&i);
 		else
 			t_str = miso_tokenize_words(miso, t_str, &line[i], &i);
 	}
@@ -76,14 +76,14 @@ void	miso_tokenize_arguments(t_shell *miso, char *line, int *pi)
 	miso_build_token_list(miso, t_str, ARG);
 }
 
-char	*miso_tokenize_quotes(t_shell *miso, char *res, char *line, int *pi, int (*f)(char))
+char	*miso_tokenize_squotes(t_shell *miso, char *res, char *line, int *pi)
 {
 	char	*temp;
 	char	*t_str;
 	int		len;
 
 	len = 1;
-	while (line[len] && !(*f)(line[len]))
+	while (line[len] && line[len] != '\'')
 	{
 		if (line[len] == '$' && line[0] != '\'' && miso->node->expand == 0)
 			miso->node->expand = 1;
@@ -100,25 +100,26 @@ char	*miso_tokenize_quotes(t_shell *miso, char *res, char *line, int *pi, int (*
 	return (t_str);
 }
 
-char	*miso_tokenize_words(t_shell *miso, char *res, char *line, int *pi)
+char	*miso_tokenize_dquotes(t_shell *miso, char *res, char *line, int *pi)
 {
 	char	*temp;
 	char	*t_str;
 	int		len;
 
-	len = 0;
-	while (line[len] && !miso_is_whitespace(line[len])
-		&& !ft_strchr("<|>'\"", line[len]))
+	len = 1;
+	while (line[len] && line[len] != '"')
 	{
-		if (line[len] == '$' && miso->node->expand == 0)
+		if (line[len] == '$' && line[0] != '\'' && miso->node->expand == 0)
 			miso->node->expand = 1;
 		len++;
 	}
+	len++;
 	temp = ft_substr(line, 0, len);
 	if (!temp)
 		misoverse_free_exit(miso, 1, 2);
 	t_str = miso_add_str_str(miso, res, temp);
 	free(temp);
+	miso->node->quotes = 1;
 	*pi += len;
 	return (t_str);
 }

@@ -48,6 +48,7 @@ typedef struct s_line
 
 typedef struct s_shell
 {
+	int		hd_files;
 	int		exit_code;
 	char	**envp;
 	char	**exp;
