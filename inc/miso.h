@@ -69,11 +69,12 @@ void	misoverse_loop(t_shell *miso);
 int	miso_tokenize(t_shell *miso, char *line);
 void	miso_tokenize_operators(t_shell *miso, char *str, int *pi);
 void	miso_tokenize_arguments(t_shell *miso, char *str, int *pi);
-char	*miso_tokenize_quotes(t_shell *miso, char *res, char *line, int *pi, int (*f)(char));
-char	*miso_tokenize_words(t_shell *miso, char *res, char *line, int *pi);
+char	*miso_tokenize_squotes(t_shell *miso, char *res, char *line, int *pi);
+char	*miso_tokenize_dquotes(t_shell *miso, char *res, char *line, int *pi);
 
 /* miso_tokenize_utils_alpha.c */
 void	miso_tokenize_redirections(t_shell *miso, char *str, int *pi);
+char	*miso_tokenize_words(t_shell *miso, char *res, char *line, int *pi);
 void	miso_build_token_list(t_shell *miso, char *str, t_token_type type);
 void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str, t_token_type type);
 
@@ -117,7 +118,8 @@ void	miso_update_quotes(t_shell *miso, char c);
 /* miso_expand_quotes_utils.c */
 void	miso_remove_extra_quotes(t_shell *miso);
 char	*miso_remove_quotes(t_shell *miso, char *str);
-char	*miso_del_quotes(t_shell *miso, char *res, char *str, int *pi, int (*f)(char));
+char	*miso_del_squotes(t_shell *miso, char *res, char *str, int *pi);
+char	*miso_del_dquotes(t_shell *miso, char *res, char *str, int *pi);
 
 /* miso_expand_utils.c */
 int	miso_expand_node(t_shell *miso, t_token *node);
@@ -127,7 +129,7 @@ char	*miso_sub_add_str(t_shell *miso, char *s1, char *s2, int *pi);
 
 /* miso_heredoc.c */
 int	miso_heredoc(t_shell *miso);
-int	miso_get_heredoc(t_shell *miso, t_token *hd, int file_nb);
+int	miso_get_heredoc(t_shell *miso, t_token *hd);
 int	miso_hd_collect(t_shell *miso, t_token *delim, int fd);
 int	miso_hd_write(char *line, int fd);
 char	*miso_hd_expand(t_shell *miso, char *line);
@@ -142,6 +144,7 @@ void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
 /* miso_heredoc_signals.c */
 int	miso_hd_handle_signals(struct sigaction *old_int, struct sigaction *old_quit);
 int	miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_quit);
+void	miso_hd_unlink(t_shell *miso, int mes);
 
 /* miso_free.c */
 void    miso_fdshutdown(void);

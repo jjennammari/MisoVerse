@@ -29,6 +29,7 @@ int	main(int argc, char **argv, char **envp)
 
 static void	miso_init_variables(t_shell *miso, char **envp)
 {
+	miso->hd_files = 0;
 	miso->exit_code = 0;
 	miso->list.squote = 0;
 	miso->list.dquote = 0;

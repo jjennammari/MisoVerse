@@ -13,7 +13,7 @@
 #include "../../inc/miso.h"
 
 int		miso_heredoc(t_shell *miso);
-int		miso_get_heredoc(t_shell *miso, t_token *hd, int file_nb);
+int		miso_get_heredoc(t_shell *miso, t_token *hd);
 int		miso_hd_collect(t_shell *miso, t_token *delim, int fd);
 int		miso_hd_write(char *line, int fd);
 char	*miso_hd_expand(t_shell *miso, char *line);
@@ -21,16 +21,14 @@ char	*miso_hd_expand(t_shell *miso, char *line);
 int	miso_heredoc(t_shell *miso)
 {
 	t_token	*temp;
-	int		file_nb;
 
 	temp = miso->list.head;
-	file_nb = 0;
 	while (temp)
 	{
 		if (temp->type == HEREDOC)
 		{
-			file_nb += 1;
-			if (miso_get_heredoc(miso, temp, file_nb))
+			miso->hd_files += 1;
+			if (miso_get_heredoc(miso, temp))
 				return (1);
 		}
 		temp = temp->next;
@@ -39,7 +37,7 @@ int	miso_heredoc(t_shell *miso)
 	return (0);
 }
 
-int	miso_get_heredoc(t_shell *miso, t_token *hd, int file_nb)
+int	miso_get_heredoc(t_shell *miso, t_token *hd)
 {
 	t_token		*delim;
 	char		*file;
@@ -50,15 +48,15 @@ int	miso_get_heredoc(t_shell *miso, t_token *hd, int file_nb)
 	if (miso_hd_handle_signals(&old_int, &old_quit))
 		return (1);
 	delim = hd->next;
-	file = miso_hd_get_filename(file_nb);
+	file = miso_hd_get_filename(miso->hd_files);
 	if (!file)
 		return (1);
 	if (miso_hd_open_file(file, &fd))
-		return (free(file), 1);//TODO: unlink if prev files
+		return (miso_hd_unlink(miso, 0), free(file), 1);
 	if (miso_hd_collect(miso, delim, fd))
 	{
 		miso_hd_restore_signals(&old_int, &old_quit);
-		unlink(file);//TODO: unlink if prev files
+		miso_hd_unlink(miso, 0);
 		return (close(fd), free(file), 1);
 	}
 	miso_hd_restore_signals(&old_int, &old_quit);
@@ -78,7 +76,7 @@ int	miso_hd_collect(t_shell *miso, t_token *delim, int fd)
 		if (g_signal == SIGINT)
 			return (free(line), miso->exit_code = 130, 1);
 		if (!line)
-			return (0);//TODO: print ctrlD message & unlink prev files?
+			return (miso_hd_unlink(miso, 1), 0);
 		if (miso_hd_found_delim(line, delim->str))
 			break ;
 		temp = miso_hd_check_expansion(miso, delim, line);
