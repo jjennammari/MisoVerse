@@ -75,7 +75,8 @@ char	*miso_tokenize_dquotes(t_shell *miso, char *res, char *line, int *pi);
 void	miso_tokenize_redirections(t_shell *miso, char *str, int *pi);
 char	*miso_tokenize_words(t_shell *miso, char *res, char *line, int *pi);
 void	miso_build_token_list(t_shell *miso, char *str, t_token_type type);
-void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str, t_token_type type);
+void	miso_init_newnode(t_shell *miso, t_token *new_node,
+		char *str, t_token_type type);
 
 /* miso_tokenize_utils_beta.c */
 int	miso_skip_whitespaces(char *line);
