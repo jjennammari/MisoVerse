@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 13:25:13 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/18 17:55:31 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/19 19:28:56 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	miso_cd(t_shell *miso, char **argv)
 	char	**og_envp;
 
 	arc = 0;
+	if (argv[1] && !(*argv[1]))
+		return (0);
 	while (argv[arc])
 		arc++;
 	og_envp = miso->envp;

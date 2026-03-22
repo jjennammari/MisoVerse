@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:41:47 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/18 18:51:22 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/19 18:28:43 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	miso_call_program(t_shell *miso, char **cmd, t_token *head)
 		miso_free_matrix(cmd);
 		exit(0);
 	}
-	perror(BLOD"PROMPT"RSET);
+	perror(BLOD PROMPT RSET);
 	miso_free_matrix(cmd);
 	exit(exit_code);
 }
@@ -101,7 +101,7 @@ int	miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **))
 	std_cpy[1] = dup(1);
 	if (std_cpy[0] == -1 || std_cpy[1] == -1)
 	{
-		perror(BLOD"PROMPT"RSET);
+		perror(BLOD PROMPT RSET);
 		return (1);
 	}
 	miso_channeling(0, h, NULL, -1);

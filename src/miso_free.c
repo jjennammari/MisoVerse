@@ -6,14 +6,14 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:00 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/18 14:03:30 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/19 12:23:02 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
-void	miso_fdshutdown(void);
-void	miso_reset(t_shell *miso, int *idle);
+void    miso_fdshutdown(void);
+void	miso_reset(t_shell *miso);
 void	free_token_list(t_shell *miso);
 void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status);
 int		miso_delete_node(t_token **node);
@@ -36,12 +36,8 @@ void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status)
 	return ;
 }
 
-void	miso_reset(t_shell *miso, int *idle)
+void	miso_reset(t_shell *miso)
 {
-	if (!(*idle))
-		*idle = 1;
-	else if (*idle && g_signal == 130)
-		miso->exit_code = 130;
 	if (miso->prompt && *(miso->prompt))
 	{
 		free(miso->prompt);
@@ -57,7 +53,6 @@ void	miso_reset(t_shell *miso, int *idle)
 	miso->node->str = NULL;
 	miso->node->next = NULL;
 	miso->node->quotes = 0;
-	g_signal = 0;
 	miso_init_daddy_signals();
 	return ;
 }
