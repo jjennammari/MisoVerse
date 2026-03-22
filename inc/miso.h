@@ -88,6 +88,7 @@ char	*miso_add_str_str(t_shell *miso, char *s1, char *s2);
 /* miso_parse.c */
 int	miso_parse(t_shell *miso);
 int	miso_search_cmd(t_shell *miso, t_token *node);
+int	miso_parse_not_pipe(t_shell *miso, t_token *node);
 int	miso_parse_redirections(t_shell *miso, t_token *node);
 int	miso_parse_pipe(t_shell *miso, t_token *node);
 

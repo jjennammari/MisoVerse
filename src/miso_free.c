@@ -12,7 +12,7 @@
 
 #include "../inc/miso.h"
 
-void    miso_fdshutdown(void);
+void	miso_fdshutdown(void);
 void	miso_reset(t_shell *miso, int *idle);
 void	free_token_list(t_shell *miso);
 void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status);

@@ -12,12 +12,12 @@
 
 #include "../../inc/miso.h"
 
-int		miso_hd_handle_signals(struct sigaction *old_int,
-		struct sigaction *old_quit);
+int			miso_hd_handle_signals(struct sigaction *old_int,
+				struct sigaction *old_quit);
 static void	miso_hd_sigint(int sig);
-int		miso_hd_restore_signals(struct sigaction *old_int,
-		struct sigaction *old_quit);
-void	miso_hd_unlink(t_shell *miso, int mes);
+int			miso_hd_restore_signals(struct sigaction *old_int,
+				struct sigaction *old_quit);
+void		miso_hd_unlink(t_shell *miso, int mes);
 
 int	miso_hd_handle_signals(struct sigaction *old_int,
 		struct sigaction *old_quit)
