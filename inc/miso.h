@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/22 23:17:55 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/23 00:07:28 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ char	*miso_sub_add_str(t_shell *miso, char *s1, char *s2, int *pi);
 
 /* miso_heredoc.c */
 int		miso_heredoc(t_shell *miso);
-int		miso_get_heredoc(t_shell *miso, t_token *hd, int file_nb);
+int		miso_get_heredoc(t_shell *miso, t_token *hd);
 int		miso_hd_collect(t_shell *miso, t_token *delim, int fd);
 int		miso_hd_write(char *line, int fd);
 char	*miso_hd_expand(t_shell *miso, char *line);
