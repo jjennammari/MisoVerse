@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:35:38 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/19 19:48:11 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/23 00:24:49 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,13 @@ int	miso_argv(t_shell *miso, t_token *head, char ***cmd)
 		return (path_set);
 	while (trav && trav->type != PIPE)
 	{
+		if (trav->type == RD_IN || trav->type == RD_OUT || trav->type == APPEND
+			|| trav->type == HEREDOC)
+			trav = trav->next->next;
 		if (trav->type == ARG)
 			argc++;
-		trav = trav->next;
+		if (trav)
+			trav = trav->next;
 	}
 	*cmd = ft_calloc(argc + 1, sizeof(char *));
 	miso_checknfree2d(miso, *cmd, NULL, NULL);
