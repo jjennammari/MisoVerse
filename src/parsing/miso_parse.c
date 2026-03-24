@@ -14,7 +14,6 @@
 
 int		miso_parse(t_shell *miso);
 int		miso_search_cmd(t_shell *miso, t_token *node);
-int		miso_parse_not_pipe(t_shell *miso, t_token *node);
 int		miso_parse_redirections(t_shell *miso, t_token *node);
 int		miso_parse_pipe(t_shell *miso, t_token *node);
 
@@ -29,15 +28,14 @@ int	miso_parse(t_shell *miso)
 			return (1);
 		while (temp && temp->type != PIPE)
 		{
-			if (miso_parse_not_pipe(miso, temp))
+			if (miso_parse_redirections(miso, temp))
+				return (1);
+			else if (miso_parse_quotes(temp))
 				return (1);
 			temp = temp->next;
 		}
-		if (temp == NULL && miso->list.cmd_found == 1)
+		if (temp == NULL)
 			break ;
-		else if (temp == NULL && miso->list.cmd_found == 0)
-			return ((racc_print(2, BLOD PROMPT MINT
-						" Syntax error: command not found\n")), 1);
 		if (temp->type == PIPE)
 			if (miso_parse_pipe(miso, temp))
 				return (1);
@@ -64,15 +62,6 @@ int	miso_search_cmd(t_shell *miso, t_token *node)
 		miso_set_commandtype(node);
 		miso->list.cmd_found = 1;
 	}
-	return (0);
-}
-
-int	miso_parse_not_pipe(t_shell *miso, t_token *node)
-{
-	if (miso_parse_redirections(miso, node))
-		return (1);
-	else if (miso_parse_quotes(node))
-		return (1);
 	return (0);
 }
 
@@ -103,7 +92,7 @@ int	miso_parse_pipe(t_shell *miso, t_token *node)
 {
 	if (miso->list.cmd_found == 0)
 	{
-		racc_print(2, BLOD PROMPT MINT" Syntax error: command not found\n");
+		racc_print(2, BLOD PROMPT MINT" Syntax error near pipe\n");
 		return (1);
 	}
 	else if (miso->list.head->type == PIPE
