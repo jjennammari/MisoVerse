@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/23 13:58:18 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/03/23 16:26:05 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -191,7 +191,7 @@ open:
 	find . -maxdepth 2 -name "*.h" -exec xdg-open {} \;
 	@printf "$(RSET)"
 
-leaks: $(NAME) $(SUPRS) | valgrind_env
+leaks: $(NAME) $(SUPRS) | valgrind_env 
 	@printf "\n$(PINK)valgrind $(ORNG)$(VLGR_FLAGS) $(LIME)--suppressions=$(BABY)$(SUPRS) $(MINT)./$(NAME)"
 	@printf "$(RSET)\n\n"
 	@sleep 0.3
@@ -326,7 +326,7 @@ valgrind_env:
 	@printf "%s\n" ''>> valgrind_env.sh
 	@printf "%s\n" 'unset MAKEFLAGS MAKELEVEL MAKE_TERMERR MAKE_TERMOUT MFLAGS'>> valgrind_env.sh
 	@printf "%s\n" 'export SHLVL=1'>> valgrind_env.sh
-	@printf "%s\n" 'valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=obj/.valgrind_suppressions.txt ./minishell'>> valgrind_env.sh
+	@printf "%s\n" 'valgrind $(VLGR_FLAGS) --suppressions=$(SUPRS) ./$(NAME)'>> valgrind_env.sh
 	@chmod 777 valgrind_env.sh
 
 .PHONY: all clean fclean re bonus open env_clear valgrind_env.sh normloop call_empty_envp_minishell call_empty_envp_bash
