@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/25 18:17:56 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/03/25 23:12:48 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -174,6 +174,7 @@ fclean: clean
 	@sleep 0.3
 	@printf "$(PURP)"
 	rm -f $(NAME)
+	@rm -f miso_tester.sh
 	@printf "$(MINT)"
 	@sleep 0.3
 	@ls -la
