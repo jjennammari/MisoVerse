@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:35:38 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/23 11:34:28 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/26 18:38:21 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char		*miso_pathmatch(char **dirs, char *temp_filename);
 int			miso_argv(t_shell *miso, t_token *head, char ***cmd);
 static int	miso_pathfinder(t_shell *miso, char **c, int *p_set);
-void		miso_customs(char *program, int doesnt_exist, int *p_set);
+void		miso_customs(char **program, int *p_set);
 static int	miso_populate(t_shell *m, char **argv, int argc, t_token *head);
 
 int	miso_argv(t_shell *miso, t_token *head, char ***cmd)
@@ -57,7 +57,7 @@ static int	miso_pathfinder(t_shell *miso, char **c, int *p_set)
 	char	*path;
 
 	if (ft_strchr(*c, '/'))
-		return (miso_customs(*c, access(*c, F_OK), p_set), *p_set);
+		return (miso_customs(c, p_set), *p_set);
 	path = miso_getenv("PATH=", miso->envp);
 	if (!path || !(*path) || !(*c) || !(*(*c)))
 	{
@@ -146,27 +146,34 @@ execve(). It assumes that there is only one comand of either type SYS_CMD
 or BLT_CMD, and that the conditions are optimally configured so all 
 arguments come after the comand. */
 
-void	miso_customs(char *program, int doesnt_exist, int *p_set)
+void	miso_customs(char **cmd, int *p_set)
 {
 	t_stat	metadata;
 
-	if (doesnt_exist)
+	if (stat(*cmd, &metadata) == -1)
 	{
-		perror(BLOD PROMPT RSET);
-		free(program);
-		*p_set = 127;
-	}
-	else if (stat(program, &metadata) == -1)
-	{
-		perror(BLOD PROMPT RSET);
-		free(program);
-		*p_set = 126;
+		racc_print(2, BLOD PROMPT RSET": "ORNG"%s", *cmd);
+		perror(RSET);
+		if (errno == ENOENT)
+			*p_set = 127;
+		else
+			*p_set = 126;
 	}
 	else if (S_ISDIR(metadata.st_mode))
 	{
-		racc_print(2, BLOD PROMPT": "MINT"%s"RSET": Is a directory\n", program);
+		racc_print(2, BLOD PROMPT": "ORNG"%s"RSET": Is a directory\n", *cmd);
 		*p_set = 126;
 	}
+	else if (access(*cmd, X_OK) == -1)
+	{
+		racc_print(2, BLOD PROMPT RSET": "ORNG"%s", *cmd);
+		perror(RSET);
+		*p_set = 126;
+	}
+	if (*p_set != 126 && *p_set != 127)
+		return ;
+	free(*cmd);
+	*cmd = NULL;
 	return ;
 }
 /* It checks the metadata found by stat, to check if the path goes to a

@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:00 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/19 12:23:02 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/26 18:13:10 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	free_token_list(t_shell *miso)
 	{
 		delete = miso->list.head;
 		miso->list.head = miso->list.head->next;
-		free(delete->str);
+		if (delete->str)
+			free(delete->str);
 		free(delete);
 	}
 	miso->list.head = NULL;
