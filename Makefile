@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/25 23:12:48 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/03/26 18:57:49 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -199,7 +199,7 @@ leaks: $(NAME) $(SUPRS) | valgrind_env
 	@./valgrind_env.sh
 	@rm valgrind_env.sh
 
-$(SUPRS):
+$(SUPRS): $(OBJ_DIR)
 	@printf "$(NEOR) Building obj/.valgrind_suppressions.txt... $(RESET)"
 	@sleep 0.5
 	@printf "$(MINT)🦝\n\n"
@@ -310,7 +310,7 @@ normloop:
 	@chmod 777 normloop.sh
 	@printf "$(RESET)🦝"
 
-valgrind_env:
+valgrind_env: $(NAME) $(SUPRS)
 	@> valgrind_env.sh
 	@printf "%s\n" '#!/bin/bash'>> valgrind_env.sh
 	@printf "%s\n" '# **************************************************************************** #'>> valgrind_env.sh
@@ -330,9 +330,20 @@ valgrind_env:
 	@printf "%s\n" 'valgrind $(VLGR_FLAGS) --suppressions=$(SUPRS) ./$(NAME)'>> valgrind_env.sh
 	@chmod 777 valgrind_env.sh
 
-miso_tester:
+miso_tester: $(NAME) $(SUPRS)
 	@printf "$(NEOR) Building miso_tester.sh... $(RESET)"
 	@printf "$(MINT)🦝\n\n"
+	@printf "$(BABY)'# ************************************************************************ #'\n"
+	@printf "$(BABY)'#                                                                          #'\n"
+	@printf "$(BABY)'#                                                       :::      ::::::::  #'\n"
+	@printf "$(BABY)'#  miso_tester.txt                                    :+:      :+:    :+:  #'\n"
+	@printf "$(BABY)'#                                                   +:+ +:+         +:+    #'\n"
+	@printf "$(BABY)'#  By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+       #'\n"
+	@printf "$(BABY)'#                                               +#+#+#+#+#+   +#+          #'\n"
+	@printf "$(BABY)'#  Created: 2026/03/23 20:04:01 by lde-san-          #+#    #+#            #'\n"
+	@printf "$(BABY)'#  Updated: 2026/03/23 20:04:01 by lde-san-         ###   ########.fr      #'\n"
+	@printf "$(BABY)'#                                                                          #'\n"
+	@printf "$(BABY)'# ************************************************************************ #'\n"
 	@> miso_tester.sh
 	@printf "%s\n" '#!/bin/bash'>> miso_tester.sh
 	@printf "%s\n" '# **************************************************************************** #'>> miso_tester.sh
@@ -424,7 +435,7 @@ miso_tester:
 	@printf "%s\n" '    '\"'/bin/ls -l'\"''>> miso_tester.sh
 	@printf "%s\n" '    '\"'/bin/ls lacresta'\"''>> miso_tester.sh
 	@printf "%s\n" '    '\"''\\'$$PWD'\"''>> miso_tester.sh
-	@printf "%s\n" '    '\"'cat /bin/ls | head -n 20'\\''\\'n'\\''\\'n'\"''>> miso_tester.sh
+	@printf "%s\n" '    '\"'cat /bin/ls | head -n 2'\\''\\'n'\\''\\'n'\"''>> miso_tester.sh
 	@printf "%s\n" '    '\"'/bin/ls | wc'\"''>> miso_tester.sh
 	@printf "%s\n" '    '\"'ping -c 2 8.8.8.8'\"''>> miso_tester.sh
 	@printf "%s\n" ''\"'    '\"''\"'                           '>> miso_tester.sh

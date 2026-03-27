@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:45:54 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/14 18:09:41 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/26 18:08:14 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	miso_path_err(t_shell *miso, char **dirs, char **cmd, int *p_set)
 		return (1);
 	}
 	free(temp);
-	miso_customs(path_name, access(path_name, F_OK), p_set);
+	miso_customs(&path_name, p_set);
 	if (*p_set)
 		return (1);
 	old_str = *cmd;

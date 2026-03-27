@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/23 00:07:28 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/26 18:10:42 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ char	*miso_convert_char_as_str(t_shell *miso, char c);
 char	*miso_add_str_str(t_shell *miso, char *s1, char *s2);
 
 /* miso_parse.c */
-int	miso_parse(t_shell *miso);
-int	miso_search_cmd(t_shell *miso, t_token *node);
-int	miso_parse_redirections(t_shell *miso, t_token *node);
-int	miso_parse_pipe(t_shell *miso, t_token *node);
+int		miso_parse(t_shell *miso);
+int		miso_search_cmd(t_shell *miso, t_token *node);
+int		miso_parse_redirections(t_shell *miso, t_token *node);
+int		miso_parse_pipe(t_shell *miso, t_token *node);
 
 /* miso_parse_quotes.c */
 int		miso_parse_quotes(t_token *node);
@@ -144,8 +144,8 @@ char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line);
 void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
 
 /* miso_heredoc_signals.c */
-int	miso_hd_handle_signals(struct sigaction *old_int, struct sigaction *old_quit);
-int	miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_quit);
+int		miso_hd_handle_signals(struct sigaction *old_int, struct sigaction *old_quit);
+int		miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_quit);
 void	miso_hd_unlink(t_shell *miso, int mes);
 
 /* miso_free.c */
@@ -168,7 +168,7 @@ int		miso_launch(t_shell *miso, t_token *head);
 //	 -- -- #	miso_pathfinder.c
 char	*miso_pathmatch(char **dirs, char *temp_filename);
 int		miso_argv(t_shell *miso, t_token *head, char ***cmd);
-void	miso_customs(char *program, int doesnt_exist, int *p_set);
+void	miso_customs(char **program, int *p_set);
 
 //	 -- -- #	miso_redirection_child.c
 void	miso_channeling(int prev_read, t_token *head, int *p, int p_num);
