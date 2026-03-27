@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/26 18:57:49 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/03/27 17:40:05 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ FILE += misoverse_loop.c
 FILE += miso_pathfinder.c
 FILE += miso_redirection_dad.c
 FILE += miso_redirection_kid.c
+FILE += miso_redirection_utils.c
 FILE += miso_exec_utils_beta.c
 FILE += miso_exec_utils_alpha.c
 FILE += miso_exec_utils_charlie.c

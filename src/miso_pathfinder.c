@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:35:38 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/26 18:38:21 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/27 16:33:33 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ int	miso_argv(t_shell *miso, t_token *head, char ***cmd)
 		return (path_set);
 	while (trav && trav->type != PIPE)
 	{
-		if (trav->type == RD_IN || trav->type == RD_OUT || trav->type == APPEND
-			|| trav->type == HEREDOC)
+		if (trav->type == RD_IN || trav->type == RD_OUT || trav->type == APPEND)
 			trav = trav->next->next;
 		if (trav && trav->type == ARG)
 			argc++;
@@ -116,26 +115,24 @@ it doesn't find it, assuming that the command passed is not built-in */
 
 static int	miso_populate(t_shell *m, char **argv, int argc, t_token *head)
 {
-	t_token	*trav;
+	t_token	*t;
 	int		guide;
 
 	argv[argc] = NULL;
-	trav = head;
+	t = head;
 	guide = 0;
-	while (guide < argc && trav && trav->type != PIPE)
+	while (guide < argc && t && t->type != PIPE)
 	{
-		if (trav->type == RD_IN || trav->type == RD_OUT || trav->type == APPEND
-			|| trav->type == HEREDOC)
-			trav = trav->next->next;
-		if (trav && (trav->type == SYS_CMD || trav->type == BLT_CMD
-			|| trav->type == ARG))
+		if (t->type == RD_IN || t->type == RD_OUT || t->type == APPEND)
+			t = t->next->next;
+		if (t && (t->type == SYS_CMD || t->type == BLT_CMD || t->type == ARG))
 		{
-			argv[guide] = ft_strdup(trav->str);
+			argv[guide] = ft_strdup(t->str);
 			miso_checknfree1d(m, argv[guide], NULL, argv);
 			guide++;
 		}
-		if (trav)
-			trav = trav->next;
+		if (t)
+			t = t->next;
 	}
 	return (0);
 }

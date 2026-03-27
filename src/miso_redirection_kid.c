@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:17:12 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/22 21:59:02 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/27 17:46:34 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static int	miso_scan_redin(t_token *head, int *fd)
 			if (*fd == -1)
 			{
 				perror(BLOD PROMPT RSET);
-				exit(126);
+				exit(1);
 			}
 		}
 		head = head->next;
@@ -139,7 +139,7 @@ static int	miso_scan_redout(t_token *lst, int *fd)
 			if (*fd == -1)
 			{
 				perror(BLOD PROMPT RSET);
-				exit(126);
+				exit(1);
 			}
 		}
 		lst = lst->next;

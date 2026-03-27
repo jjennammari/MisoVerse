@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:28:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/22 21:58:55 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/27 17:43:08 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static int	miso_single_exec(t_shell *miso, t_token *head)
 	int		(*built_in)(t_shell *, char **);
 
 	child = 0;
+	if (miso_no_comands(head))
+		return(miso_just_redirect(head));
 	exit_code = 127 + miso_argv(miso, head, &cmd);
 	if (exit_code != 127)
 		return (exit_code - 127);
@@ -86,6 +88,8 @@ static pid_t	miso_multi_exec(t_shell *miso, t_token *head, int p_num)
 		if (last_child == 0)
 		{
 			miso_setup_child_signals();
+			if (miso_no_comands(head))
+				misoverse_free_exit(miso, 0, miso_just_redirect(head));
 			if (p_num - 1 != 0)
 				miso_channeling(prev_read, head, p, p_num);
 			else
