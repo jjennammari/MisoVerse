@@ -31,6 +31,7 @@ typedef struct s_token
 {
 	bool			expand;
 	bool			quotes;
+	bool			valid_delim;
 	char			*str;
 	struct s_token	*next;
 	t_token_type	type;

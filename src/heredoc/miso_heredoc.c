@@ -48,6 +48,7 @@ int	miso_get_heredoc(t_shell *miso, t_token *hd)
 	if (miso_hd_handle_signals(&old_int, &old_quit))
 		return (1);
 	delim = hd->next;
+	miso_hd_validate_delim(miso, delim);
 	file = miso_hd_get_filename(miso->hd_files);
 	if (!file)
 		return (1);

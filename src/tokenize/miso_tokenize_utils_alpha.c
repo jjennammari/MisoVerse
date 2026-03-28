@@ -102,6 +102,9 @@ void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str,\
 		new_node->quotes = 1;
 	if (miso->node->expand == 1)
 		new_node->expand = 1;
+	if (miso->node->valid_delim == 1)
+		new_node->valid_delim = 1;
 	miso->node->expand = 0;
 	miso->node->quotes = 0;
+	miso->node->valid_delim = 0;
 }

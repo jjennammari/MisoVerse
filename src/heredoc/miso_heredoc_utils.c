@@ -15,6 +15,7 @@
 char	*miso_hd_get_filename(int file_nb);
 int		miso_hd_open_file(char *file, int *fd);
 int		miso_hd_found_delim(char *line, char *delim);
+void	miso_hd_validate_delim(t_shell *miso, t_token *node);
 char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line);
 void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
 
@@ -53,6 +54,21 @@ int	miso_hd_found_delim(char *line, char *delim)
 	if (ft_strncmp(line, delim, len) == 0)
 		return (1);
 	return (0);
+}
+
+void	miso_hd_validate_delim(t_shell *miso, t_token *node)
+{
+	char	*old;
+	char	*new;
+
+	if (node->valid_delim == 0)
+		return ;
+	old = node->str;
+	new = ft_strdup(&old[1]);
+	if (!new)
+		misoverse_free_exit(miso, 1, 2);
+	free(old);
+	node->str = new;
 }
 
 char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line)
