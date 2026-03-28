@@ -15,7 +15,6 @@
 int		miso_waitroom(pid_t child, int *exit_status);
 void	miso_call_program(t_shell *miso, char **cmd);
 int		(*miso_get_builtin(char *cmd))(t_shell *miso, char **cmd);
-int		miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **));
 
 void	miso_call_program(t_shell *miso, char **cmd)
 {
@@ -90,35 +89,3 @@ int	(*miso_get_builtin(char *cmd))(t_shell *miso, char **cmd)
 if the command being called is one of the built-in functions. It will 
 return a pointer to said function, or NULL if is not one of the listed 
 commands. */
-
-int	miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **))
-{
-	int	exit_code;
-	int	std_cpy[2];
-
-	exit_code = 127;
-	std_cpy[0] = dup(0);
-	std_cpy[1] = dup(1);
-	if (std_cpy[0] == -1 || std_cpy[1] == -1)
-	{
-		perror(BLOD PROMPT RSET);
-		return (1);
-	}
-	exit_code = miso_set_channel_dad(h);
-	if (f && !exit_code)
-		exit_code = f(m, c);
-	else if (!f)
-		exit_code = 127;
-	dup2(std_cpy[0], 0);
-	dup2(std_cpy[1], 1);
-	close(std_cpy[0]);
-	close(std_cpy[1]);
-	miso_free_matrix(c);
-	return (exit_code);
-}
-/* Creates a copy of the stdin and stdout, in order to be able to reestablish
-them after execution when there're redirections in the command. The function
-is meant to be used in the parent process, so it will return  an exit code 
-instead of using exit(). It executes the built-in function passed, and it will
-return its exit code, 1 on dup error, or 127 if the pointer to function comes
-NULL. */

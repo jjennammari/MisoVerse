@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:17:12 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/27 17:46:34 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/28 09:09:40 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,9 @@ static int	miso_scan_redin(t_token *head, int *fd)
 			*fd = open(head->next->str, O_RDONLY);
 			if (*fd == -1)
 			{
-				perror(BLOD PROMPT RSET);
+				write(2, ORNG, ft_strlen(ORNG));
+				write(2, head->next->str, ft_strlen(head->next->str));
+				perror(RSET": "BLOD PROMPT RSET);
 				exit(1);
 			}
 		}
@@ -138,7 +140,9 @@ static int	miso_scan_redout(t_token *lst, int *fd)
 				*fd = open(lst->next->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (*fd == -1)
 			{
-				perror(BLOD PROMPT RSET);
+				write(2, ORNG, ft_strlen(ORNG));
+				write(2, lst->next->str, ft_strlen(lst->next->str));
+				perror(RSET": "BLOD PROMPT RSET);
 				exit(1);
 			}
 		}

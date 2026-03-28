@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/27 17:42:10 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/28 14:47:46 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,6 @@ void	miso_setup_running_signals(void);
 int		miso_waitroom(pid_t child, int *exit_status);
 void	miso_call_program(t_shell *miso, char **cmd);
 int		(*miso_get_builtin(char *cmd))(t_shell *miso, char **cmd);
-int		miso_rn(t_shell *m, char **c, t_token *h, int (*f)(t_shell *, char **));
 
 //	 -- -- #	miso_exec_utils_beta.c
 int		miso_seg_count(t_token *head);
@@ -236,6 +235,7 @@ int		miso_exp_addorupdate(t_shell *m, char ***env, char *key, char *var);
 
 //   -- -- #    miso_export_utils_charlie.c
 void	miso_rectify_exp(t_shell *miso);
+int		miso_keycmp(char *s1, char *s2);
 
 //    -- -- #	Built in Functions: miso_(builtin).c
 int		miso_cd(t_shell *miso, char **argv);

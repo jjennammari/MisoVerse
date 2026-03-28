@@ -6,15 +6,16 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:28:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/27 17:43:08 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/28 14:57:28 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
 int				miso_launch(t_shell *miso, t_token *head);
-static int		miso_single_exec(t_shell *miso, t_token *head);
+static int		miso_single_exec(t_shell *miso, char **cmd);
 static pid_t	miso_multi_exec(t_shell *miso, t_token *head, int p_num);
+static int		miso_rn(t_shell *miso, t_token *head);
 
 int	miso_launch(t_shell *miso, t_token *head)
 {
@@ -30,7 +31,7 @@ int	miso_launch(t_shell *miso, t_token *head)
 	if (seg_num > 1)
 		last_child = miso_multi_exec(miso, head, seg_num);
 	else
-		return (miso_single_exec(miso, head));
+		return (miso_rn(miso, head));
 	return (miso_waitroom(last_child, &exit_status));
 }
 /* Counts the number of command segments to call the corresponding execution
@@ -38,19 +39,40 @@ function. If necessary, it waitpid()s for the PID the miso_multiexec function
 returns. To hold on to the exit status of the last child, and processing it,
 to return the last exit code once all processes have ended. */
 
-static int	miso_single_exec(t_shell *miso, t_token *head)
+static int miso_rn(t_shell *miso, t_token *head)
 {
-	pid_t	child;
-	char	**cmd;
-	int		exit_code;
-	int		(*built_in)(t_shell *, char **);
+	char    **cmd;
+	int exit_code;
+	int std_cpy[2];
+
+	cmd = NULL;
+	std_cpy[0] = dup(0);
+	std_cpy[1] = dup(1);
+	if (std_cpy[0] == -1 || std_cpy[1] == -1)
+		return (perror(BLOD PROMPT RSET), 1);
+	exit_code = miso_set_channel_dad(head);
+	if (exit_code == 0 && !miso_no_comands(head))
+	{
+		exit_code = miso_argv(miso, head, &cmd);
+		if (exit_code == 0)
+			exit_code = miso_single_exec(miso, cmd);
+	}
+	dup2(std_cpy[0], 0);
+	dup2(std_cpy[1], 1);
+	close(std_cpy[0]);
+	close(std_cpy[1]);
+	if (cmd)
+		miso_free_matrix(cmd);
+	return (exit_code);
+}
+
+static int	miso_single_exec(t_shell *miso, char **cmd)
+{
+	int     (*built_in)(t_shell *, char **);
+	pid_t   child;
+	int		exit_status;
 
 	child = 0;
-	if (miso_no_comands(head))
-		return(miso_just_redirect(head));
-	exit_code = 127 + miso_argv(miso, head, &cmd);
-	if (exit_code != 127)
-		return (exit_code - 127);
 	built_in = miso_get_builtin(cmd[0]);
 	if (!built_in)
 	{
@@ -58,19 +80,13 @@ static int	miso_single_exec(t_shell *miso, t_token *head)
 		if (child == 0)
 		{
 			miso_setup_child_signals();
-			miso_channeling(0, head, NULL, -1);
 			miso_call_program(miso, cmd);
+			return (127);
 		}
+		return (miso_waitroom(child, &exit_status));
 	}
-	else
-		exit_code = miso_rn(miso, cmd, head, built_in);
-	if (child > 0)
-		return (miso_waitroom(child, &exit_code));
-	return (exit_code);
+	return (built_in(miso, cmd));
 }
-/* It executes a singular command segment, ensuring that child processes
-are created only when estrictly necessary. It returns the PID of the child
-it created, or 0 if it called a built-in.*/
 
 static pid_t	miso_multi_exec(t_shell *miso, t_token *head, int p_num)
 {

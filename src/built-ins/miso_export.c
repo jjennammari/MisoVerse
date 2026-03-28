@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 21:08:32 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/24 17:51:38 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/28 08:41:56 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,8 @@ static int	miso_exparse(char *arg)
 		print_error = 1;
 	if (print_error)
 	{
-		racc_print(2, BLOD"PROMPT "MINT"export: "ORNG"`%s\':", arg);
-		racc_print(2, RSET" not a valid identifier\n");
+		racc_print(2, BLOD PROMPT RSET":"MINT" export"RSET);
+		racc_print(2, ":"ORNG" `%s\'"RSET": not a valid identifier\n", arg);
 		return (1);
 	}
 	return (0);
