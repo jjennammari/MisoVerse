@@ -121,6 +121,7 @@ void	miso_remove_extra_quotes(t_shell *miso);
 char	*miso_remove_quotes(t_shell *miso, char *str);
 char	*miso_del_squotes(t_shell *miso, char *res, char *str, int *pi);
 char	*miso_del_dquotes(t_shell *miso, char *res, char *str, int *pi);
+char	*miso_check_only_dollarsign(t_shell *miso, char *res);
 
 /* miso_expand_utils.c */
 int		miso_expand_node(t_shell *miso, t_token *node);

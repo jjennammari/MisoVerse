@@ -49,6 +49,7 @@ char	*miso_exp_with_quotes(t_shell *miso, t_token *node, char *str)
 		res = miso_add_char_str(miso, res, str[i]);
 		i++;
 	}
+	res = miso_check_only_dollarsign(miso, res);
 	return (res);
 }
 

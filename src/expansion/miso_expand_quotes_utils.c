@@ -16,6 +16,7 @@ void	miso_remove_extra_quotes(t_shell *miso);
 char	*miso_remove_quotes(t_shell *miso, char *str);
 char	*miso_del_squotes(t_shell *miso, char *res, char *str, int *pi);
 char	*miso_del_dquotes(t_shell *miso, char *res, char *str, int *pi);
+char	*miso_check_only_dollarsign(t_shell *miso, char *res);
 
 void	miso_remove_extra_quotes(t_shell *miso)
 {
@@ -97,4 +98,22 @@ char	*miso_del_dquotes(t_shell *miso, char *res, char *str, int *pi)
 	res = miso_add_str_str(miso, res, temp);
 	free(temp);
 	return (res);
+}
+
+char	*miso_check_only_dollarsign(t_shell *miso, char *res)
+{
+	char	*new;
+	int		i;
+
+	i = 0;
+	while (res[i])
+		i++;
+	if (i == 1 || res[0] == '$')
+		free(res);
+	else
+		return (res);
+	new = ft_strdup("");
+	if (!new)
+		misoverse_free_exit(miso, 1, 2);
+	return (new);
 }

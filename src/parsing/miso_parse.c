@@ -48,6 +48,7 @@ int	miso_parse(t_shell *miso)
 int	miso_search_cmd(t_shell *miso, t_token *node)
 {
 	char	*new;
+	int		i;
 
 	if (node->type == ARG)
 	{
@@ -56,7 +57,9 @@ int	miso_search_cmd(t_shell *miso, t_token *node)
 			if (miso_parse_quotes(node))
 				return (1);
 			new = miso_remove_quotes(miso, node->str);
-			node->quotes = 0;
+			i = 0;
+			if (new[i] != '\0')
+				node->quotes = 0;
 			free(node->str);
 			node->str = new;
 		}
