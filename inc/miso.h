@@ -89,7 +89,7 @@ char	*miso_add_str_str(t_shell *miso, char *s1, char *s2);
 int		miso_parse(t_shell *miso);
 int		miso_search_cmd(t_shell *miso, t_token *node);
 int		miso_parse_redirections(t_shell *miso, t_token *node);
-int		miso_parse_pipe(t_shell *miso, t_token *node);
+int		miso_parse_pipe(t_shell *miso, t_token *node);//TODO: delete commented part if works well
 
 /* miso_parse_quotes.c */
 int		miso_parse_quotes(t_token *node);
@@ -100,6 +100,7 @@ int		miso_is_dquote(char c);
 /* miso_parse_utils.c */
 void	miso_set_commandtype(t_token *node);
 int		miso_is_builtin(char *arg);
+int		miso_is_command(t_token_type type);
 int		miso_is_redirection(t_token_type type);
 
 /* miso_expand.c */

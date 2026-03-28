@@ -93,8 +93,17 @@ int	miso_hd_collect(t_shell *miso, t_token *delim, int fd)
 
 int	miso_hd_write(char *line, int fd)
 {
-	if (write(fd, line, ft_strlen(line)) == -1)
-		return (1);
+	int	ret;
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		ret = write(fd, &line[i], 1);
+		if (ret == -1)
+			return (1);
+		i++;
+	}
 	if (write(fd, "\n", 1) == -1)
 		return (1);
 	return (0);

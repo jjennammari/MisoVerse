@@ -14,6 +14,7 @@
 
 void	miso_set_commandtype(t_token *node);
 int		miso_is_builtin(char *arg);
+int		miso_is_command(t_token_type type);
 int		miso_is_redirection(t_token_type type);
 
 void	miso_set_commandtype(t_token *node)
@@ -44,6 +45,13 @@ int	miso_is_builtin(char *arg)
 	if (len == 6 && !ft_strncmp("export", arg, len))
 		return (1);
 	if (len == 7 && !ft_strncmp("context", arg, len))
+		return (1);
+	return (0);
+}
+
+int	miso_is_command(t_token_type type)
+{
+	if (type == BLT_CMD || type == SYS_CMD)
 		return (1);
 	return (0);
 }

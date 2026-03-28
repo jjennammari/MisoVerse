@@ -31,7 +31,7 @@ int	miso_parse(t_shell *miso)
 			if (miso_parse_redirections(miso, temp))
 				return (1);
 			else if (miso_parse_quotes(temp))
-				return (1);
+				return ((miso->exit_code = 2), 1);
 			temp = temp->next;
 		}
 		if (temp == NULL)
@@ -56,6 +56,7 @@ int	miso_search_cmd(t_shell *miso, t_token *node)
 			if (miso_parse_quotes(node))
 				return (1);
 			new = miso_remove_quotes(miso, node->str);
+			node->quotes = 0;
 			free(node->str);
 			node->str = new;
 		}
@@ -74,7 +75,7 @@ int	miso_parse_redirections(t_shell *miso, t_token *node)
 	{
 		racc_print(2, BLOD PROMPT MINT
 			" Syntax error near redirection operator\n");
-		return (1);
+		return ((miso->exit_code = 2), 1);
 	}
 	if (node->type == HEREDOC)
 		node->next->expand = 0;
@@ -90,19 +91,22 @@ int	miso_parse_redirections(t_shell *miso, t_token *node)
 
 int	miso_parse_pipe(t_shell *miso, t_token *node)
 {
-	if (miso->list.cmd_found == 0)
+/*	if (miso->list.cmd_found == 0)
 	{
+		miso->exit_code = 2;
 		racc_print(2, BLOD PROMPT MINT" Syntax error near pipe\n");
 		return (1);
-	}
-	else if (miso->list.head->type == PIPE
+	}*/
+	if (miso->list.head->type == PIPE
 		|| miso->list.last_node->type == PIPE)
 	{
+		miso->exit_code = 2;
 		racc_print(2, BLOD PROMPT MINT" Syntax error near pipe\n");
 		return (1);
 	}
 	else if (node->type == PIPE && node->next->type == PIPE)
 	{
+		miso->exit_code = 2;
 		racc_print(2, BLOD PROMPT MINT" Syntax error near pipe\n");
 		return (1);
 	}
