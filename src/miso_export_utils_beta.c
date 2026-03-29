@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 21:35:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/12 23:26:27 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/28 10:52:05 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,15 @@ int	miso_export_sort(t_shell *miso, char **envp, int envp_c)
 {
 	char	*tiny;
 	int		guide;
-	int		tiny_len;
 
 	while (envp_c-- > 0)
 	{
 		guide = 0;
 		tiny = envp[guide];
-		tiny_len = ft_strlen(tiny);
 		while (envp[guide])
 		{
-			if (ft_strncmp(tiny, envp[guide], tiny_len + 1) > 0)
-			{
+			if (miso_keycmp(tiny, envp[guide]) > 0)
 				tiny = envp[guide];
-				tiny_len = ft_strlen(tiny);
-			}
 			guide++;
 		}
 		if (miso_printnfree(miso->exp, envp, tiny))

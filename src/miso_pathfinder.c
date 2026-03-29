@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:35:38 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/27 16:33:33 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/28 08:35:28 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ int	miso_argv(t_shell *miso, t_token *head, char ***cmd)
 	while (trav && trav->type != PIPE)
 	{
 		if (trav->type == RD_IN || trav->type == RD_OUT || trav->type == APPEND)
+		{
 			trav = trav->next->next;
+			continue ;
+		}
 		if (trav && trav->type == ARG)
 			argc++;
 		if (trav)
@@ -55,10 +58,10 @@ static int	miso_pathfinder(t_shell *miso, char **c, int *p_set)
 	char	**dirs;
 	char	*path;
 
-	if (ft_strchr(*c, '/'))
-		return (miso_customs(c, p_set), *p_set);
 	path = miso_getenv("PATH=", miso->envp);
-	if (!path || !(*path) || !(*c) || !(*(*c)))
+	if (ft_strchr(*c, '/') || !path || !(*path))
+		return (miso_customs(c, p_set), *p_set);
+	if (!(*c) || !(*(*c)))
 	{
 		*p_set = 127;
 		racc_print(2, BLOD PROMPT RSET": "MINT"%s"RSET, *c);
@@ -124,7 +127,10 @@ static int	miso_populate(t_shell *m, char **argv, int argc, t_token *head)
 	while (guide < argc && t && t->type != PIPE)
 	{
 		if (t->type == RD_IN || t->type == RD_OUT || t->type == APPEND)
+		{
 			t = t->next->next;
+			continue ;
+		}
 		if (t && (t->type == SYS_CMD || t->type == BLT_CMD || t->type == ARG))
 		{
 			argv[guide] = ft_strdup(t->str);
@@ -149,12 +155,12 @@ void	miso_customs(char **cmd, int *p_set)
 
 	if (stat(*cmd, &metadata) == -1)
 	{
-		racc_print(2, BLOD PROMPT RSET": "ORNG"%s", *cmd);
-		perror(RSET);
 		if (errno == ENOENT)
 			*p_set = 127;
 		else
 			*p_set = 126;
+		racc_print(2, BLOD PROMPT RSET": "ORNG"%s", *cmd);
+		perror(RSET);
 	}
 	else if (S_ISDIR(metadata.st_mode))
 	{

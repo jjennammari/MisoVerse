@@ -6,13 +6,14 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 12:39:25 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/19 18:15:02 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/28 10:49:58 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
 void		miso_rectify_exp(t_shell *miso);
+int			miso_keycmp(char *s1, char *s2);
 static int	miso_exp_assigned(t_shell *miso, int index);
 static int	miso_exp_unnassigned(t_shell *miso, int index);
 static int	miso_envp_unnassigned(t_shell *miso, int index);
@@ -98,4 +99,25 @@ static int	miso_exp_assigned(t_shell *miso, int index)
 	miso->exp[index] = neo;
 	free(temp);
 	return (0);
+}
+
+int miso_keycmp(char *s1, char *s2)
+{
+	size_t			guide;
+	unsigned char	diff1;
+	unsigned char	diff2;
+
+	guide = 0;
+	while (s1[guide] && s2[guide] && s1[guide] != '='
+		&& s2[guide] != '=' && (s1[guide] == s2[guide]))
+		guide++;
+	if (s1[guide] == '=')
+		diff1 = '\0';
+	else
+		diff1 = s1[guide];
+	if (s2[guide] == '=')
+		diff2 = '\0';
+	else
+		diff2 = s2[guide];
+	return (diff1 - diff2);
 }
