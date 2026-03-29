@@ -27,8 +27,8 @@ int	miso_tokenize(t_shell *miso, char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (miso->list.last_node && miso->list.last_node->type == HEREDOC &&
-				line[i] == '-')
+		if (miso->list.last_node && miso->list.last_node->type == HEREDOC
+			&& line[i] == '-')
 			miso->node->valid_delim = 1;
 		while (line[i] && miso_is_whitespace(line[i]))
 			i++;

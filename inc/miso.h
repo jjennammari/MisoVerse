@@ -77,6 +77,7 @@ char	*miso_tokenize_words(t_shell *miso, char *res, char *line, int *pi);
 void	miso_build_token_list(t_shell *miso, char *str, t_token_type type);
 void	miso_init_newnode(t_shell *miso, t_token *new_node,
 		char *str, t_token_type type);
+char	*miso_sub_add_str(t_shell *miso, char *s1, char *s2, int *pi);
 
 /* miso_tokenize_utils_beta.c */
 int		miso_skip_whitespaces(char *line);
@@ -145,11 +146,15 @@ int		miso_hd_collect(t_shell *miso, t_token *delim, int fd);
 int		miso_hd_write(char *line, int fd);
 char	*miso_hd_expand(t_shell *miso, char *line);
 
-/* miso_heredoc_utils.c */
+/* miso_heredoc_utils_alpha.c */
 char	*miso_hd_get_filename(int file_nb);
 int		miso_hd_open_file(char *file, int *fd);
 int		miso_hd_found_delim(char *line, char *delim);
 void	miso_hd_validate_delim(t_shell *miso, t_token *node);
+char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line);
+void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
+
+/* miso_heredoc_utils_alpha.c */
 char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line);
 void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
 

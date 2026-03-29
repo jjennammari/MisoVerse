@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miso_heredoc_utils.c                               :+:      :+:    :+:   */
+/*   miso_heredoc_utils_alpha.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -16,8 +16,6 @@ char	*miso_hd_get_filename(int file_nb);
 int		miso_hd_open_file(char *file, int *fd);
 int		miso_hd_found_delim(char *line, char *delim);
 void	miso_hd_validate_delim(t_shell *miso, t_token *node);
-char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line);
-void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
 
 char	*miso_hd_get_filename(int file_nb)
 {
@@ -69,34 +67,4 @@ void	miso_hd_validate_delim(t_shell *miso, t_token *node)
 		misoverse_free_exit(miso, 1, 2);
 	free(old);
 	node->str = new;
-}
-
-char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line)
-{
-	char	*res;
-	int		i;
-
-	if (delim->quotes == 1)
-		return (line);
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '$')
-		{
-			res = miso_hd_expand(miso, line);
-			free(line);
-			return (res);
-		}
-		i++;
-	}
-	return (line);
-}
-
-void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file)
-{
-	free(delim->str);
-	hd->type = RD_IN;
-	delim->str = file;
-	delim->quotes = 0;
-	delim->expand = 0;
 }

@@ -17,7 +17,6 @@ int		miso_find_empty_str(t_shell *miso);
 void	miso_set_str_null(t_shell *miso, int change);
 void	miso_delete_empty_str(t_shell *miso, int del);
 char	*miso_allocate_str(t_shell *miso, size_t len);
-char	*miso_sub_add_str(t_shell *miso, char *s1, char *s2, int *pi);
 
 int	miso_expand_node(t_shell *miso, t_token *node)
 {
@@ -111,24 +110,4 @@ char	*miso_allocate_str(t_shell *miso, size_t len)
 	if (!res)
 		misoverse_free_exit(miso, 1, 2);
 	return (res);
-}
-
-char	*miso_sub_add_str(t_shell *miso, char *s1, char *s2, int *pi)
-{
-	char	*temp;
-	char	*new;
-	int		len;
-
-	len = 0;
-	while (s2[len] && s2[len] != '$')
-		len++;
-	*pi += len;
-	temp = ft_substr(s2, 0, len);
-	if (!temp)
-		misoverse_free_exit(miso, 1, 2);
-	if (!s1 || !*s1)
-		return (temp);
-	new = miso_add_str_str(miso, s1, temp);
-	free(temp);
-	return (new);
 }
