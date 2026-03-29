@@ -95,6 +95,7 @@ void	miso_init_newnode(t_shell *miso, t_token *new_node, char *str,\
 {
 	new_node->expand = 0;
 	new_node->quotes = 0;
+	new_node->valid_delim = 0;
 	new_node->str = str;
 	new_node->type = type;
 	new_node->next = NULL;

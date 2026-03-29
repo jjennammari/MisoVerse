@@ -46,8 +46,9 @@ static void	miso_init_variables(t_shell *miso, char **envp)
 	if (!miso->node)
 		misoverse_free_exit(miso, 1, 2);
 	miso->node->expand = 0;
+	miso->node->quotes = 0;
+	miso->node->valid_delim = 0;
 	miso->node->str = NULL;
 	miso->node->next = NULL;
-	miso->node->quotes = 0;
 	return ;
 }

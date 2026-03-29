@@ -70,6 +70,7 @@ FILE += $(EXPANSION_DIR)miso_expand.c
 FILE += $(EXPANSION_DIR)miso_expand_quotes.c
 FILE += $(EXPANSION_DIR)miso_expand_quotes_utils.c
 FILE += $(EXPANSION_DIR)miso_expand_utils.c
+FILE += $(EXPANSION_DIR)miso_expand_split.c
 FILE += $(HEREDOC_DIR)miso_heredoc.c
 FILE += $(HEREDOC_DIR)miso_heredoc_utils.c
 FILE += $(HEREDOC_DIR)miso_heredoc_signals.c

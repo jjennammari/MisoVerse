@@ -22,11 +22,17 @@ char	*miso_sub_add_str(t_shell *miso, char *s1, char *s2, int *pi);
 int	miso_expand_node(t_shell *miso, t_token *node)
 {
 	char	*res;
+	char	**words;
 
 	res = miso_exp_without_quotes(miso, node->str);
 	free(node->str);
 	node->str = res;
 	node->expand = 0;
+	words = miso_exp_split(miso, node->str);
+	if (words && words[0])
+		miso_add_exp_words(miso, node, words);
+	if (words)
+		miso_free_matrix(words);
 	return (0);
 }
 

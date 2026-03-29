@@ -25,7 +25,7 @@ int	miso_expand(t_shell *miso)
 	temp = miso->list.head;
 	while (temp)
 	{
-		if (temp->expand == 1 && (temp->quotes == 1 || miso_is_command(temp->type)))
+		if (temp->expand == 1 && /*(*/temp->quotes == 1/* || miso_is_command(temp->type))*/)
 		{
 			miso_expand_quotes(miso, temp);
 			miso->list.squote = 0;

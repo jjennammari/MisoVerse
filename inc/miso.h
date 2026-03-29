@@ -104,7 +104,7 @@ int		miso_is_command(t_token_type type);
 int		miso_is_redirection(t_token_type type);
 
 /* miso_expand.c */
-int		miso_expand(t_shell *miso);
+int		miso_expand(t_shell *miso);//TODO: delete commented part if works
 char	*miso_exp_without_quotes(t_shell *miso, char *str);
 char	*miso_exp_exit_code(t_shell *miso, char *res, int *pi);
 char	*miso_exp_env(t_shell *miso, char *res, char *str, int *pi);
@@ -130,6 +130,13 @@ void	miso_set_str_null(t_shell *miso, int change);
 void	miso_delete_empty_str(t_shell *miso, int del);
 char	*miso_allocate_str(t_shell *miso, size_t len);
 char	*miso_sub_add_str(t_shell *miso, char *s1, char *s2, int *pi);
+
+/* miso_expand_split.c */
+char	**miso_exp_split(t_shell *miso, char *str);
+int		miso_count_words(char *str);
+void	miso_fill_words(t_shell *miso, char **words, char *str);
+void	miso_add_exp_words(t_shell *miso, t_token *node, char **words);
+void	miso_add_exp_nodes(t_shell *miso, t_token *node, char *word);
 
 /* miso_heredoc.c */
 int		miso_heredoc(t_shell *miso);
