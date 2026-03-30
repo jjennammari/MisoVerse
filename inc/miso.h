@@ -114,7 +114,6 @@ char	*miso_get_exp_name(t_shell *miso, char *str, int *pi);
 /* miso_expand_quotes.c */
 void	miso_expand_quotes(t_shell *miso, t_token *node);
 char	*miso_exp_with_quotes(t_shell *miso, t_token *node, char *str);
-char	*miso_exp_handle_dollar(t_shell *miso, char *res, char *str, int *pi);
 void	miso_validate_expansion(t_shell *miso, t_token *node, char c, int *pi);
 void	miso_update_quotes(t_shell *miso, char c);
 
