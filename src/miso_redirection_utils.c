@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/27 16:59:46 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/27 17:43:37 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/30 16:45:41 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	miso_no_comands(t_token *head)
 	t_token *trav;
 
 	trav = head;
-	while (trav)
+	while (trav && trav->type != PIPE)
 	{
 		if (trav->type == SYS_CMD || trav->type == BLT_CMD)
 			return (0);
