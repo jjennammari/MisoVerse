@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:35:38 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/28 08:35:28 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/30 18:35:39 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,9 @@ static int	miso_pathfinder(t_shell *miso, char **c, int *p_set)
 	if (!(*c) || !(*(*c)))
 	{
 		*p_set = 127;
-		racc_print(2, BLOD PROMPT RSET": "MINT"%s"RSET, *c);
-		racc_print(2, ": Command not found, you could install it though...\n");
+		write(2, BLOD PROMPT RSET": "MINT, 58);
+		write(2, *c, ft_strlen(*c));
+		write(2, RSET": Command not found, maybe try installing it...\n", 54);
 		return (1);
 	}
 	dirs = ft_split(path, ':');
@@ -108,8 +109,9 @@ char	*miso_pathmatch(char **dirs, char *temp_filename)
 		guide++;
 	}
 	free(path_name);
-	racc_print(2, BLOD PROMPT RSET": "MINT"%s"RSET, (temp_filename + 1));
-	racc_print(2, ": command not found\n");
+	write(2, BLOD PROMPT RSET": "MINT"\n", 57);
+	write(2, ((temp_filename) + 1), ft_strlen(temp_filename + 1));
+	write(2, RSET": command not found\n", 26);
 	return (temp_filename);
 }
 /* Iterates through all the provided directories, checking if the file
