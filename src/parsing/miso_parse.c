@@ -58,8 +58,8 @@ int	miso_search_cmd(t_shell *miso, t_token *node)
 				return (miso->exit_code = 2, 1);
 			new = miso_remove_quotes(miso, node->str);
 			i = 0;
-			if (new[i] != '\0')
-				node->quotes = 0;
+		/*	if (new[i] != '\0')
+				node->quotes = 0;*/
 			free(node->str);
 			node->str = new;
 		}
