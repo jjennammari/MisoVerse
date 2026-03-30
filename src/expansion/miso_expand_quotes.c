@@ -14,6 +14,7 @@
 
 void	miso_expand_quotes(t_shell *miso, t_token *node);
 char	*miso_exp_with_quotes(t_shell *miso, t_token *node, char *str);
+char	*miso_exp_handle_dollar(t_shell *miso, char *res, char *str, int *pi);
 void	miso_validate_expansion(t_shell *miso, t_token *node, char c, int *pi);
 void	miso_update_quotes(t_shell *miso, char c);
 
@@ -43,13 +44,32 @@ char	*miso_exp_with_quotes(t_shell *miso, t_token *node, char *str)
 			if (str[i + 1] == '?')
 				res = miso_exp_exit_code(miso, res, &i);
 			else
-				res = miso_exp_env(miso, res, &str[i], &i);
+				res = miso_exp_handle_dollar(miso, res, &str[i], &i);
+				/*res = miso_exp_env(miso, res, &str[i], &i);*/
 			continue ;
 		}
 		res = miso_add_char_str(miso, res, str[i]);
 		i++;
 	}
 	res = miso_check_only_dollarsign(miso, res);
+	return (res);
+}
+
+char	*miso_exp_handle_dollar(t_shell *miso, char *res, char *str, int *pi)
+{
+	char	*new;
+	int		i;
+			
+	i = 0;
+	res = miso_exp_env(miso, res, str, pi);
+	while (res[i] && res[i] != '$')
+		i++;
+	if (res[i + 1] == '\0')
+	{
+		new = ft_substr(res, 0, i);
+		free(res);
+		return (new);
+	}
 	return (res);
 }
 
