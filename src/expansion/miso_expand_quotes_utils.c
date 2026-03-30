@@ -108,12 +108,20 @@ char	*miso_check_only_dollarsign(t_shell *miso, char *res)
 	i = 0;
 	while (res[i])
 		i++;
-	if (i == 1 || res[0] == '$')
-		free(res);
+	if (i == 1 && res[0] == '$')
+	{
+		new = ft_strdup("");
+		if (!new)
+			misoverse_free_exit(miso, 1, 2);
+	}
+	else if (i > 1 && res[0] == '$')
+	{
+		new = ft_substr(res, 1, i - 1);
+		if (!new)
+			misoverse_free_exit(miso, 1, 2);
+	}
 	else
 		return (res);
-	new = ft_strdup("");
-	if (!new)
-		misoverse_free_exit(miso, 1, 2);
+	free(res);
 	return (new);
 }
