@@ -47,7 +47,6 @@ char	*miso_add_char_str(t_shell *miso, char *str, char c)
 	char	*res;
 	char	*temp;
 
-	res = miso_allocate_str(miso, (ft_strlen(str) + 2));
 	temp = miso_convert_char_as_str(miso, c);
 	if (!temp)
 		misoverse_free_exit(miso, 1, 2);
