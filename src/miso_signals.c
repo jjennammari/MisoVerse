@@ -40,6 +40,7 @@ static void	miso_running_sigint(int sig)
 	miso_fdshutdown();
 	return ;
 }
+
 void	miso_init_daddy_signals(void)
 {
 	t_sigact	miso_sigint;
@@ -60,7 +61,7 @@ void	miso_init_daddy_signals(void)
 
 void	miso_setup_running_signals(void)
 {
-	t_sigact    miso_run_sigint;
+	t_sigact	miso_run_sigint;
 
 	ft_memset(&miso_run_sigint, 0, sizeof(miso_run_sigint));
 	miso_run_sigint.sa_handler = miso_running_sigint;

@@ -56,7 +56,7 @@ void	miso_channeling(t_shell *miso, int prev_read, int *p, int p_num)
 	else if (p_num - 1 == 0)
 		miso_set_channel(miso, prev_read, 1, p);
 	else
-			miso_set_channel(miso, prev_read, p[1], p);
+		miso_set_channel(miso, prev_read, p[1], p);
 	miso->list.head = head;
 	return ;
 }

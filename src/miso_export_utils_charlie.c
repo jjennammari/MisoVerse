@@ -18,10 +18,10 @@ static int	miso_exp_assigned(t_shell *miso, int index);
 static int	miso_exp_unnassigned(t_shell *miso, int index);
 static int	miso_envp_unnassigned(t_shell *miso, int index);
 
-void miso_rectify_exp(t_shell *miso)
+void	miso_rectify_exp(t_shell *miso)
 {
-	int guide;
-	int index;
+	int	guide;
+	int	index;
 
 	guide = 0;
 	while (miso->exp[guide])
@@ -49,14 +49,14 @@ static int	miso_envp_unnassigned(t_shell *miso, int index)
 	if (ft_strchr(miso->exp[index], '='))
 		if (miso_exp_unnassigned(miso, index))
 			return (1);
-	if(miso_add_envar(&(miso->envp), miso->exp[index], "") == -1)
+	if (miso_add_envar(&(miso->envp), miso->exp[index], "") == - 1)
 		return (1);
 	return (0);
 }
 
-static int  miso_exp_unnassigned(t_shell *miso, int index)
+static int	miso_exp_unnassigned(t_shell *miso, int index)
 {
-	char    *neo;
+	char	*neo;
 	int		guide;
 	char	*temp;
 
@@ -101,7 +101,7 @@ static int	miso_exp_assigned(t_shell *miso, int index)
 	return (0);
 }
 
-int miso_keycmp(char *s1, char *s2)
+int	miso_keycmp(char *s1, char *s2)
 {
 	size_t			guide;
 	unsigned char	diff1;

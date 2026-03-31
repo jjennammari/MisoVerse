@@ -39,11 +39,11 @@ function. If necessary, it waitpid()s for the PID the miso_multiexec function
 returns. To hold on to the exit status of the last child, and processing it,
 to return the last exit code once all processes have ended. */
 
-static int miso_rn(t_shell *miso, t_token *head)
+static int	miso_rn(t_shell *miso, t_token *head)
 {
-	char    **cmd;
-	int exit_code;
-	int std_cpy[2];
+	char	**cmd;
+	int		exit_code;
+	int		std_cpy[2];
 
 	cmd = NULL;
 	std_cpy[0] = dup(0);
@@ -68,8 +68,8 @@ static int miso_rn(t_shell *miso, t_token *head)
 
 static int	miso_single_exec(t_shell *miso, char **cmd)
 {
-	int     (*built_in)(t_shell *, char **);
-	pid_t   child;
+	int		(*built_in)(t_shell *, char **);
+	pid_t	child;
 	int		exit_status;
 
 	child = 0;

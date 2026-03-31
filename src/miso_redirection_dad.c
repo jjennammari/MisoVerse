@@ -38,7 +38,7 @@ int	miso_set_channel_dad(t_token *head)
 	{
 		dup2(tmp_fd, 1);
 		close(tmp_fd);
-	}	
+	}
 	return (0);
 }
 /* Are there are pipes in the line? Are there redirections? it will

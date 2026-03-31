@@ -17,7 +17,7 @@ int	miso_just_redirect(t_token *head);
 
 int	miso_no_comands(t_token *head)
 {
-	t_token *trav;
+	t_token	*trav;
 
 	trav = head;
 	while (trav && trav->type != PIPE)
@@ -31,8 +31,8 @@ int	miso_no_comands(t_token *head)
 
 int	miso_just_redirect(t_token *head)
 {
-	int exit_code;
-	int std_cpy[2];
+	int	exit_code;
+	int	std_cpy[2];
 
 	std_cpy[0] = dup(0);
 	std_cpy[1] = dup(1);

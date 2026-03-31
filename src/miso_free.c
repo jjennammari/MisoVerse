@@ -12,7 +12,7 @@
 
 #include "../inc/miso.h"
 
-void    miso_fdshutdown(void);
+void	miso_fdshutdown(void);
 void	miso_reset(t_shell *miso);
 void	free_token_list(t_shell *miso);
 void	misoverse_free_exit(t_shell *miso, int print_err, int exit_status);
@@ -88,9 +88,9 @@ int	miso_delete_node(t_token **node)
 	return (0);
 }
 
-void    miso_fdshutdown(void)
+void	miso_fdshutdown(void)
 {
-	int fd;
+	int	fd;
 
 	fd = 3;
 	while (fd <= 1000)

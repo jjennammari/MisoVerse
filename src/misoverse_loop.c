@@ -38,7 +38,7 @@ void	misoverse_loop(t_shell *miso)
 	return ;
 }
 
-static void miso_process_signal(int *exit_code)
+static void	miso_process_signal(int *exit_code)
 {
 	if (g_signal == SIGINT)
 		*exit_code = 128 + g_signal;
