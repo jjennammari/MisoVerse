@@ -128,7 +128,7 @@ char	*miso_check_only_dollarsign(t_shell *miso, char *res);
 int		miso_expand_node(t_shell *miso, t_token *node);
 int		miso_find_empty_str(t_shell *miso);
 void	miso_set_str_null(t_shell *miso, int change);
-void	miso_delete_empty_str(t_shell *miso, int del);
+void	miso_delete_empty_str(t_shell *miso, t_token **node, int del);
 char	*miso_allocate_str(t_shell *miso, size_t len);
 char	*miso_sub_add_str(t_shell *miso, char *s1, char *s2, int *pi);
 

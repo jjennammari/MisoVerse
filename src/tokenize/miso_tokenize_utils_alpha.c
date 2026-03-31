@@ -13,6 +13,7 @@
 #include "../../inc/miso.h"
 
 void	miso_tokenize_redirections(t_shell *miso, char *str, int *pi);
+char	*miso_tokenize_words(t_shell *miso, char *res, char *line, int *pi);
 void	miso_build_token_list(t_shell *miso, char *str, t_token_type type);
 void	miso_init_newnode(t_shell *miso, t_token *new_node,
 			char *str, t_token_type type);
@@ -124,7 +125,7 @@ char	*miso_sub_add_str(t_shell *miso, char *s1, char *s2, int *pi)
 	temp = ft_substr(s2, 0, len);
 	if (!temp)
 		misoverse_free_exit(miso, 1, 2);
-	if (!s1 || !*s1)
+	if (!s1)
 		return (temp);
 	new = miso_add_str_str(miso, s1, temp);
 	free(temp);

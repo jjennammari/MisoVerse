@@ -81,8 +81,9 @@ int	miso_delete_node(t_token **node)
 	if (!node || !*node)
 		return (1);
 	delete = *node;
-	*node = delete->next;
-	free(delete->str);
+	*node = (*node)->next;
+	if (delete->str)
+		free(delete->str);
 	free(delete);
 	return (0);
 }
