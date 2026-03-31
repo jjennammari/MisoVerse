@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:17:12 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/31 16:45:11 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/31 22:04:36 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ static int	miso_scan_redin(t_shell *miso, t_token *head, int *fd)
 		{
 			if (*fd != 0)
 				close(*fd);
-			if (!head->next)
 			*fd = open(head->next->str, O_RDONLY);
 			if (*fd == -1)
 			{
