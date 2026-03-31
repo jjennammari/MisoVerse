@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:28:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/31 16:49:59 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/31 23:23:03 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static int	miso_single_exec(t_shell *miso, char **cmd)
 		{
 			miso_setup_child_signals();
 			miso_call_program(miso, cmd);
-			return (127);
+			return (127);
 		}
 		return (miso_waitroom(child, &exit_status));
 	}
