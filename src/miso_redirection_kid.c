@@ -6,17 +6,17 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:17:12 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/28 09:09:40 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/31 16:45:11 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
 static void	miso_redir(int new_fd, int def_fd);
-static int	miso_scan_redin(t_token *head, int *fd);
-static int	miso_scan_redout(t_token *lst, int *fd);
-static void	miso_set_channel(t_token *head, int in, int out, int *pipe);
-void		miso_channeling(int prev_read, t_token *head, int *p, int p_num);
+static int	miso_scan_redin(t_shell *miso, t_token *head, int *fd);
+static int	miso_scan_redout(t_shell *miso, t_token *lst, int *fd);
+static void	miso_set_channel(t_shell *miso, int in, int out, int *pipe);
+void		miso_channeling(t_shell *miso, int prev_read, int *p, int p_num);
 
 static void	miso_redir(int new_fd, int def_fd)
 {
@@ -33,19 +33,19 @@ correct place. Closing the new_fd in the process in order to
 avoid leaks. It assumes that new_fd will no longer be needed
 after this call*/
 
-void	miso_channeling(int prev_read, t_token *head, int *p, int p_num)
+void	miso_channeling(t_shell *miso, int prev_read, int *p, int p_num)
 {
 	if (p_num == -1)
 	{
-		miso_set_channel(head, 0, 1, NULL);
+		miso_set_channel(miso, 0, 1, NULL);
 		return ;
 	}
 	if (prev_read == -1)
-		miso_set_channel(head, 0, p[1], p);
+		miso_set_channel(miso, 0, p[1], p);
 	else if (p_num - 1 == 0)
-		miso_set_channel(head, prev_read, 1, p);
+		miso_set_channel(miso, prev_read, 1, p);
 	else
-			miso_set_channel(head, prev_read, p[1], p);
+			miso_set_channel(miso, prev_read, p[1], p);
 	return ;
 }
 /* It ensures tha the correct input and output stream is being sent to the
@@ -56,14 +56,14 @@ instead of the pipe, because the function assumes no further pipes were
 created. The p_num == -1 case, is for the special condition of there being
 only one segment and no pipes. */
 
-static void	miso_set_channel(t_token *head, int in, int out, int *pipe)
+static void	miso_set_channel(t_shell *miso, int in, int out, int *pipe)
 {
 	int	tmp_fd;
 
 	tmp_fd = 0;
 	if (pipe)
 		close(pipe[0]);
-	if (!miso_scan_redin(head, &tmp_fd))
+	if (!miso_scan_redin(miso, miso->list.head, &tmp_fd))
 		miso_redir(in, 0);
 	else
 	{
@@ -72,7 +72,7 @@ static void	miso_set_channel(t_token *head, int in, int out, int *pipe)
 			close(in);
 	}
 	tmp_fd = 0;
-	if (!miso_scan_redout(head, &tmp_fd))
+	if (!miso_scan_redout(miso, miso->list.head, &tmp_fd))
 		miso_redir(out, 1);
 	else
 	{
@@ -84,13 +84,8 @@ static void	miso_set_channel(t_token *head, int in, int out, int *pipe)
 		close(pipe[1]);
 	return ;
 }
-/* Are there are pipes in the line? Are there redirections? it will
-validate these scenarios, set the corresponding fds, and close all
-unecessary ones in order to set the "channel" that the data will go
-through in order to excecute the command. It assumes that the read
-and write end of the pipe won't be needed after the call. */
 
-static int	miso_scan_redin(t_token *head, int *fd)
+static int	miso_scan_redin(t_shell *miso, t_token *head, int *fd)
 {
 	while (head && head->type != PIPE)
 	{
@@ -99,28 +94,21 @@ static int	miso_scan_redin(t_token *head, int *fd)
 			if (*fd != 0)
 				close(*fd);
 			if (!head->next)
-			{
-				racc_print(2, BLOD PROMPT B_WI": Error after ");
-				racc_print(2, ORNG"`%s'\n", head->str);
-				exit(2);
-			}
 			*fd = open(head->next->str, O_RDONLY);
 			if (*fd == -1)
 			{
 				write(2, ORNG, ft_strlen(ORNG));
 				write(2, head->next->str, ft_strlen(head->next->str));
 				perror(RSET": "BLOD PROMPT RSET);
-				exit(1);
+				misoverse_free_exit(miso, 0, 1);
 			}
 		}
 		head = head->next;
 	}
 	return (*fd);
 }
-/*Scans the line segment for input redirections, if it finds any, it returns
-the file descriptor it stores in the *fd buffer passed */
 
-static int	miso_scan_redout(t_token *lst, int *fd)
+static int	miso_scan_redout(t_shell *miso, t_token *lst, int *fd)
 {
 	while (lst && lst->type != PIPE)
 	{
@@ -128,12 +116,6 @@ static int	miso_scan_redout(t_token *lst, int *fd)
 		{
 			if (*fd != 0)
 				close(*fd);
-			if (!lst->next)
-			{
-				racc_print(2, BLOD PROMPT B_WI": Error after ");
-				racc_print(2, ORNG"`%s'\n", lst->str);
-				exit(2);
-			}
 			if (lst->type == RD_OUT)
 				*fd = open(lst->next->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			else if (lst->type == APPEND)
@@ -143,12 +125,10 @@ static int	miso_scan_redout(t_token *lst, int *fd)
 				write(2, ORNG, ft_strlen(ORNG));
 				write(2, lst->next->str, ft_strlen(lst->next->str));
 				perror(RSET": "BLOD PROMPT RSET);
-				exit(1);
+				misoverse_free_exit(miso, 0, 1);
 			}
 		}
 		lst = lst->next;
 	}
 	return (*fd);
 }
-/*Scans the line segment for output redirections, if it finds any, it returns
-the file descriptor it stores in the *fd buffer passed */

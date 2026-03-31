@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:41:47 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/22 23:06:00 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/31 15:59:12 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ void	miso_call_program(t_shell *miso, char **cmd)
 	if (exit_code == 0)
 	{
 		miso_free_matrix(cmd);
-		exit(0);
+		misoverse_free_exit(miso, 0, 0);
 	}
 	perror(BLOD PROMPT RSET);
 	miso_free_matrix(cmd);
-	exit(exit_code);
+	misoverse_free_exit(miso, 0, exit_code);
 }
 /* Determines whether the comand will be executed with execve or
 ran with a built-in function. In either case it is expected for

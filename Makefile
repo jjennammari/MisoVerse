@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/30 22:57:55 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/03/31 17:05:51 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,7 @@ OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 .PRECIOUS: $(SRC) $(SRC_BONUS)
 
-COMPILE = cc -g -O0 -D PROMPT=\"$(PROMPT)\" -Wall -Werror -Wextra -g3 -fsanitize=address $(INC)
+COMPILE = cc -g -O0 -D PROMPT=\"$(PROMPT)\" -Wall -Werror -Wextra $(INC)
 VLGR_FLAGS = --leak-check=full --show-leak-kinds=all --track-origins=yes
 
 all: $(NAME)
@@ -179,6 +179,7 @@ fclean: clean
 	rm -f $(NAME)
 	@rm -f miso_tester.sh
 	@rm -rf miso_out.txt bash_out.txt
+	@rm -rf valgrind_env.sh
 	@printf "$(MINT)"
 	@sleep 0.3
 	@ls -la
