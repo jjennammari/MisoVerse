@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/27 17:40:05 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/03/31 17:05:51 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -178,6 +178,8 @@ fclean: clean
 	@printf "$(PURP)"
 	rm -f $(NAME)
 	@rm -f miso_tester.sh
+	@rm -rf miso_out.txt bash_out.txt
+	@rm -rf valgrind_env.sh
 	@printf "$(MINT)"
 	@sleep 0.3
 	@ls -la

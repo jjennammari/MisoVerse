@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/28 14:47:46 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/31 16:49:37 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,8 +159,10 @@ char	*miso_hd_check_expansion(t_shell *miso, t_token *delim, char *line);
 void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
 
 /* miso_heredoc_signals.c */
-int		miso_hd_handle_signals(struct sigaction *old_int, struct sigaction *old_quit);
-int		miso_hd_restore_signals(struct sigaction *old_int, struct sigaction *old_quit);
+int		miso_hd_handle_signals(struct sigaction *old_int,
+		struct sigaction *old_quit);
+int		miso_hd_restore_signals(struct sigaction *old_int,
+		struct sigaction *old_quit);
 void	miso_hd_unlink(t_shell *miso, int mes);
 
 /* miso_free.c */
@@ -186,7 +188,7 @@ int		miso_argv(t_shell *miso, t_token *head, char ***cmd);
 void	miso_customs(char **program, int *p_set);
 
 //	 -- -- #	miso_redirection_child.c
-void	miso_channeling(int prev_read, t_token *head, int *p, int p_num);
+void	miso_channeling(t_shell *miso, int prev_read, int *p, int p_num);
 
 //   -- -- #    miso_redirection_dad.c
 int		miso_set_channel_dad(t_token *head);
