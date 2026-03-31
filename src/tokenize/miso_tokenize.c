@@ -92,7 +92,8 @@ char	*miso_tokenize_squotes(t_shell *miso, char *res, char *line, int *pi)
 			miso->node->expand = 1;
 		len++;
 	}
-	len++;
+	if (line[len] != '\0')
+		len++;
 	temp = ft_substr(line, 0, len);
 	if (!temp)
 		misoverse_free_exit(miso, 1, 2);
@@ -116,7 +117,8 @@ char	*miso_tokenize_dquotes(t_shell *miso, char *res, char *line, int *pi)
 			miso->node->expand = 1;
 		len++;
 	}
-	len++;
+	if (line[len] != '\0')
+		len++;
 	temp = ft_substr(line, 0, len);
 	if (!temp)
 		misoverse_free_exit(miso, 1, 2);

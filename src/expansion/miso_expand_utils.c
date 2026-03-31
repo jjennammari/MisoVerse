@@ -92,8 +92,11 @@ void	miso_delete_empty_str(t_shell *miso, t_token **node, int del)
 	temp = miso->list.head;
 	if (temp == (*node))
 	{
+		if ((*node)->next)
+			miso->list.head = miso->list.head->next;
+		else
+			miso->list.head = NULL;
 		miso_delete_node(node);
-		miso->list.head = NULL;
 		return ;
 	}
 	count = 0;
