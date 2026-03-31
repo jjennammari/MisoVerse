@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:17:12 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/31 22:04:36 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/03/31 23:33:52 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,20 @@ after this call*/
 
 void	miso_channeling(t_shell *miso, int prev_read, int *p, int p_num)
 {
+	int		process;
+	t_token	*head;
+
+	head = miso->list.head;
+	process = (miso_seg_count(head) - p_num);
+	while (process > 0)
+	{
+		miso->list.head = miso_next_segment(miso->list.head);
+		process--;
+	}
 	if (p_num == -1)
 	{
 		miso_set_channel(miso, 0, 1, NULL);
+		miso->list.head = head;
 		return ;
 	}
 	if (prev_read == -1)
@@ -46,6 +57,7 @@ void	miso_channeling(t_shell *miso, int prev_read, int *p, int p_num)
 		miso_set_channel(miso, prev_read, 1, p);
 	else
 			miso_set_channel(miso, prev_read, p[1], p);
+	miso->list.head = head;
 	return ;
 }
 /* It ensures tha the correct input and output stream is being sent to the
