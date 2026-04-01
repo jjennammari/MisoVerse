@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/04/01 02:42:12 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/04/01 19:21:37 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ int		miso_set_channel_dad(t_token *head);
 //   -- -- #    miso_redirection_utils.c
 int		miso_no_comands(t_token *head);
 int		miso_just_redirect(t_token *head);
+void	miso_rderror(t_shell *miso, char *filename);
 
 //   -- -- #    miso_signals.c
 void	miso_init_daddy_signals(void);
