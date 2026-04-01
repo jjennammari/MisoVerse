@@ -2,7 +2,9 @@ _This project has been created as part of the 42 curriculum by lde-san- jemustaj
 
 ---
 
-<center>![Gameplay](./inc/libft/includes/read_pic/miso_logo.png)<br>
+<p align="center">
+  <img src="./inc/libft/includes/read_pic/miso_logo.png" alt="Gameplay" />
+</p>
 
 ---
 
