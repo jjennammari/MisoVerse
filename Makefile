@@ -97,6 +97,21 @@ $(NAME): $(LIBFT) $(MISO_LIB) ./inc/miso_structs.h ./inc/miso.h
 	$(COMPILE) $(MAIN_FILE) $(MISO_LIB) $(LIBFT) -lreadline -lhistory -o $(NAME)
 	@printf "$(MINT)"
 	@ls -la
+	@echo "\n"
+	@echo "\t     $(MINT)███╗   ███╗██╗███████╗ ██████╗"
+	@echo "\t     $(MINT)████╗ ████║██║██╔════╝██╔═══██╗"
+	@echo "\t     $(MINT)██╔████╔██║██║███████╗██║   ██║"
+	@echo "\t     $(MINT)██║╚██╔╝██║██║╚════██║██║   ██║"
+	@echo "\t     $(MINT)██║ ╚═╝ ██║██║███████║╚██████╔╝"
+	@echo "\t     $(MINT)╚═╝     ╚═╝╚═╝╚══════╝ ╚═════╝ "
+	@echo "\t$(BABY)██╗   ██╗███████╗██████╗ ███████╗███████╗"
+	@echo "\t$(BABY)██║   ██║██╔════╝██╔══██╗██╔════╝██╔════╝"
+	@echo "\t$(BABY)██║   ██║█████╗  ██████╔╝███████╗█████╗  "
+	@echo "\t$(BABY) ██╗ ██╔╝██╔══╝  ██╔══██╗╚════██║██╔══╝  "
+	@echo "\t$(BABY) ╚████╔╝ ███████╗██║  ██║███████║███████╗"
+	@echo "\t$(BABY)  ╚═══╝  ╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝"
+	@echo "\n\t  $(LIME)    🍲 A miso-powered minishell 🍲"
+	@echo "\n"
 	@printf "$(RSET)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c ./inc/miso_structs.h ./inc/miso.h | $(OBJ_DIR)
