@@ -56,7 +56,7 @@ int	miso_search_cmd(t_shell *miso, t_token *node)
 			if (miso_parse_quotes(node))
 				return (miso->exit_code = 2, 1);
 			new = miso_remove_quotes(miso, node->str);
-			if (new[0] != '\0')//TODO: delete if breaks something else
+			if (new[0] != '\0')
 				node->quotes = 0;
 			free(node->str);
 			node->str = new;
