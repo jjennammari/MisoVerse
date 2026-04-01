@@ -3,16 +3,13 @@ _This project has been created as part of the 42 curriculum by lde-san- jemustaj
 ---
 
 <p align="center">
-  <img src="./inc/libft/includes/read_pic/miso_logo.png" alt="Gameplay" />
+  <img src="./inc/libft/includes/read_pic/miso_logo.png" alt="MisoVerse Logo" />
 </p>
 
 ---
-<p align="center">
-# 🦝🍲 MisoVerse 🍲🐛️
-</p>
-<p align="center">
-the tastiest Minishell you'll ever see
-</p>
+
+<h1 align="center">🦝🍲 MisoVerse 🍲🐛️</h1>
+<p align="center"><b>the tastiest Minishell you'll ever see</b></p>
 
 ---
 
