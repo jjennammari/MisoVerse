@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:28:07 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/04/01 02:09:42 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/04/01 03:04:05 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,13 @@ static pid_t	miso_multi_exec(t_shell *miso, t_token *head, int p_num)
 			pipe(p);
 		last_child = fork();
 		if (last_child == 0)
+		{
+			miso_setup_child_signals();
+			if (miso_no_comands(head))
+				misoverse_free_exit(miso, 0, miso_just_redirect(head));
 			miso_run_that_baby(miso, prev_read, p, p_num);
+			miso_get_argv_nrun(miso, head);
+		}
 		head = miso_next_segment(head);
 		miso_daddy_pipe_manager(&prev_read, p, p_num);
 		p_num--;
@@ -118,16 +124,9 @@ the PID of the last child, and returns it.  */
 
 static void	miso_run_that_baby(t_shell *miso, int prev_read, int *p, int p_num)
 {
-	t_token	*head;
-
-	head = miso->list.head;
-	miso_setup_child_signals();
-	if (miso_no_comands(head))
-		misoverse_free_exit(miso, 0, miso_just_redirect(head));
 	if (p_num - 1 != 0)
 		miso_channeling(miso, prev_read, p, p_num);
 	else
 		miso_channeling(miso, prev_read, NULL, p_num);
-	miso_get_argv_nrun(miso, head);
 	return ;
 }

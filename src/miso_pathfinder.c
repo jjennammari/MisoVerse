@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:35:38 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/04/01 02:28:42 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/04/01 03:42:24 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char		*miso_pathmatch(char **dirs, char *temp_filename);
 int			miso_argv(t_shell *miso, t_token *head, char ***cmd);
 static int	miso_pathfinder(t_shell *miso, char **c, int *p_set);
 void		miso_customs(char **program, int *p_set);
-static int	miso_populate(t_shell *m, char **argv, int argc, t_token *head);
+static int	miso_populate(t_shell *m, char ***argv, int argc, t_token *head);
 
 int	miso_argv(t_shell *miso, t_token *head, char ***cmd)
 {
@@ -26,6 +26,7 @@ int	miso_argv(t_shell *miso, t_token *head, char ***cmd)
 	argc = 1;
 	path_set = 0;
 	*cmd = NULL;
+	miso->sgmnt = head;
 	while (head && head->type != SYS_CMD && head->type != BLT_CMD)
 		head = head->next;
 	if (head->type != BLT_CMD && miso_pathfinder(miso, &head->str, &path_set))
@@ -42,9 +43,7 @@ int	miso_argv(t_shell *miso, t_token *head, char ***cmd)
 		if (head)
 			head = head->next;
 	}
-	*cmd = ft_calloc(argc + 1, sizeof(char *));
-	miso_checknfree2d(miso, *cmd, NULL, NULL);
-	return (miso_populate(miso, *cmd, argc, miso->list.head));
+	return (miso_populate(miso, cmd, argc, miso->sgmnt));
 }
 /*Advances until it finds the comand, and if is not a built-in, or has
 a literal path, it updates the str* with the path to the program. Then it 
@@ -116,30 +115,31 @@ char	*miso_pathmatch(char **dirs, char *temp_filename)
 passed exists. It will return the full path to the program or NULL if 
 it doesn't find it, assuming that the command passed is not built-in */
 
-static int	miso_populate(t_shell *m, char **argv, int argc, t_token *head)
+static int	miso_populate(t_shell *m, char ***argv, int argc, t_token *h)
 {
-	t_token	*t;
 	int		guide;
 
-	argv[argc] = NULL;
-	t = head;
+	*argv = ft_calloc(argc + 1, sizeof(char *));
+	miso_checknfree2d(m, *argv, NULL, NULL);
+	(*argv)[argc] = NULL;
 	guide = 0;
-	while (guide < argc && t && t->type != PIPE)
+	while (guide < argc && h && h->type != PIPE)
 	{
-		if (t->type == RD_IN || t->type == RD_OUT || t->type == APPEND)
+		if (h->type == RD_IN || h->type == RD_OUT || h->type == APPEND)
 		{
-			t = t->next->next;
+			h = h->next->next;
 			continue ;
 		}
-		if (t && (t->type == SYS_CMD || t->type == BLT_CMD || t->type == ARG))
+		if (h && (h->type == SYS_CMD || h->type == BLT_CMD || h->type == ARG))
 		{
-			argv[guide] = ft_strdup(t->str);
-			miso_checknfree1d(m, argv[guide], NULL, argv);
+			(*argv)[guide] = ft_strdup(h->str);
+			miso_checknfree1d(m, (*argv)[guide], NULL, *argv);
 			guide++;
 		}
-		if (t)
-			t = t->next;
+		if (h)
+			h = h->next;
 	}
+	m->sgmnt = NULL;
 	return (0);
 }
 /* It traverses through the list as it iterates through the passed
