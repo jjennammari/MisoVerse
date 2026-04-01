@@ -6,7 +6,7 @@
 #    By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 20:19:38 by lde-san-          #+#    #+#              #
-#    Updated: 2026/03/31 17:05:51 by lde-san-         ###   ########.fr        #
+#    Updated: 2026/04/01 01:05:47 by lde-san-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -383,6 +383,7 @@ miso_tester: $(NAME) $(SUPRS)
 	@printf "%s\n" 'cleanup() {'>> miso_tester.sh
 	@printf "%s\n" '    rm -f '\"'$$TEMP_FILE'\"''>> miso_tester.sh
 	@printf "%s\n" '    echo -e '\"''\\'n'\\'t$${PINK}>> $${ORNG}Exited $${BABY}Super-Cool-$${MINT}Miso$${BABY}-Powered $${ORNG}Tester$${PINK} <<$${RSET}'\\'n'\"''>> miso_tester.sh
+	@printf "%s\n" '	rm con ola pre'\\'$$USER'>> miso_tester.sh
 	@printf "%s\n" '    exit 0'>> miso_tester.sh
 	@printf "%s\n" '}'>> miso_tester.sh
 	@printf "%s\n" ''>> miso_tester.sh
@@ -741,6 +742,7 @@ miso_tester: $(NAME) $(SUPRS)
 	@printf "%s\n" 'done'>> miso_tester.sh
 	@printf "%s\n" ''>> miso_tester.sh
 	@printf "%s\n" 'echo -e '\"''\\'t  $${PINK}>> $${ORNG}Exited $${BABY}Super-Cool-$${MINT}Miso$${BABY}-Powered $${ORNG}Tester$${PINK} <<$${RSET}'\\'n'\"''>> miso_tester.sh
+	@printf "%s\n" 'rm con ola pre'\\'$$USER'>> miso_tester.sh
 	@printf "%s\n" 'exit 0'>> miso_tester.sh
 	@chmod 777 miso_tester.sh
 	@printf "$(RESET)🦝"
