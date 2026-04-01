@@ -29,6 +29,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <sys/ioctl.h>
 
 // Miso Colors:
 # define RSET	"\001\033[0m\002"

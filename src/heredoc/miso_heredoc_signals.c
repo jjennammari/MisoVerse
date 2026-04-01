@@ -39,7 +39,7 @@ int	miso_hd_handle_signals(struct sigaction *old_int,
 static void	miso_hd_sigint(int sig)
 {
 	g_signal = sig;
-	write(1, "\n", 1);
+	ioctl(0, TIOCSTI, "\n");
 }
 
 int	miso_hd_restore_signals(struct sigaction *old_int,
