@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:35:38 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/30 18:35:39 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/04/01 02:28:42 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,31 @@ static int	miso_populate(t_shell *m, char **argv, int argc, t_token *head);
 
 int	miso_argv(t_shell *miso, t_token *head, char ***cmd)
 {
-	t_token	*trav;
 	int		argc;
 	int		path_set;
 
-	trav = head;
 	argc = 1;
 	path_set = 0;
 	*cmd = NULL;
-	while (trav && trav->type != SYS_CMD && trav->type != BLT_CMD)
-		trav = trav->next;
-	if (trav->type != BLT_CMD && miso_pathfinder(miso, &trav->str, &path_set))
+	while (head && head->type != SYS_CMD && head->type != BLT_CMD)
+		head = head->next;
+	if (head->type != BLT_CMD && miso_pathfinder(miso, &head->str, &path_set))
 		return (path_set);
-	while (trav && trav->type != PIPE)
+	while (head && head->type != PIPE)
 	{
-		if (trav->type == RD_IN || trav->type == RD_OUT || trav->type == APPEND)
+		if (head->type == RD_IN || head->type == RD_OUT || head->type == APPEND)
 		{
-			trav = trav->next->next;
+			head = head->next->next;
 			continue ;
 		}
-		if (trav && trav->type == ARG)
+		if (head && head->type == ARG)
 			argc++;
-		if (trav)
-			trav = trav->next;
+		if (head)
+			head = head->next;
 	}
 	*cmd = ft_calloc(argc + 1, sizeof(char *));
 	miso_checknfree2d(miso, *cmd, NULL, NULL);
-	return (miso_populate(miso, *cmd, argc, head));
+	return (miso_populate(miso, *cmd, argc, miso->list.head));
 }
 /*Advances until it finds the comand, and if is not a built-in, or has
 a literal path, it updates the str* with the path to the program. Then it 
@@ -175,10 +173,7 @@ void	miso_customs(char **cmd, int *p_set)
 		perror(RSET);
 		*p_set = 126;
 	}
-	if (*p_set != 126 && *p_set != 127)
-		return ;
-	free(*cmd);
-	*cmd = NULL;
+	miso_eval_pset(cmd, *p_set);
 	return ;
 }
 /* It checks the metadata found by stat, to check if the path goes to a

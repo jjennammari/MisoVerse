@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 12:39:25 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/28 10:49:58 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/04/01 01:55:53 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	miso_envp_unnassigned(t_shell *miso, int index)
 	if (ft_strchr(miso->exp[index], '='))
 		if (miso_exp_unnassigned(miso, index))
 			return (1);
-	if (miso_add_envar(&(miso->envp), miso->exp[index], "") == - 1)
+	if (miso_add_envar(&(miso->envp), miso->exp[index], "") == -1)
 		return (1);
 	return (0);
 }

@@ -6,12 +6,13 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 15:18:15 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/14 18:08:36 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/04/01 02:29:29 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miso.h"
 
+void		miso_eval_pset(char **cmd, int p_set);
 static void	miso_update_shlvl(t_shell *miso, char ***envp);
 void		miso_keyvariables_init(t_shell *miso, char ***envp);
 static void	miso_path_confirm(t_shell *miso, char ***envp, char *paths);
@@ -71,3 +72,12 @@ static void	miso_update_shlvl(t_shell *miso, char ***envp)
 /* It will read the number stored in the SHLVL variable, to
 add 1 to it. If there isn't one, it creates it initializing
 its value to 1 */
+
+void	miso_eval_pset(char **cmd, int p_set)
+{
+	if (p_set != 126 && p_set != 127)
+		return ;
+	free(*cmd);
+	*cmd = NULL;
+	return ;
+}

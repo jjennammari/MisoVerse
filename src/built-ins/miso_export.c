@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 21:08:32 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/28 08:41:56 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/04/01 02:36:39 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ int	miso_export(t_shell *miso, char **argv)
 	}
 	miso_free_matrix(miso->envp);
 	miso->envp = envp_clone;
-	miso_free_matrix(og_exp);
-	return (len_or_ret);
+	return (miso_free_matrix(og_exp), len_or_ret);
 }
 
 static int	miso_exp_no_args(t_shell *miso, char **envp_clone, int envlen)
