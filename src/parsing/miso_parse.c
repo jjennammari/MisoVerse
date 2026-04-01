@@ -48,7 +48,6 @@ int	miso_parse(t_shell *miso)
 int	miso_search_cmd(t_shell *miso, t_token *node)
 {
 	char	*new;
-	int		i;
 
 	if (node->type == ARG)
 	{
@@ -57,9 +56,7 @@ int	miso_search_cmd(t_shell *miso, t_token *node)
 			if (miso_parse_quotes(node))
 				return (miso->exit_code = 2, 1);
 			new = miso_remove_quotes(miso, node->str);
-			i = 0;
-		/*	if (new[i] != '\0')
-				node->quotes = 0;*/
+			node->quotes = 0;
 			free(node->str);
 			node->str = new;
 		}
@@ -94,12 +91,6 @@ int	miso_parse_redirections(t_shell *miso, t_token *node)
 
 int	miso_parse_pipe(t_shell *miso, t_token *node)
 {
-/*	if (miso->list.cmd_found == 0)
-	{
-		miso->exit_code = 2;
-		racc_print(2, BLOD PROMPT MINT" Syntax error near pipe\n");
-		return (1);
-	}*/
 	if (miso->list.head->type == PIPE
 		|| miso->list.last_node->type == PIPE)
 	{
