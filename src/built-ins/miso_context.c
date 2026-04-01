@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 18:56:42 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/19 18:00:13 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/04/01 02:35:03 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	miso_context(t_shell *miso, char **argv)
 		if (!ft_strchr(miso->exp[i], '='))
 		{
 			printf(BLOD" >> "ORNG"%s\n"RSET, miso->exp[i++]);
-			continue;
+			continue ;
 		}
 		while (miso->envp[guide])
 		{
@@ -42,7 +42,6 @@ int	miso_context(t_shell *miso, char **argv)
 		}
 		i++;
 	}
-	racc_print(1, MINT"\nNon Exported: \n"RSET);
 	miso_print_out_of_context(miso, b);
 	return (0);
 }
@@ -71,6 +70,7 @@ static void	miso_print_out_of_context(t_shell *m, char *b)
 	int	guide;
 
 	guide = 0;
+	racc_print(1, MINT"\nNon Exported: \n"RSET);
 	while (m->envp[guide])
 	{
 		if (miso_isvarinexp(m->exp, m->envp[guide])

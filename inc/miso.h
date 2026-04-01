@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:29:55 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/31 16:49:37 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/04/01 02:42:12 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	miso_tokenize_redirections(t_shell *miso, char *str, int *pi);
 char	*miso_tokenize_words(t_shell *miso, char *res, char *line, int *pi);
 void	miso_build_token_list(t_shell *miso, char *str, t_token_type type);
 void	miso_init_newnode(t_shell *miso, t_token *new_node,
-		char *str, t_token_type type);
+			char *str, t_token_type type);
 char	*miso_sub_add_str(t_shell *miso, char *s1, char *s2, int *pi);
 
 /* miso_tokenize_utils_beta.c */
@@ -88,9 +88,9 @@ char	*miso_add_str_str(t_shell *miso, char *s1, char *s2);
 
 /* miso_parse.c */
 int		miso_parse(t_shell *miso);
-int		miso_search_cmd(t_shell *miso, t_token *node);//TODO: delete comment if works well
+int		miso_search_cmd(t_shell *miso, t_token *node);
 int		miso_parse_redirections(t_shell *miso, t_token *node);
-int		miso_parse_pipe(t_shell *miso, t_token *node);//TODO: delete commented part if works well
+int		miso_parse_pipe(t_shell *miso, t_token *node);
 
 /* miso_parse_quotes.c */
 int		miso_parse_quotes(t_token *node);
@@ -160,9 +160,9 @@ void	miso_hd_update_nodes(t_token *hd, t_token *delim, char *file);
 
 /* miso_heredoc_signals.c */
 int		miso_hd_handle_signals(struct sigaction *old_int,
-		struct sigaction *old_quit);
+			struct sigaction *old_quit);
 int		miso_hd_restore_signals(struct sigaction *old_int,
-		struct sigaction *old_quit);
+			struct sigaction *old_quit);
 void	miso_hd_unlink(t_shell *miso, int mes);
 
 /* miso_free.c */
@@ -236,6 +236,7 @@ char	*miso_extract_variable(char **envp, const char *key);
 int		miso_env_addorupdate(char ***envp, char *key, char *varlue);
 
 //   -- -- #    miso_environment_utils_charlie.c
+void	miso_eval_pset(char **cmd, int p_set);
 void	miso_keyvariables_init(t_shell *miso, char ***envp);
 
 //   -- -- #    miso_export_utils_alpha.c
