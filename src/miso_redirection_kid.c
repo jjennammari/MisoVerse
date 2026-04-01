@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:17:12 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/03/31 23:33:52 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/04/01 01:12:42 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,9 @@ after this call*/
 void	miso_channeling(t_shell *miso, int prev_read, int *p, int p_num)
 {
 	int		process;
-	t_token	*head;
 
-	head = miso->list.head;
-	process = (miso_seg_count(head) - p_num);
+	miso->sgmnt = miso->list.head;
+	process = (miso_seg_count(miso->sgmnt) - p_num);
 	while (process > 0)
 	{
 		miso->list.head = miso_next_segment(miso->list.head);
@@ -48,7 +47,8 @@ void	miso_channeling(t_shell *miso, int prev_read, int *p, int p_num)
 	if (p_num == -1)
 	{
 		miso_set_channel(miso, 0, 1, NULL);
-		miso->list.head = head;
+		miso->list.head = miso->sgmnt;
+		miso->sgmnt = NULL;
 		return ;
 	}
 	if (prev_read == -1)
@@ -57,7 +57,8 @@ void	miso_channeling(t_shell *miso, int prev_read, int *p, int p_num)
 		miso_set_channel(miso, prev_read, 1, p);
 	else
 		miso_set_channel(miso, prev_read, p[1], p);
-	miso->list.head = head;
+	miso->list.head = miso->sgmnt;
+	miso->sgmnt = NULL;
 	return ;
 }
 /* It ensures tha the correct input and output stream is being sent to the
@@ -111,6 +112,8 @@ static int	miso_scan_redin(t_shell *miso, t_token *head, int *fd)
 				write(2, ORNG, ft_strlen(ORNG));
 				write(2, head->next->str, ft_strlen(head->next->str));
 				perror(RSET": "BLOD PROMPT RSET);
+				miso->list.head = miso->sgmnt;
+				miso->sgmnt = NULL;
 				misoverse_free_exit(miso, 0, 1);
 			}
 		}
@@ -136,6 +139,8 @@ static int	miso_scan_redout(t_shell *miso, t_token *lst, int *fd)
 				write(2, ORNG, ft_strlen(ORNG));
 				write(2, lst->next->str, ft_strlen(lst->next->str));
 				perror(RSET": "BLOD PROMPT RSET);
+				miso->list.head = miso->sgmnt;
+				miso->sgmnt = NULL;
 				misoverse_free_exit(miso, 0, 1);
 			}
 		}

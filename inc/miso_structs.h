@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:07 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/14 17:00:14 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/04/01 00:46:14 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_shell
 	char	**envp;
 	char	**exp;
 	char	*prompt;
+	t_token	*sgmnt;
 	t_token	*node;
 	t_line	list;
 }	t_shell;

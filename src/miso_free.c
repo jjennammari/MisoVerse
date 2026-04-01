@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42Porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:48:00 by jemustaj          #+#    #+#             */
-/*   Updated: 2026/03/31 21:39:38 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/04/01 00:48:52 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	miso_reset(t_shell *miso)
 		free(miso->prompt);
 		miso->prompt = NULL;
 	}
+	miso->sgmnt = NULL;
 	if (miso->list.head != NULL)
 		free_token_list(miso);
 	miso->list.cmd_found = 0;
