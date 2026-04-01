@@ -58,7 +58,7 @@ int	miso_find_empty_str(t_shell *miso)
 	}
 	if (miso->list.head == NULL)
 		return (1);
-	if (!(miso_is_redirection(miso->list.head->type)))
+	if (!(miso_is_operator(miso->list.head->type)))
 		miso_set_commandtype(miso->list.head);
 	return (0);
 }

@@ -103,6 +103,7 @@ void	miso_set_commandtype(t_token *node);
 int		miso_is_builtin(char *arg);
 int		miso_is_command(t_token_type type);
 int		miso_is_redirection(t_token_type type);
+int		miso_is_operator(t_token_type type);
 
 /* miso_expand.c */
 int		miso_expand(t_shell *miso);

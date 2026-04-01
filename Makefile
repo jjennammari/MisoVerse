@@ -39,8 +39,7 @@ SUPRS = $(OBJ_DIR).valgrind_suppressions.txt
 
 MAIN_FILE = $(SRC_DIR)miso_main.c
 
-FILE = delete_later.c
-FILE += miso_free.c
+FILE = miso_free.c
 FILE += miso_prompt.c
 FILE += miso_launch.c
 FILE += miso_signals.c
