@@ -6,7 +6,7 @@
 /*   By: lde-san- <lde-san-@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 19:17:12 by lde-san-          #+#    #+#             */
-/*   Updated: 2026/04/01 01:12:42 by lde-san-         ###   ########.fr       */
+/*   Updated: 2026/04/01 19:51:39 by lde-san-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,16 +106,12 @@ static int	miso_scan_redin(t_shell *miso, t_token *head, int *fd)
 		{
 			if (*fd != 0)
 				close(*fd);
-			*fd = open(head->next->str, O_RDONLY);
+			if (!head->next->str)
+				*fd = -1;
+			else
+				*fd = open(head->next->str, O_RDONLY);
 			if (*fd == -1)
-			{
-				write(2, ORNG, ft_strlen(ORNG));
-				write(2, head->next->str, ft_strlen(head->next->str));
-				perror(RSET": "BLOD PROMPT RSET);
-				miso->list.head = miso->sgmnt;
-				miso->sgmnt = NULL;
-				misoverse_free_exit(miso, 0, 1);
-			}
+				miso_rderror(miso, head->next->str);
 		}
 		head = head->next;
 	}
@@ -130,19 +126,14 @@ static int	miso_scan_redout(t_shell *miso, t_token *lst, int *fd)
 		{
 			if (*fd != 0)
 				close(*fd);
-			if (lst->type == RD_OUT)
+			if (!lst->next->str)
+				*fd = -1;
+			if (lst->type == RD_OUT && lst->next->str)
 				*fd = open(lst->next->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			else if (lst->type == APPEND)
+			else if (lst->type == APPEND && lst->next->str)
 				*fd = open(lst->next->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (*fd == -1)
-			{
-				write(2, ORNG, ft_strlen(ORNG));
-				write(2, lst->next->str, ft_strlen(lst->next->str));
-				perror(RSET": "BLOD PROMPT RSET);
-				miso->list.head = miso->sgmnt;
-				miso->sgmnt = NULL;
-				misoverse_free_exit(miso, 0, 1);
-			}
+				miso_rderror(miso, lst->next->str);
 		}
 		lst = lst->next;
 	}
