@@ -7,9 +7,12 @@ _This project has been created as part of the 42 curriculum by lde-san- jemustaj
 </p>
 
 ---
-
-# 🦝🍲 MisoVerse 🍲🐛️<br>
-the tastiest Minishell you'll ever see</center>
+<p align="center">
+# 🦝🍲 MisoVerse 🍲🐛️
+</p>
+<p align="center">
+the tastiest Minishell you'll ever see
+</p>
 
 ---
 
