@@ -2,7 +2,7 @@ _This project has been created as part of the 42 curriculum by lde-san- jemustaj
 
 ---
 
-<center>*🍲 A miso-powered minishell 🍲*<br>
+<center>![Gameplay](./inc/libft/includes/read_pic/miso_logo.png)<br>
 
 ---
 
